@@ -88,13 +88,15 @@ $(document).ready(function() {
     switch (runPage) {
       case 0: return;
       case 1: current = 0;
-              end     = 10; 
+              end     = 100; 
               wel_run = true;
+              console.log("start welcome!");
               welcome(); break;     // 欢迎页面
       case 2: func2(); break;
       case 3: current = 0;
               end     = 300;
               bal_run = true;
+              console.log("start balance!");
               balance(); break;
       case 4: func4(); break;
       case 5: func5(); break;
@@ -128,6 +130,7 @@ $(document).ready(function() {
     if (wel_run && current<end) {
       setTimeout(welcome, 33);
     } else {
+      console.log("stop welcome!");
       wel_run = false;
       runPage = 3;
       start(runPage);
@@ -168,11 +171,12 @@ $(document).ready(function() {
     } else {
       context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     }
-    if (current<end) {
+    if (bal_run && current<end) {
       setTimeout(balance, 33);
     } else {
       // 执行完了以后怎么办
       bal_run = false;
+      start(runPage);
     }
     canvas.click(function(e){
       if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top)) {
@@ -180,10 +184,9 @@ $(document).ready(function() {
         Arraw.shift = 0;
         Arraw.vx    = 0;
       }
-      if (back.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top)) {
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top)) {
         bal_run = false;
         runPage = 1;
-        start(runPage);
       }
     });
   };
