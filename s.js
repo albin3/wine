@@ -7,6 +7,7 @@ var app = create_app(config);
 
 // 启动应用实例
 var port = app.PORT || 3000;
+console.log("PORT: "+port);
 app.listen(port, function() {
   console.info('Application running on port %d.'.green, port);
   console.info('You can now visit '.green +

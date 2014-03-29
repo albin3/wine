@@ -21,7 +21,7 @@ var default_config = {
   SECRET_KEY: 'My Secret Key',
   DEBUG: false,
   TESTING: false,
-  PORT: 3000,
+  PORT: 3003,
   DB_URI: null,
 
   MODULES: [ 'account', 'mobile' ],
@@ -81,7 +81,7 @@ exports.development = new Config({
 exports.testing = new Config({
   APP_NAME: 'node-skeleton',
   DEBUG: true,
-  PORT: 3001,
+  PORT: 3003,
   DB_URI: 'mongodb://localhost/wine'
 });
 

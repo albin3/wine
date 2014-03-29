@@ -10,7 +10,7 @@ $(document).ready(function() {
 
   $("img").hide();
   var imgbg   = $("#bg");
-  var bgcup   = $("#lgcup");
+  var lgcup   = $("#lgcup");
   var smcup   = $("#smcup");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
@@ -45,7 +45,17 @@ $(document).ready(function() {
     context.save();
     // context.transform(640/canvasW,0,0,1366/imgbg.height(),0,0)
     // context.transform(0.6,0,0,0.15,0,0)
-    // context.drawImage(imgbg.get(0), 0, 0, imgbg.width(), imgbg.height(), 0, 0, canvas.width(), canvas.height());
+    var smlt_x = 30;
+    var smlt_y = canvasH*0.736;
+    var smheight  = canvasH*0.95-smlt_y;
+    var smwidth   = smcup.width()*smheight/smcup.height();
+    context.drawImage(smcup.get(0), smlt_x, smlt_y, smwidth, smheight);
+    var lglt_x = 20;
+    var lglt_y = 200;
+    var lgheight  = canvasH*0.95-lglt_y;
+    var lgwidth   = lgcup.width()*lgheight/lgcup.height();
+    context.transform(1,-Math.sin(30*Math.PI/180),Math.sin(30*Math.PI/180),1,lglt_x,lglt_y);
+    context.drawImage(lgcup.get(0), 0, 0, lgwidth, lgheight);
     context.restore();
   }
 
@@ -53,7 +63,6 @@ $(document).ready(function() {
     current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
     draw_background();
-    console.log(current);
     if (current<end) {
       setTimeout(welcome, 33);
     }
