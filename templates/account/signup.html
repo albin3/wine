@@ -1,0 +1,33 @@
+{% extends '../base.html' %}
+
+{% block css %}
+  <link rel="stylesheet" href="/static/css/account/signup.css">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form class="form-horizontal form-signup" role="form" action="/u/signup" method="post">
+      <div class="form-group">
+        <legend><h2 class="form-signup-heading">New account.</h2></legend>
+      </div>
+      <div class="form-group{% if errors.email %} has-error{% endif %}">
+        {% if errors.email %}<label class="control-label" for="email">{{ errors.email }}</label>{% endif %}
+        <input type="email" name="email" id="email" class="form-control" placeholder="Your email address" required autofocus>
+      </div>
+      <div class="form-group{% if errors.username %} has-error{% endif %}">
+        {% if errors.username %}<label class="control-label" for="username">{{ errors.username }}</label>{% endif %}
+        <input type="text" name="username" id="username" class="form-control" placeholder="Your name" required>
+      </div>
+      <div class="form-group{% if errors.password %} has-error{% endif %}">
+        {% if errors.password %}<label class="control-label" for="password">{{ errors.password }}</label>{% endif %}
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+      </div>
+      <div class="form-group{% if errors.password_confirm %} has-error{% endif %}">
+        {% if errors.password_confirm %}<label class="control-label" for="password">{{ errors.password_confirm }}</label>{% endif %}
+        <input type="password" name="password_confirm" id="password_confirm" class="form-control" placeholder="Confirm password" required>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-lg btn-success pull-right" type="submit">Sign up</button>
+      </div>
+    </form>
+{% endblock %}
