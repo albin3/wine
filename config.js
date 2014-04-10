@@ -65,10 +65,10 @@ function Config(extend) {
  * @final
  */
 exports.development = new Config({
-  APP_NAME: 'node-skeleton',
+  APP_NAME: 'node-wine',
   DEBUG: true,
-  PORT: 3001,
-  DB_URI: 'mongodb://localhost/skeleton_dev'
+  PORT: 3003,
+  DB_URI: 'mongodb://localhost/wine'
 });
 
 /**
@@ -82,7 +82,7 @@ exports.testing = new Config({
   APP_NAME: 'node-skeleton',
   DEBUG: true,
   PORT: 3001,
-  DB_URI: 'mongodb://localhost/skeleton_test'
+  DB_URI: 'mongodb://localhost/wine'
 });
 
 /**
@@ -93,8 +93,8 @@ exports.testing = new Config({
  * @final
  */
 exports.production = new Config({
-  APP_NAME: 'node-skeleton',
+  APP_NAME: 'node-wine',
   DEBUG: false,
   PORT: 80,
-  DB_URI: 'mongodb://localhost/skeleton'
+  DB_URI: 'mongodb://localhost/wine'
 });
