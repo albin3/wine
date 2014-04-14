@@ -95,6 +95,6 @@ exports.testing = new Config({
 exports.production = new Config({
   APP_NAME: 'node-wine',
   DEBUG: false,
-  PORT: 80,
+  PORT: 3003,
   DB_URI: 'mongodb://localhost/wine'
 });

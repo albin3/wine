@@ -9,6 +9,10 @@ exports.test = function(req, res) {
   res.render('mobile/test');
 };
 
+exports.road = function(req, res) {
+  res.render('mobile/road');
+};
+
 exports.getdata= function(req, res) {
   var ret = 
   {
