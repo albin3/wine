@@ -24,25 +24,33 @@ $(document).ready(function() {
     this.width  = width;
     this.height = height;
     this.angle  = 2*Math.PI*Math.random();
-    this.radius = Math.random() * 50 + 50;
-    this.vx = Math.random()*4 - 2;
-    this.vy = Math.random()*4 - 2;
+    this.radius = Math.random() * 5  + 10;
+    this.mvlength = 100;
+    this.vx = (Math.random()*1 + 0.5)/10;
+    this.vy = (Math.random()*2 + 1)/10;
   }
   var shapes = new Array();
   for (var i=0; i<10; i++) {
-    var x = Math.random()*300;
-    var y = Math.random()*300;
+    var x = Math.random()*600;
+    var y = Math.random()*600;
     var width = height = Math.random()*30;
     shapes.push(new Shape(x, y, width, height));
   }
   function animate() {
     context.clearRect(0, 0, canvas1Width, canvas1Height);
     for(var i=0; i<shapes.length; i++) {
+      context.save();
+      context.fillStyle = "rgb(200,200,200)";
+      context.globalCompositeOperation = "lighter";
       var tmpShape = shapes[i];
-      tmpShape.y = tmpShape.y<0 ? 600 : tmpShape.y-tmpShape.radius /100 ;
+      tmpShape.y = tmpShape.y+tmpShape.radius<0 ? 600+tmpShape.radius : tmpShape.y- tmpShape.vy;
       tmpShape.angle += Math.PI/180/100;
-      tmpShape.x = tmpShape.x+tmpShape.radius > 1000 ? tmpShape.radius : tmpShape.x+1;
-      context.fillRect(tmpShape.x+tmpShape.radius*Math.cos(tmpShape.angle*(Math.PI*180)), tmpShape.y, tmpShape.width, tmpShape.height);
+      // tmpShape.x = tmpShape.x+tmpShape.radius > 1000 ? tmpShape.radius : tmpShape.x+1;
+      context.beginPath();
+      context.arc(tmpShape.x+tmpShape.mvlength*Math.cos(tmpShape.angle*(Math.PI*180)*tmpShape.vx), tmpShape.y, tmpShape.radius, 0, Math.PI*2, false);
+      context.closePath();
+      context.fill();
+      context.restore();
     }
     if (playAnimation) {
       setTimeout(animate, 33);
