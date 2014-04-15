@@ -13,6 +13,10 @@ exports.road = function(req, res) {
   res.render('mobile/road');
 };
 
+exports.around = function(req, res) {
+  res.render('mobile/around');
+};
+
 exports.shake = function(req, res) {
   res.render('mobile/shake');
 };
