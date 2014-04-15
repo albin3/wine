@@ -13,6 +13,10 @@ exports.road = function(req, res) {
   res.render('mobile/road');
 };
 
+exports.shake = function(req, res) {
+  res.render('mobile/shake');
+};
+
 exports.getdata= function(req, res) {
   var ret = 
   {

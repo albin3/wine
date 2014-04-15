@@ -1,0 +1,17 @@
+{% extends "../base.html" %}
+
+{% block css %}
+  {% parent %}
+  <link rel="stylesheet" href="/static/css/test/road.css"></link>
+{% endblock %}
+
+{% block content %}
+<canvas id="canvas1" width="600" height="800"></canvas>
+<div id="myButtons">
+  <img id="img1" src="/static/img/a.jpg" width="0px" height="0px"></img>
+  <button id="startAnimation" class="btn btn-default">start</button>
+  <button id="stopAnimation" class="btn btn-primary">stop</button>
+</div>
+<script src="/static/js/myjs/shake.js"></script>
+{% endblock %}
+
