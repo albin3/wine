@@ -24,17 +24,11 @@ $(document).ready(function() {
   }
   var trees = new Array();
   var tree_num = 6;
-  /*
-  for (var i=0; i<tree_num; i++) {
-    var y     = i*canvas1Height/tree_num;
-    var scale = (y-y_base)/(0-y_base);
-    trees.push(new Tree(y, scale));
-  }
-  */
+
   var x11=280,y11=200;
-  var x12=0,y12=780;
+  var x12=-200,y12=780;
   var x21=320,y21=200;
-  var x22=600,y22=780;
+  var x22=800,y22=780;
   var y_base = y11+(y12-y11)/(x12-x11)*(x21-x11)/2;
   var sqrt_2 = 0.5;
   var tree_w = 3;
@@ -72,7 +66,7 @@ $(document).ready(function() {
     for(var i=0; i<trees.length; i++) {
       var tree = trees[i];
       if (!tree) continue;
-      tree.y = /*tree.y-30*sqrt_2*tree.scale>800 ? 0 :*/ tree.y+tree.scale;
+      tree.y = tree.y+tree.scale;
       tree.scale = (tree.y-y_base)/(y11-y_base);
       context.save();
       context.transform(tree.scale, 0, 0, tree.scale, x11+(x21-x11)/2, tree.y); // 平移
