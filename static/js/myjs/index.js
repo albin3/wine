@@ -1,7 +1,18 @@
+var fun = function (canvas){
+  var w_body  = $("body").width();
+  var h_body  = $("body").height();
+  canvas.get(0).width  = parseInt(w_body);
+  canvas.get(0).height = parseInt(h_body);
+    
+};
 $(document).ready(function() {
   var canvas  = $("#canvas1");
-  var imgbg   = $("#bg");
+
+  $("img").hide();
+  var imgbg   = $("#bg").hide();
   var context = canvas.get(0).getContext("2d");
+  fun(canvas);
+
   // 画布尺寸
   var canvasW = canvas.width();
   var canvasH = canvas.height();
@@ -26,13 +37,12 @@ $(document).ready(function() {
   };
   function draw_background() {
     context.save();
-    context.transform(canvasW/imgbg.width(),0,0,canvasH/imgbg.height(),0,0)
+    // context.transform(640/canvasW,0,0,1366/imgbg.height(),0,0)
     // context.transform(0.6,0,0,0.15,0,0)
-    context.drawImage(imgbg.get(0),0,0);
+    context.drawImage(imgbg.get(0), 0, 0, imgbg.width(), imgbg.height(), 0, 0, canvas.width(), canvas.height());
     context.restore();
   }
-  alert(imgbg.width())
-  alert(canvasW/imgbg.width());
+
   function welcome() { // 第一张页面,current
     current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
@@ -64,4 +74,8 @@ $(document).ready(function() {
   };
   init();
   start(1);
+
+  $(window).resize(function(){
+      fun(canvas);
+  });
 });
