@@ -9,7 +9,9 @@ $(document).ready(function() {
   var canvas  = $("#canvas1");
 
   $("img").hide();
-  var imgbg   = $("#bg").hide();
+  var imgbg   = $("#bg");
+  var bgcup   = $("#lgcup");
+  var smcup   = $("#smcup");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
@@ -37,9 +39,13 @@ $(document).ready(function() {
   };
   function draw_background() {
     context.save();
+    context.fillStyle = "rgb(27,146,226)";
+    context.fillRect(0,0,canvasW, canvasH);
+    context.restore();
+    context.save();
     // context.transform(640/canvasW,0,0,1366/imgbg.height(),0,0)
     // context.transform(0.6,0,0,0.15,0,0)
-    context.drawImage(imgbg.get(0), 0, 0, imgbg.width(), imgbg.height(), 0, 0, canvas.width(), canvas.height());
+    // context.drawImage(imgbg.get(0), 0, 0, imgbg.width(), imgbg.height(), 0, 0, canvas.width(), canvas.height());
     context.restore();
   }
 
