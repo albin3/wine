@@ -6,6 +6,10 @@
 {% endblock %}
 
 {% block content %}
+<br>
+<label id="ax"></label>
+<label id="ay"></label>
+<label id="az"></label>
 <canvas id="canvas1" width="1000" height="600"></canvas>
 <div id="myButtons">
   <button id="startAnimation" class="btn btn-default">start</button>
@@ -13,5 +17,18 @@
 </div>
 <script src="/static/js/myjs/asteroids.js"></script>
 <script>
+  $().ready(function(){
+    if (window.DeviceMotionEvent) {  
+      window.addEventListener('devicemotion',function(eventData){
+        var ax = "Acceleration X value " + event.acceleration.x;
+        var ay = "Acceleration Y value " + event.acceleration.y;
+        var az = "Acceleration Z value " + event.acceleration.z;
+        $("#ax").text(ax);
+        $("#ay").text(ay);
+        $("#az").text(az);
+      }, false);  
+      } else {
+    }
+  });
 </script>
 {% endblock %}
