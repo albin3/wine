@@ -49,6 +49,11 @@ $(document).ready(function() {
   var back    = $("#back");
   var touch   = $("#touch");
   var touched = $("#touched");
+  var wel_q   = $("#wel_q");
+  var wel_1   = $("#wel_1");
+  var wel_2   = $("#wel_2");
+  var wel_3   = $("#wel_3");
+  var wel_4   = $("#wel_4");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
@@ -63,8 +68,8 @@ $(document).ready(function() {
       return false;
   };
   var backbtn = {
-    x : 50,
-    y : 50,
+    x : canvasH/10,
+    y : canvasH/10,
     w : canvasH/8,
     h : canvasH/8,
     clicked : clicked
@@ -122,6 +127,7 @@ $(document).ready(function() {
   }
 
   function welcome() { // 第一张页面,current
+    context.save();
     current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
     // draw_background();
@@ -137,6 +143,7 @@ $(document).ready(function() {
     console.log("func2");
   };
   function balance() {
+    context.save();
     var Hshift = function() {
       return -10*(Arraw.beta-Orient.beta);
     };
@@ -186,6 +193,7 @@ $(document).ready(function() {
         start(runPage);
       }
     });
+    context.restore();
   };
   function func4() {
     playInt += 1;
