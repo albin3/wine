@@ -67,21 +67,6 @@ $(document).ready(function() {
     else
       return false;
   };
-  var backbtn = {
-    x : canvasH/10,
-    y : canvasH/10,
-    w : canvasH/8,
-    h : canvasH/8,
-    clicked : clicked
-  };
-  var touchbtn = {
-    w : canvasH/7,
-    h : canvasH/7,
-    x : canvasW/2-canvasH/7/2,
-    y : (1-0.1)*canvasH-canvasH/7/2,
-    touched : 0,
-    clicked : clicked
-  };
   var runPage = 0;
   // 重置和启动
   function init() {
@@ -127,11 +112,45 @@ $(document).ready(function() {
     context.drawImage(lgcup.get(0), 0, 0, lgwidth, lgheight);
     context.restore();
   }
-
-  function welcome() { // 第一张页面,current
+  var wel_w   = canvasH/5;
+  var p_wel1 = {
+    w  :  wel_w,
+    h  :  wel_w,
+    x  :  canvasW/2-wel_w,
+    y  :  canvasH*3/5-wel_w
+  };
+  var p_wel2 = {
+    w  :  wel_w,
+    h  :  wel_w,
+    x  :  canvasW/2,
+    y  :  canvasH*3/5-wel_w
+  };
+  var p_wel3 = {
+    w  :  wel_w,
+    h  :  wel_w,
+    x  :  canvasW/2-wel_w,
+    y  :  canvasH*3/5
+  };
+  var p_wel4 = {
+    w  :  wel_w,
+    h  :  wel_w,
+    x  :  canvasW/2,
+    y  :  canvasH*3/5
+  };
+  var p_welq = {
+    w  :  wel_w,
+    h  :  wel_w,
+    x  :  canvasW/2-wel_w,
+    y  :  canvasH/2-wel_w
+  };
+  function welcome() {       // 第一张页面，欢迎页面。
     context.save();
     current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
+    context.drawImage(wel_1.get(0), p_wel1.x, p_wel1.y, p_wel1.w, p_wel1.h);
+    context.drawImage(wel_2.get(0), p_wel2.x, p_wel2.y, p_wel2.w, p_wel2.h);
+    context.drawImage(wel_3.get(0), p_wel3.x, p_wel3.y, p_wel3.w, p_wel3.h);
+    context.drawImage(wel_4.get(0), p_wel4.x, p_wel4.y, p_wel4.w, p_wel4.h);
     // draw_background();
     if (wel_run && current<end) {
       setTimeout(welcome, 33);
@@ -141,9 +160,25 @@ $(document).ready(function() {
       runPage = 3;
       start(runPage);
     }
+    context.restore();
   };
   function func2() {
     console.log("func2");
+  };
+  var backbtn = {
+    x : canvasH/10,
+    y : canvasH/10,
+    w : canvasH/8,
+    h : canvasH/8,
+    clicked : clicked
+  };
+  var touchbtn = {
+    w : canvasH/7,
+    h : canvasH/7,
+    x : canvasW/2-canvasH/7/2,
+    y : (1-0.1)*canvasH-canvasH/7/2,
+    touched : 0,
+    clicked : clicked
   };
   function balance() {
     context.save();
