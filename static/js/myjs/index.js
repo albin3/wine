@@ -49,11 +49,13 @@ $(document).ready(function() {
   var back    = $("#back");
   var touch   = $("#touch");
   var touched = $("#touched");
-  var wel_q   = $("#wel_q");
   var wel_1   = $("#wel_1");
   var wel_2   = $("#wel_2");
   var wel_3   = $("#wel_3");
   var wel_4   = $("#wel_4");
+  var wel_q   = $("#wel_q");
+  var wel_t   = $("#wel_t");
+  var wel_s   = $("#wel_s");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
@@ -74,11 +76,14 @@ $(document).ready(function() {
   };
   var current, end;
   var wel_run=bal_run=false;
+  var wel_first_load = true;
   function start(runPage) {
     switch (runPage) {
       case 0: return;
-      case 1: current = 0;
-              end     = 100; 
+      case 1: if (wel_first_load)
+                current = 0;
+              else 
+                current = 3000;
               wel_run = true;
               console.log("start welcome!");
               welcome(); break;     // 欢迎页面
@@ -112,62 +117,259 @@ $(document).ready(function() {
     context.drawImage(lgcup.get(0), 0, 0, lgwidth, lgheight);
     context.restore();
   }
-  var wel_w   = canvasH/5;
+  var wel_ts    = 10;
+  var wel_tl    = 10;
+  var wel_tskip = 0.1;// 单次旋转角度
+  var wel_w    = canvasH/5; // 显示尺寸
+  var wel_last = 23;  // 抖字控制
+  var wel_scale= 3;   // 放大倍数
+  var wel_b1 = 5+90;  // 开始画照片
+  var wel_b2 = 35+90;
+  var wel_b3 = 65+90;
+  var wel_b4 = 95+90;
+  var wel_ch_q = 20;  // 问号移动速度
+  var p_wels = {
+    s  : 95
+  };
+  var p_welt = {
+    x  : canvasW/5,
+    y  : canvasH/12,
+    w  : canvasW*3/5,
+    h  : (canvasW*3/5)*128/368,
+    o  : function(c) {
+      if (c<=wel_ts)
+        return 0;
+      else if (c>wel_ts && c<=wel_ts+wel_tl/4)
+        return wel_tskip*(c-wel_ts)*Math.PI/180;
+      else if (c>=wel_ts+wel_tl/4 && c<=wel_ts+wel_tl*3/4)
+        return wel_tskip*((wel_tl/2-c-wel_ts)*Math.PI/180);
+      else if (c>=wel_ts+wel_tl*3/4 && c<=wel_ts+wel_tl)
+        return wel_tskip*((c-wel_ts-wel_tl)*Math.PI/180);
+      else 
+        return 0;
+    }
+  }
   var p_wel1 = {
-    w  :  wel_w,
-    h  :  wel_w,
-    x  :  canvasW/2-wel_w,
-    y  :  canvasH*3/5-wel_w
+    w  :  function(c) {
+            if (c<=wel_b1) 
+              return 0;
+            else if (c>wel_b1&&c<wel_b1+wel_last) {
+              return wel_w*((c-wel_b1)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b1&&c<wel_b1+wel_last)
+              return canvasW/2 - wel_w*((c-wel_b1)*(1-wel_scale)/wel_last + wel_scale);
+            else
+              return canvasW/2 - wel_w;
+          },
+    y  :  function(c) {
+            if (c>wel_b1&&c<wel_b1+wel_last)
+              return canvasH*4/7 - wel_w*((c-wel_b1)*(1-wel_scale)/wel_last + wel_scale);
+            else 
+              return canvasH*4/7-wel_w;
+          }
   };
   var p_wel2 = {
-    w  :  wel_w,
-    h  :  wel_w,
-    x  :  canvasW/2,
-    y  :  canvasH*3/5-wel_w
+    w  :  function(c) {
+            if (c<=wel_b2) 
+              return 0;
+            else if (c>wel_b2&&c<wel_b2+wel_last) {
+              return wel_w*((c-wel_b2)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b2&&c<wel_b2+wel_last)
+              return canvasW/2;
+            else
+              return canvasW/2;
+          },
+    y  :  function(c) {
+            if (c>wel_b2&&c<wel_b2+wel_last)
+              return canvasH*4/7 - wel_w*((c-wel_b2)*(1-wel_scale)/wel_last + wel_scale);
+            else 
+              return canvasH*4/7-wel_w;
+          }
   };
   var p_wel3 = {
-    w  :  wel_w,
-    h  :  wel_w,
-    x  :  canvasW/2-wel_w,
-    y  :  canvasH*3/5
+    w  :  function(c) {
+            if (c<=wel_b3) 
+              return 0;
+            else if (c>wel_b3&&c<wel_b3+wel_last) {
+              return wel_w*((c-wel_b3)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b3&&c<wel_b3+wel_last)
+              return canvasW/2 - wel_w*((c-wel_b3)*(1-wel_scale)/wel_last + wel_scale);
+            else
+              return canvasW/2 - wel_w;
+          },
+    y  :  function(c) {
+            if (c>wel_b3&&c<wel_b3+wel_last)
+              return canvasH*4/7;
+            else 
+              return canvasH*4/7;
+          }
   };
   var p_wel4 = {
-    w  :  wel_w,
-    h  :  wel_w,
-    x  :  canvasW/2,
-    y  :  canvasH*3/5
+    w  :  function(c) {
+            if (c<=wel_b4)
+              return 0;
+            else if (c>wel_b4&&c<wel_b4+wel_last) {
+              return wel_w*((c-wel_b4)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b4&&c<wel_b4+wel_last)
+              return canvasW/2;
+            else
+              return canvasW/2;
+          },
+    y  :  function(c) {
+            if (c>wel_b3&&c<wel_b3+wel_last)
+              return canvasH*4/7;
+            else 
+              return canvasH*4/7;
+          }
   };
   var p_welq = {
-    w  :  wel_w,
-    h  :  wel_w,
-    x  :  canvasW/2-wel_w,
-    y  :  canvasH/2-wel_w
+    w  :  function(c) {
+            if (c<wel_b4+wel_last)
+              return 0;
+            else
+              return wel_w;
+          },
+    x  :  function(c) {
+            if (c<wel_b4+wel_last)
+              return -10;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===0)
+              return canvasW/2-wel_w;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===1)
+              return canvasW/2;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===2)
+              return canvasW/2;
+            else (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===3)
+              return canvasW/2-wel_w;
+          },
+    y  :  function(c) {
+            if (c<wel_b4+wel_last)
+              return -10;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===0)
+              return canvasH*4/7-wel_w;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===1)
+              return canvasH*4/7-wel_w;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===2)
+              return canvasH*4/7;
+            else (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===3)
+              return canvasH*4/7;
+          }
+  };
+  var wel_bt_a = 3;
+  var wel_bt_v = 0;
+  var wel_bt_y = 0;
+  var wel_bt_delay = 30;
+  var wel_bt_h1 = 0;
+  var wel_bt_h2 = 262;
+  var wel_bt_h3 = canvasH*0.7;
+  var p_wels = {
+    x  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else 
+              return canvasW/3
+          },
+    y  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else {
+              wel_bt_v = wel_bt_v + wel_bt_a;
+              wel_bt_y = wel_bt_y + wel_bt_v;
+              if (wel_bt_y >= canvasH*0.8) {
+                wel_bt_v = 0 - wel_bt_v*4/5;
+              }
+              if (wel_bt_y >= canvasH*0.85 && Math.abs(wel_bt_v)<=wel_bt_a*4/5) {
+                wel_bt_y = 0.85*canvasH;
+                wel_bt_v = 0;
+              }
+              return wel_bt_y;
+            }
+          },
+    w  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else
+              return canvasW/3;
+          },
+    h  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else
+              return canvasW/3*72/240
+          },
+    clicked: function(x, y, c) {
+             var _x = this.x(c);
+             var _y = this.y(c);
+             var _w = this.w(c);
+             var _h = this.h(c);
+             if (_x<x&&x<_x+_w && _y<y&&y<_y+_h)
+               return true;
+             else 
+               return false;
+           }
   };
   function welcome() {       // 第一张页面，欢迎页面。
     context.save();
     current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
-    context.drawImage(wel_1.get(0), p_wel1.x, p_wel1.y, p_wel1.w, p_wel1.h);
-    context.drawImage(wel_2.get(0), p_wel2.x, p_wel2.y, p_wel2.w, p_wel2.h);
-    context.drawImage(wel_3.get(0), p_wel3.x, p_wel3.y, p_wel3.w, p_wel3.h);
-    context.drawImage(wel_4.get(0), p_wel4.x, p_wel4.y, p_wel4.w, p_wel4.h);
+    context.save();
+    var tmp = 0;
+    if (current<70)
+      tmp = p_welt.o((current-10)%10+10);
+    else 
+      tmp = p_welt.o(current);
+    context.transform(Math.cos(tmp),-Math.sin(tmp),Math.sin(tmp),Math.cos(tmp),p_welt.x+p_welt.w/2,p_welt.y+p_welt.h/2);
+    context.drawImage(wel_t.get(0), -p_welt.w/2, -p_welt.h/2, p_welt.w, p_welt.h);
+    context.restore();
+    context.drawImage(wel_1.get(0), p_wel1.x(current), p_wel1.y(current), p_wel1.w(current), p_wel1.w(current));
+    context.drawImage(wel_2.get(0), p_wel2.x(current), p_wel2.y(current), p_wel2.w(current), p_wel2.w(current));
+    context.drawImage(wel_3.get(0), p_wel3.x(current), p_wel3.y(current), p_wel3.w(current), p_wel3.w(current));
+    context.drawImage(wel_4.get(0), p_wel4.x(current), p_wel4.y(current), p_wel4.w(current), p_wel4.w(current));
+    context.drawImage(wel_q.get(0), p_welq.x(current), p_welq.y(current), p_welq.w(current), p_welq.w(current));
+    context.drawImage(wel_s.get(0), p_wels.x(current), p_wels.y(current), p_wels.w(current), p_wels.h(current));
     // draw_background();
-    if (wel_run && current<end) {
+    if (wel_run) {
       setTimeout(welcome, 33);
     } else {
       console.log("stop welcome!");
       wel_run = false;
+      wel_first_load = false;
       runPage = 3;
       start(runPage);
     }
+    canvas.click(function(e){
+      if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run) {
+        wel_run = false;
+        runPage = 3;
+      } else {
+      }
+    });
     context.restore();
   };
   function func2() {
     console.log("func2");
   };
   var backbtn = {
-    x : canvasH/10,
-    y : canvasH/10,
+    x : canvasH/16,
+    y : canvasH/16,
     w : canvasH/8,
     h : canvasH/8,
     clicked : clicked
@@ -211,7 +413,7 @@ $(document).ready(function() {
     if (!touchbtn.touched) {                     // 画开始按钮
       context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     } else {
-      context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
+      // context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     }
     if (bal_run && current<end) {
       setTimeout(balance, 33);
@@ -221,13 +423,16 @@ $(document).ready(function() {
       start(runPage);
     }
     canvas.click(function(e){
-      if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top)) {
+      if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run) {
         touchbtn.touched = 1;
         Arraw.shift = 0;
         Arraw.vx    = 0;
+        console.log(touchbtn.touched);
       }
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top)) {
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run) {
         bal_run = false;
+        touchbtn.touched = 0;
+        console.log(touchbtn.touched);
         runPage = 1;
       }
     });
