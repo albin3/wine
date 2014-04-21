@@ -36,12 +36,16 @@ $(document).ready(function() {
         Arraw.shift = 0;
         Arraw.vx    = 0;
       }
-    }, false);  
+      if (Motion.ax < -0.2) {
+        Arraw.vx    = 0;
+      }
+    }, false);
   } else {
   }
   var canvas  = $("#canvas1");
 
   $("img").hide();
+  $("p").hide();
   var imgbg   = $("#bg");
   var lgcup   = $("#lgcup");
   var smcup   = $("#smcup");
@@ -49,6 +53,8 @@ $(document).ready(function() {
   var back    = $("#back");
   var touch   = $("#touch");
   var touched = $("#touched");
+  var loadbg  = $("#loadbg");
+  var load1   = $("#load1");
   var wel_1   = $("#wel_1");
   var wel_2   = $("#wel_2");
   var wel_3   = $("#wel_3");
@@ -56,6 +62,11 @@ $(document).ready(function() {
   var wel_q   = $("#wel_q");
   var wel_t   = $("#wel_t");
   var wel_s   = $("#wel_s");
+  var ch1_i   = $("#ch1_i");
+  var ch1_1   = $("#ch1_1");
+  var ch1_2   = $("#ch1_2");
+  var ch1_3   = $("#ch1_3");
+  var ch1_4   = $("#ch1_4");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
@@ -72,10 +83,10 @@ $(document).ready(function() {
   var runPage = 0;
   // 重置和启动
   function init() {
-    runPage = 1;
+    runPage = 6;
   };
   var current, end;
-  var wel_run=bal_run=false;
+  var wel_run=bal_run=ch1_run=load_run=share_run=false;
   var wel_first_load = true;
   function start(runPage) {
     switch (runPage) {
@@ -87,15 +98,18 @@ $(document).ready(function() {
               wel_run = true;
               console.log("start welcome!");
               welcome(); break;     // 欢迎页面
-      case 2: func2(); break;
+      case 2: current = 0;
+              loadingpage(); break;
       case 3: current = 0;
               end     = 300;
               bal_run = true;
               console.log("start balance!");
               balance(); break;
-      case 4: func4(); break;
-      case 5: func5(); break;
-      case 6: func6(); break;
+      case 4: ch1_run = true;
+              choose1(); break;
+      case 5: testrst(); break;
+      case 6: share_run = true;
+              sharepage(); break;
     }
   };
   function draw_background() {
@@ -364,8 +378,11 @@ $(document).ready(function() {
     });
     context.restore();
   };
-  function func2() {
-    console.log("func2");
+  var p_load1 = {
+    i   :  255
+  };
+  function loadingpage() {
+    setTimeout(loadingpage, 33);
   };
   var backbtn = {
     x : canvasH/16,
@@ -438,19 +455,80 @@ $(document).ready(function() {
     });
     context.restore();
   };
-  function func4() {
-    playInt += 1;
+  var chpicrate = 263/273;
+  var chpwhite  = 0.02;
+  var chp1h     = 0.37;   // 第一张图片的高
+  var p_ch1i = {
+    h   :  canvasH*chp1h,
+    w   :  canvasH*chp1h*700/233,
+    y   :  0,
+    x   :  (canvasW-canvasH*chp1h*700/233)/2
+  }
+  var p_ch11 = {
+    h   :  0.25*canvasH,
+    w   :  0.25*canvasH,
+    y   :  (chp1h+chpwhite)*canvasH,
+    x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH
+  }
+  var p_ch12 = {
+    h   :  0.25*canvasH,
+    w   :  0.25*canvasH,
+    y   :  (chp1h+chpwhite)*canvasH,
+    x   :  0.5*canvasW+chpwhite/2*canvasH
+  }
+  var p_ch13 = {
+    h   :  0.25*canvasH,
+    w   :  0.25*canvasH,
+    y   :  (chp1h+chpwhite)*canvasH+0.25*canvasH+chpwhite*canvasH,
+    x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH
+  }
+  var p_ch14 = {
+    h   :  0.25*canvasH,
+    w   :  0.25*canvasH,
+    y   :  (chp1h+chpwhite)*canvasH+0.25*canvasH+chpwhite*canvasH,
+    x   :  0.5*canvasW+chpwhite/2*canvasH
+  }
+  function choose1() {
+    context.save();
+    context.drawImage(ch1_i.get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch1_1.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    context.drawImage(ch1_2.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    context.drawImage(ch1_3.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    context.drawImage(ch1_4.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.restore();
+    if (ch1_run) {
+      setTimeout(choose1, 33);
+    }
   };
-  function func5() {
-    console.log("func5");
-    playInt += 1;
+  function testrst() {
+    context.save();
+    var text = "共产h,h";
+    context.font = "30px 黑体";
+    context.fillText(text, 0, 30);
+    context.restore();
+    setTimeout(testrst, 33);
   };
-  function func6() {
-    console.log("func6");
-    playInt = 1;
+  var p_sha_t1 = {
+    w : (1-0.075-0.15/2)/18*canvasW,
+    x : 0.15/2*canvasW,
+    y : 0.43*canvasH+(1-0.75-0.75)/18*canvasW
+  };
+  function sharepage() {
+    context.clearRect(0, 0, canvasW, canvasH);
+    context.fillRect(backbtn.x, backbtn.y, backbtn.w, backbtn.h);
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
+    context.save();
+    var text = $("#psharei").text();
+    context.fillStyle = "rgb(91,91,91)";
+    context.font = "italic "+p_sha_t1.w+"px 黑体";
+    context.fillText(text.slice(0,16), p_sha_t1.x+p_sha_t1.w, p_sha_t1.y);
+    context.fillText(text.slice(16), p_sha_t1.x, p_sha_t1.y+p_sha_t1.w*1.5);
+    context.restore();
+    context.fillStyle = "rgb(113,123,133)";
+    setTimeout(sharepage, 33);
   };
   init();
-  start(1);
+  start(runPage);
 });
 $(window).resize(function(){
   fun($("#canvas1"));
