@@ -68,6 +68,8 @@ $(document).ready(function() {
   var ch1_3   = $("#ch1_3");
   var ch1_4   = $("#ch1_4");
   var sha_i   = $("#sha_i");
+  var sha_btn1= $("#sha_b1");
+  var sha_btn2= $("#sha_b2");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
@@ -519,10 +521,10 @@ $(document).ready(function() {
     y : 0.43*canvasH+(1-0.75-0.75)/18*canvasW
   };
   var p_sha_text = {
-    w : (1-0.075-0.15/2)/30*canvasW,
+    w : (1-0.075-0.15/2)/20*canvasW,
     x : 0.15/2*canvasW,
-    y : 0.60*canvasH+(1-0.75-0.75)/30*canvasW,
-    num : 25
+    y : p_sha_t1.y+p_sha_t1.w*2+20,
+    num : 19
   };
   var p_sha_pic = {
     y : canvasH*50/1008,
@@ -530,9 +532,22 @@ $(document).ready(function() {
     x : canvasW/2-canvasH*268/1008/268*401/2,
     w : canvasH*268/1008/268*401
   };
+  var p_sha_btn1 = {
+    y : canvasH*0.9,
+    h : canvasH*0.075,
+    w : canvasH*0.075*248/72,
+    x : canvasW/2-canvasH*0.075*248/72-20,
+    clicked : clicked
+  };
+  var p_sha_btn2 = {
+    y : canvasH*0.9,
+    h : canvasH*0.075,
+    w : canvasH*0.075*248/72,
+    x : canvasW/2+20,
+    clicked : clicked
+  };
   function sharepage() {
     context.clearRect(0, 0, canvasW, canvasH);
-    context.fillRect(backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
     context.save();
@@ -543,18 +558,39 @@ $(document).ready(function() {
     context.fillText(text.slice(16), p_sha_t1.x, p_sha_t1.y+p_sha_t1.w*1.5);
     context.restore();
     context.save();
-    context.font = "黑体 "+p_sha_text.w+" px";
+    context.font = p_sha_text.w+"px 黑体";
     context.fillStyle = "rgb(113,123,133)";
     var k = 1;
     for (var i=0; i<3; i++) {
       text = $("#pshare"+sha_random[i]).text();
+      context.beginPath();
+      context.arc(p_sha_text.x+p_sha_text.w*0.33, p_sha_text.y+p_sha_text.w*1.5*(k-0.25), p_sha_text.w/4, 0, Math.PI*2, false);
+      context.closePath();
+      context.fill();
       for (var j=0; j*p_sha_text.num<text.length; j++) {
-        context.fillText(text.slice(j*p_sha_text.num, (j+1)*p_sha_text.num), p_sha_text.x, p_sha_text.y+p_sha_text.w*1.5*k);
+        context.fillText(text.slice(j*p_sha_text.num, (j+1)*p_sha_text.num), p_sha_text.x+p_sha_text.w, p_sha_text.y+p_sha_text.w*1.5*k);
         k++;
       }
     }
     context.restore();
-    setTimeout(sharepage, 33);
+    context.drawImage(sha_btn1.get(0), p_sha_btn1.x, p_sha_btn1.y, p_sha_btn1.w, p_sha_btn1.h);
+    context.drawImage(sha_btn2.get(0), p_sha_btn2.x, p_sha_btn2.y, p_sha_btn2.w, p_sha_btn2.h);
+    if (share_run) {
+      setTimeout(sharepage, 33);
+    }
+    canvas.click(function(e){
+      if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run) {
+        alert();
+      }
+      if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run) {
+        alert();
+      }
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run) {
+        alert();
+        runPage = 3;
+        start(runPage);
+      }
+    });
   };
   init();
   start(runPage);
