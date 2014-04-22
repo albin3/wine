@@ -67,6 +67,7 @@ $(document).ready(function() {
   var ch1_2   = $("#ch1_2");
   var ch1_3   = $("#ch1_3");
   var ch1_4   = $("#ch1_4");
+  var sha_i   = $("#sha_i");
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
@@ -87,6 +88,7 @@ $(document).ready(function() {
   };
   var current, end;
   var wel_run=bal_run=ch1_run=load_run=share_run=false;
+  var sha_random=[1, 5, 9];
   var wel_first_load = true;
   function start(runPage) {
     switch (runPage) {
@@ -109,6 +111,9 @@ $(document).ready(function() {
               choose1(); break;
       case 5: testrst(); break;
       case 6: share_run = true;
+              sha_random[0] = Math.ceil(Math.random()*4);
+              sha_random[1] = Math.ceil(Math.random()*4+4);
+              sha_random[2] = Math.ceil(Math.random()*4+8);
               sharepage(); break;
     }
   };
@@ -385,10 +390,10 @@ $(document).ready(function() {
     setTimeout(loadingpage, 33);
   };
   var backbtn = {
-    x : canvasH/16,
-    y : canvasH/16,
-    w : canvasH/8,
-    h : canvasH/8,
+    x : canvasH*20/1008,
+    y : canvasH*20/1008,
+    w : canvasH*88/1008,
+    h : canvasH*88/1008,
     clicked : clicked
   };
   var touchbtn = {
@@ -513,10 +518,23 @@ $(document).ready(function() {
     x : 0.15/2*canvasW,
     y : 0.43*canvasH+(1-0.75-0.75)/18*canvasW
   };
+  var p_sha_text = {
+    w : (1-0.075-0.15/2)/30*canvasW,
+    x : 0.15/2*canvasW,
+    y : 0.60*canvasH+(1-0.75-0.75)/30*canvasW,
+    num : 25
+  };
+  var p_sha_pic = {
+    y : canvasH*50/1008,
+    h : canvasH*268/1008,
+    x : canvasW/2-canvasH*268/1008/268*401/2,
+    w : canvasH*268/1008/268*401
+  };
   function sharepage() {
     context.clearRect(0, 0, canvasW, canvasH);
     context.fillRect(backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
+    context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
     context.save();
     var text = $("#psharei").text();
     context.fillStyle = "rgb(91,91,91)";
@@ -524,7 +542,18 @@ $(document).ready(function() {
     context.fillText(text.slice(0,16), p_sha_t1.x+p_sha_t1.w, p_sha_t1.y);
     context.fillText(text.slice(16), p_sha_t1.x, p_sha_t1.y+p_sha_t1.w*1.5);
     context.restore();
+    context.save();
+    context.font = "黑体 "+p_sha_text.w+" px";
     context.fillStyle = "rgb(113,123,133)";
+    var k = 1;
+    for (var i=0; i<3; i++) {
+      text = $("#pshare"+sha_random[i]).text();
+      for (var j=0; j*p_sha_text.num<text.length; j++) {
+        context.fillText(text.slice(j*p_sha_text.num, (j+1)*p_sha_text.num), p_sha_text.x, p_sha_text.y+p_sha_text.w*1.5*k);
+        k++;
+      }
+    }
+    context.restore();
     setTimeout(sharepage, 33);
   };
   init();
