@@ -8,7 +8,7 @@ $(document).ready(function() {
   // 绑定重力感应监听器
   var Orient = {alpha: 0, beta: 0, gamma: 0};
   var Arraw  = {alpha: 0, beta: 0, gamma: 0};
-  var CArraw = function(alpha, beta, gamma){
+  var CArraw = function(alpha, beta, gamma) {
     this.alpha = alpha;
     this.beta  = beta;
     this.gamma = gamma;
@@ -51,6 +51,7 @@ $(document).ready(function() {
   var smcup   = $("#smcup");
   var test    = $("#test");
   var back    = $("#back");
+  var back_w  = $("#back_w");
   var touch   = $("#touch");
   var touched = $("#touched");
   var loadbg  = $("#loadbg");
@@ -62,20 +63,29 @@ $(document).ready(function() {
   var wel_q   = $("#wel_q");
   var wel_t   = $("#wel_t");
   var wel_s   = $("#wel_s");
-  var ch1_i   = $("#ch1_i");
-  var ch1_1   = $("#ch1_1");
-  var ch1_2   = $("#ch1_2");
-  var ch1_3   = $("#ch1_3");
-  var ch1_4   = $("#ch1_4");
+  var ch_i    = [$("#chi_1"), $("#chi_2"), $("#chi_3"), $("#chi_4"), $("#chi_5")];
+  var ch_1    = [$("#ch1_1"), $("#ch1_2"), $("#ch1_3"), $("#ch1_4"), $("#ch1_5")];
+  var ch_2    = [$("#ch2_1"), $("#ch2_2"), $("#ch2_3"), $("#ch2_4"), $("#ch2_5")];
+  var ch_3    = [$("#ch3_1"), $("#ch3_2"), $("#ch3_3"), $("#ch3_4"), $("#ch3_5")];
+  var ch_4    = [$("#ch4_1"), $("#ch4_2"), $("#ch4_3"), $("#ch4_4"), $("#ch4_5")];
+  var ch_bg   = [$("#chbg_1"), $("#chbg_2"), $("#chbg_3"), $("#chbg_4"), $("#chbg_5")];
+  var ch_shadow = $("#sha_gbg");
+  var ch_index= 0;
   var sha_i   = $("#sha_i");
   var sha_btn1= $("#sha_b1");
   var sha_btn2= $("#sha_b2");
+  var sha_gbg = $("#sha_gbg");
+  var sha_g   = $("#sha_g");
+  var rst_b   = $("#rst_b");
+  var rst_i   = [$("#rst1"), $("#rst2"), $("#rst3"), $("#rst4")];
+  var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
+  var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
+  var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
   var context = canvas.get(0).getContext("2d");
   fun(canvas);
 
   // 画布尺寸
-  var canvasW = canvas.width();
-  var canvasH = canvas.height();
+  var canvasW = canvas.width(); var canvasH = canvas.height();
 
   var clicked = function (x, y) {
     if (x>=this.x && x<=this.x+this.w && y>=this.y && y<=this.y+this.h)
@@ -86,12 +96,26 @@ $(document).ready(function() {
   var runPage = 0;
   // 重置和启动
   function init() {
-    runPage = 6;
+    runPage = 4;
   };
   var current, end;
-  var wel_run=bal_run=ch1_run=load_run=share_run=false;
+  var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false;
   var sha_random=[1, 5, 9];
   var wel_first_load = true;
+  var share_show     = 0;
+  var rst_score = 0;
+  var rst_class = 0;
+  var WELCOME_PAGE = 1;
+  var LOADING_PAGE = 2;
+  var BALANCE_PAGE = 3;
+  var CHOOSE1_PAGE = 4;
+  var CHOOSE2_PAGE = 5;
+  var CHOOSE3_PAGE = 6;
+  var CHOOSE4_PAGE = 7;
+  var CHOOSE5_PAGE = 8;
+  var RESULT_PAGE  = 9;
+  var SHARE_PAGE   = 10;
+  var click_delay  = 10;
   function start(runPage) {
     switch (runPage) {
       case 0: return;
@@ -99,24 +123,90 @@ $(document).ready(function() {
                 current = 0;
               else 
                 current = 3000;
-              wel_run = true;
-              console.log("start welcome!");
-              welcome(); break;     // 欢迎页面
+              if (!wel_run) {
+                wel_run = true;
+                console.log("start welcome!");
+                welcome();
+              }
+              break;     // 欢迎页面
       case 2: current = 0;
-              loadingpage(); break;
+              loadingpage();
+              break;
       case 3: current = 0;
               end     = 300;
-              bal_run = true;
-              console.log("start balance!");
-              balance(); break;
-      case 4: ch1_run = true;
-              choose1(); break;
-      case 5: testrst(); break;
-      case 6: share_run = true;
-              sha_random[0] = Math.ceil(Math.random()*4);
-              sha_random[1] = Math.ceil(Math.random()*4+4);
-              sha_random[2] = Math.ceil(Math.random()*4+8);
-              sharepage(); break;
+              if (!bal_run) {
+                bal_run = true;
+                console.log("start balance!");
+                balance();
+              }
+              break;
+      case 4:
+              current = 0;
+              if (!ch1_run) {
+                ch1_run = true;
+                choose1(); 
+              }
+              break;
+      case 5:
+              current = 0;
+              if (!ch2_run) {
+                ch2_run = true;
+                choose2(); 
+              }
+              break;
+      case 6:
+              current = 0;
+              if (!ch3_run) {
+                ch3_run = true;
+                choose3(); 
+              }
+              break;
+      case 7:
+              current = 0;
+              if (!ch4_run) {
+                ch4_run = true;
+                choose4(); 
+              }
+              break;
+      case 8:
+              current = 0;
+              if (!ch5_run) {
+                ch5_run = true;
+                choose5(); 
+              }
+              break;
+      case 9: 
+              current = 0;
+              if (!rst_run) {
+                rst_score  = 0;
+                rst_score += parseInt($("#pscore1").text());
+                rst_score += parseInt($("#pscore2").text());
+                rst_score += parseInt($("#pscore3").text());
+                rst_score += parseInt($("#pscore4").text());
+                rst_score += parseInt($("#pscore5").text());
+                if (rst_score<8) {
+                  rst_class = 0;
+                } else if (rst_score>=8&&rst_score<=10) {
+                  rst_class = 1;
+                } else if (rst_score>=11&&rst_score<=15) {
+                  rst_class = 2;
+                } else {
+                  rst_class = 3;
+                }
+                rst_run = true;
+                testrst(); 
+              }
+              break;
+      case 10: 
+              current = 0;
+              if (!share_run) {
+                share_run = true;
+                sha_random[0] = Math.ceil(Math.random()*4);
+                sha_random[1] = Math.ceil(Math.random()*4+4);
+                sha_random[2] = Math.ceil(Math.random()*4+8);
+                sharepage(); 
+              }
+              break;
     }
   };
   function draw_background() {
@@ -377,7 +467,7 @@ $(document).ready(function() {
       start(runPage);
     }
     canvas.click(function(e){
-      if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run) {
+      if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run && current >= click_delay) {
         wel_run = false;
         runPage = 3;
       } else {
@@ -433,7 +523,7 @@ $(document).ready(function() {
     context.arc(canvasW/10, lineH, canvasH/50, 0, Math.PI*2, false);
     context.closePath();
     context.fill();
-    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
+    context.drawImage(back_w.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     if (!touchbtn.touched) {                     // 画开始按钮
       context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     } else {
@@ -447,13 +537,13 @@ $(document).ready(function() {
       start(runPage);
     }
     canvas.click(function(e){
-      if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run) {
+      if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
         touchbtn.touched = 1;
         Arraw.shift = 0;
         Arraw.vx    = 0;
         console.log(touchbtn.touched);
       }
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run) {
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
         bal_run = false;
         touchbtn.touched = 0;
         console.log(touchbtn.touched);
@@ -465,6 +555,10 @@ $(document).ready(function() {
   var chpicrate = 263/273;
   var chpwhite  = 0.02;
   var chp1h     = 0.37;   // 第一张图片的高
+  var score_set = [[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]
+  var choose_set = [[true,true,true,true],[true,true,true,true],[true,true,true,true],[true,true,true,true],[true,true,true,true]];
+  var just_clicked = false;
+  var just_delay = 600;
   var p_ch1i = {
     h   :  canvasH*chp1h,
     w   :  canvasH*chp1h*700/233,
@@ -475,45 +569,458 @@ $(document).ready(function() {
     h   :  0.25*canvasH,
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH,
-    x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH
+    x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH,
+    clicked : clicked
   }
   var p_ch12 = {
     h   :  0.25*canvasH,
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH,
-    x   :  0.5*canvasW+chpwhite/2*canvasH
+    x   :  0.5*canvasW+chpwhite/2*canvasH,
+    clicked : clicked
   }
   var p_ch13 = {
     h   :  0.25*canvasH,
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH+0.25*canvasH+chpwhite*canvasH,
-    x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH
+    x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH,
+    clicked : clicked
   }
   var p_ch14 = {
     h   :  0.25*canvasH,
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH+0.25*canvasH+chpwhite*canvasH,
-    x   :  0.5*canvasW+chpwhite/2*canvasH
+    x   :  0.5*canvasW+chpwhite/2*canvasH,
+    clicked : clicked
   }
   function choose1() {
+    current += 1;
+    ch_index = 0;
     context.save();
-    context.drawImage(ch1_i.get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
-    context.drawImage(ch1_1.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
-    context.drawImage(ch1_2.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
-    context.drawImage(ch1_3.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
-    context.drawImage(ch1_4.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    if (!choose_set[ch_index][0]) {
+      context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    }
+    context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    if (!choose_set[ch_index][1]) {
+      context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    }
+    context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    if (!choose_set[ch_index][2]) {
+      context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    }
+    context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    if (!choose_set[ch_index][3]) {
+      context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    }
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
+    canvas.click(function(e){
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+        runPage = BALANCE_PAGE;
+        ch1_run = false;
+        start(runPage);
+      }
+      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(parseInt(score_set[ch_index][0]));
+        choose_set[ch_index][0] = true;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = false;
+        runPage = CHOOSE2_PAGE;
+        ch1_run = false;
+        start(runPage);
+      }
+      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][1]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = true;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = false;
+        runPage = CHOOSE2_PAGE;
+        ch1_run = false;
+        start(runPage);
+      }
+      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][2]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = true; 
+        choose_set[ch_index][3] = false;
+        runPage = CHOOSE2_PAGE;
+        ch1_run = false;
+        start(runPage);
+      }
+      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][3]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = true;
+        runPage = CHOOSE2_PAGE;
+        ch1_run = false;
+        start(runPage);
+      }
+    });
     if (ch1_run) {
       setTimeout(choose1, 33);
     }
   };
-  function testrst() {
+  function choose2() {
+    current += 1;
+    ch_index = 1;
     context.save();
-    var text = "共产h,h";
-    context.font = "30px 黑体";
-    context.fillText(text, 0, 30);
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    if (!choose_set[ch_index][0]) {
+      context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    }
+    context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    if (!choose_set[ch_index][1]) {
+      context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    }
+    context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    if (!choose_set[ch_index][2]) {
+      context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    }
+    context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    if (!choose_set[ch_index][3]) {
+      context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    }
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
-    setTimeout(testrst, 33);
+    canvas.click(function(e){
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+        runPage = CHOOSE1_PAGE;
+        ch2_run = false;
+        start(runPage);
+      }
+      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][0]);
+        choose_set[ch_index][0] = true;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = false;
+        runPage = CHOOSE3_PAGE;
+        ch2_run = false;
+        start(runPage);
+      }
+      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][1]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = true;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = false;
+        runPage = CHOOSE3_PAGE;
+        ch2_run = false;
+        start(runPage);
+      }
+      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][2]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = true;
+        choose_set[ch_index][3] = false;
+        runPage = CHOOSE3_PAGE;
+        ch2_run = false;
+        start(runPage);
+      }
+      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][3]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = true;
+        runPage = CHOOSE3_PAGE;
+        ch2_run = false;
+        start(runPage);
+      }
+    });
+    if (ch2_run) {
+      setTimeout(choose2, 33);
+    }
+  };
+  function choose3() {
+    current += 1;
+    ch_index = 2;
+    context.save();
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    if (!choose_set[ch_index][0]) {
+      context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    }
+    context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    if (!choose_set[ch_index][1]) {
+      context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    }
+    context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    if (!choose_set[ch_index][2]) {
+      context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    }
+    context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    if (!choose_set[ch_index][3]) {
+      context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    }
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
+    context.restore();
+    canvas.click(function(e){
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+        runPage = CHOOSE2_PAGE;
+        ch3_run = false;
+        start(runPage);
+      }
+      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[2][0]);
+        choose_set[2][0] = true;
+        choose_set[2][1] = false;
+        choose_set[2][2] = false;
+        choose_set[2][3] = false;
+        runPage = CHOOSE4_PAGE;
+        ch3_run = false;
+        start(runPage);
+      }
+      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[2][1]);
+        choose_set[2][0] = false;
+        choose_set[2][1] = true;
+        choose_set[2][2] = false;
+        choose_set[2][3] = false;
+        runPage = CHOOSE4_PAGE;
+        ch3_run = false;
+        start(runPage);
+      }
+      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[2][2]);
+        choose_set[2][0] = false;
+        choose_set[2][1] = false;
+        choose_set[2][2] = true;
+        choose_set[2][3] = false;
+        runPage = CHOOSE4_PAGE;
+        ch3_run = false;
+        start(runPage);
+      }
+      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[ch_index][3]);
+        choose_set[ch_index][0] = false;
+        choose_set[ch_index][1] = false;
+        choose_set[ch_index][2] = false;
+        choose_set[ch_index][3] = true;
+        runPage = CHOOSE4_PAGE;
+        ch3_run = false;
+        start(runPage);
+      }
+    });
+    if (ch3_run) {
+      setTimeout(choose3, 33);
+    }
+  };
+  function choose4() {
+    current += 1;
+    ch_index = 3;
+    context.save();
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    if (!choose_set[ch_index][0]) {
+      context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    }
+    context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    if (!choose_set[ch_index][1]) {
+      context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    }
+    context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    if (!choose_set[ch_index][2]) {
+      context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    }
+    context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    if (!choose_set[ch_index][3]) {
+      context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    }
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
+    context.restore();
+    canvas.click(function(e){
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+        runPage = CHOOSE3_PAGE;
+        ch4_run = false;
+        start(runPage);
+      }
+      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[3][0]);
+        choose_set[3][0] = true;
+        choose_set[3][1] = false;
+        choose_set[3][2] = false;
+        choose_set[3][3] = false;
+        runPage = CHOOSE5_PAGE;
+        ch4_run = false;
+        start(runPage);
+      }
+      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[3][1]);
+        choose_set[3][0] = false;
+        choose_set[3][1] = true;
+        choose_set[3][2] = false;
+        choose_set[3][3] = false;
+        runPage = CHOOSE5_PAGE;
+        ch4_run = false;
+        start(runPage);
+      }
+      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[3][2]);
+        choose_set[3][0] = false;
+        choose_set[3][1] = false;
+        choose_set[3][2] = true;
+        choose_set[3][3] = false;
+        runPage = CHOOSE5_PAGE;
+        ch4_run = false;
+        start(runPage);
+      }
+      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[3][3]);
+        choose_set[3][0] = false;
+        choose_set[3][1] = false;
+        choose_set[3][2] = false;
+        choose_set[3][3] = true;
+        runPage = CHOOSE5_PAGE;
+        ch4_run = false;
+        start(runPage);
+      }
+    });
+    if (ch4_run) {
+      setTimeout(choose4, 33);
+    }
+  };
+  function choose5() {
+    current += 1;
+    ch_index = 4;
+    context.save();
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    if (!choose_set[ch_index][0]) {
+      context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    }
+    context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    if (!choose_set[ch_index][1]) {
+      context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    }
+    context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    if (!choose_set[ch_index][2]) {
+      context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    }
+    context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    if (!choose_set[ch_index][3]) {
+      context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    }
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
+    context.restore();
+    canvas.click(function(e){
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+        runPage = CHOOSE4_PAGE;
+        ch5_run = false;
+        start(runPage);
+      }
+      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[4][0]);
+        choose_set[4][0] = true;
+        choose_set[4][1] = false;
+        choose_set[4][2] = false;
+        choose_set[4][3] = false;
+        runPage = RESULT_PAGE;
+        ch5_run = false;
+        start(runPage);
+      }
+      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[4][1]);
+        choose_set[4][0] = false;
+        choose_set[4][1] = true;
+        choose_set[4][2] = false;
+        choose_set[4][3] = false;
+        runPage = RESULT_PAGE;
+        ch5_run = false;
+        start(runPage);
+      }
+      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[4][2]);
+        choose_set[4][0] = false;
+        choose_set[4][1] = false;
+        choose_set[4][2] = true;
+        choose_set[4][3] = false;
+        runPage = RESULT_PAGE;
+        ch5_run = false;
+        start(runPage);
+      }
+      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+        $("#pscore"+ch_index).text(score_set[4][3]);
+        choose_set[4][0] = false;
+        choose_set[4][1] = false;
+        choose_set[4][2] = false;
+        choose_set[4][3] = true;
+        runPage = RESULT_PAGE;
+        ch5_run = false;
+        start(runPage);
+      }
+    });
+    if (ch5_run) {
+      setTimeout(choose5, 33);
+    }
+  };
+  var p_rst_text = {
+    w : (1-0.075-0.15/2)/20*canvasW,
+    x : 0.15/2*canvasW,
+    y : canvasH*0.50,
+    num : 19
+  }
+  var p_rst_btn = {
+    y : canvasH*0.9,
+    h : canvasH*0.075,
+    w : canvasH*0.075*240/72,
+    x : canvasW/2-canvasH*0.075*240/72/2,
+    clicked : clicked
+  };
+  function testrst() {
+    current += 1;
+    context.save();
+    context.clearRect(0, 0, canvasW, canvasH);
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
+    context.save();
+    context.font = p_sha_text.w+"px 黑体";
+    context.fillStyle = "rgb(113,123,133)";
+    var k=1;
+    context.beginPath();
+    context.arc(p_rst_text.x+p_rst_text.w*0.33, p_rst_text.y+p_rst_text.w*1.5*(k-0.25), p_rst_text.w/4, 0, Math.PI*2, false);
+    context.closePath();
+    context.fill();
+    for (var j=0; j*p_rst_text.num<rst_t2[rst_class].length; j++) {
+      context.fillText(rst_t2[rst_class].slice(j*p_rst_text.num, (j+1)*p_rst_text.num), p_rst_text.x+p_rst_text.w, p_rst_text.y+p_rst_text.w*1.5*k);
+      k++;
+    }
+    k+=0.5;
+    context.beginPath();
+    context.arc(p_rst_text.x+p_rst_text.w*0.33, p_rst_text.y+p_rst_text.w*1.5*(k-0.25), p_rst_text.w/4, 0, Math.PI*2, false);
+    context.closePath();
+    context.fill();
+    for (var j=0; j*p_rst_text.num<rst_t3[rst_class].length; j++) {
+      context.fillText(rst_t3[rst_class].slice(j*p_rst_text.num, (j+1)*p_rst_text.num), p_rst_text.x+p_rst_text.w, p_rst_text.y+p_rst_text.w*1.5*k);
+      k++;
+    }
+    context.restore();
+    context.drawImage(rst_b.get(0), p_rst_btn.x, p_rst_btn.y, p_rst_btn.w, p_rst_btn.h);
+    context.restore();
+    canvas.click(function(e){
+      share_show = 0;  // 点屏消失
+      if (p_rst_btn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
+        runPage += 1;
+        rst_run = false;
+        start(runPage);
+      }
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
+        runPage -= 1;
+        rst_run = false;
+        start(runPage);
+      }
+    });
+    if (rst_run) {
+      setTimeout(testrst, 33);
+    }
   };
   var p_sha_t1 = {
     w : (1-0.075-0.15/2)/18*canvasW,
@@ -547,6 +1054,7 @@ $(document).ready(function() {
     clicked : clicked
   };
   function sharepage() {
+    current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
@@ -575,22 +1083,28 @@ $(document).ready(function() {
     context.restore();
     context.drawImage(sha_btn1.get(0), p_sha_btn1.x, p_sha_btn1.y, p_sha_btn1.w, p_sha_btn1.h);
     context.drawImage(sha_btn2.get(0), p_sha_btn2.x, p_sha_btn2.y, p_sha_btn2.w, p_sha_btn2.h);
-    if (share_run) {
-      setTimeout(sharepage, 33);
+    if (share_show>0) {
+      context.drawImage(sha_gbg.get(0), 0, 0, canvasW, canvasH);
+      context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*291/548);
+      share_show = share_show===0? 0:share_show-1;
     }
     canvas.click(function(e){
-      if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run) {
-        alert();
+      share_show = 0;  // 点屏消失
+      if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+        share_show = 33;
       }
-      if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run) {
-        alert();
+      if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+        share_show = 33;
       }
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run) {
-        alert();
-        runPage = 3;
+      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+        runPage -= 1;
+        share_run = false;
         start(runPage);
       }
     });
+    if (share_run) {
+      setTimeout(sharepage, 33);
+    }
   };
   init();
   start(runPage);
