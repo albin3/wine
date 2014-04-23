@@ -594,6 +594,7 @@ $(document).ready(function() {
     clicked : clicked
   }
   function choose1() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 0;
     context.save();
@@ -668,6 +669,7 @@ $(document).ready(function() {
     }
   };
   function choose2() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 1;
     context.save();
@@ -742,6 +744,7 @@ $(document).ready(function() {
     }
   };
   function choose3() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 2;
     context.save();
@@ -816,6 +819,7 @@ $(document).ready(function() {
     }
   };
   function choose4() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 3;
     context.save();
@@ -890,6 +894,7 @@ $(document).ready(function() {
     }
   };
   function choose5() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 4;
     context.save();
