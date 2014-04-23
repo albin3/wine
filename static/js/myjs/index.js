@@ -115,7 +115,7 @@ $(document).ready(function() {
   var CHOOSE5_PAGE = 8;
   var RESULT_PAGE  = 9;
   var SHARE_PAGE   = 10;
-  var click_delay = 0;
+  var click_delay  = 10;
   function start(runPage) {
     switch (runPage) {
       case 0: return;
@@ -228,6 +228,7 @@ $(document).ready(function() {
     context.drawImage(lgcup.get(0), 0, 0, lgwidth, lgheight);
     context.restore();
   }
+  // ---------------欢迎页面--------------
   var wel_ts    = 10;
   var wel_tl    = 10;
   var wel_tskip = 0.1;// 单次旋转角度
@@ -466,22 +467,23 @@ $(document).ready(function() {
       runPage = 3;
       start(runPage);
     }
-    canvas.unbind();
-    canvas.click(function(e){
-      if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run && current >= click_delay) {
-        wel_run = false;
-        runPage = 3;
-      } else {
-      }
-    });
     context.restore();
   };
+  canvas.get(0).addEventListener("touchstart",function(e){     // 欢迎页面点击响应
+    if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run && current >= click_delay) {
+      wel_run = false;
+      runPage = 3;
+    } else {
+    }
+  });
+  // ---------------载入页面--------------
   var p_load1 = {
     i   :  255
   };
   function loadingpage() {
     setTimeout(loadingpage, 33);
   };
+  // --------------重力感应页面----------------
   var backbtn = {
     x : canvasH*20/1008,
     y : canvasH*20/1008,
@@ -537,23 +539,23 @@ $(document).ready(function() {
       bal_run = false;
       start(runPage);
     }
-    canvas.unbind();
-    canvas.click(function(e){
-      if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
-        touchbtn.touched = 1;
-        Arraw.shift = 0;
-        Arraw.vx    = 0;
-        console.log(touchbtn.touched);
-      }
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
-        bal_run = false;
-        touchbtn.touched = 0;
-        console.log(touchbtn.touched);
-        runPage = 1;
-      }
-    });
     context.restore();
   };
+  canvas.get(0).addEventListener("touchstart",function(e){     // 重力平衡点击响应
+    if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
+      touchbtn.touched = 1;
+      Arraw.shift = 0;
+      Arraw.vx    = 0;
+      console.log(touchbtn.touched);
+    }
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
+      bal_run = false;
+      touchbtn.touched = 0;
+      console.log(touchbtn.touched);
+      runPage = 1;
+    }
+  });
+  // ---------------选择题一页面---------------
   var chpicrate = 263/273;
   var chpwhite  = 0.02;
   var chp1h     = 0.37;   // 第一张图片的高
@@ -596,10 +598,9 @@ $(document).ready(function() {
     clicked : clicked
   }
   function choose1() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 0;
-    if (current%5 === 0)
-      context.clearRect(0,0,canvasW,canvasH);
     context.save();
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -620,65 +621,62 @@ $(document).ready(function() {
     }
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
-    canvas.get(0).addEventListener("touchstart", function(e){
-      var touch = e.touches[0];//多点触控第一点
-      var x = touch.clientX;
-      var y = touch.clientY;
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
-        runPage = BALANCE_PAGE;
-        ch1_run = false;
-        start(runPage);
-      }
-      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(parseInt(score_set[ch_index][0]));
-        choose_set[ch_index][0] = true;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = false;
-        runPage = CHOOSE2_PAGE;
-        ch1_run = false;
-        start(runPage);
-      }
-      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][1]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = true;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = false;
-        runPage = CHOOSE2_PAGE;
-        ch1_run = false;
-        start(runPage);
-      }
-      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][2]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = true; 
-        choose_set[ch_index][3] = false;
-        runPage = CHOOSE2_PAGE;
-        ch1_run = false;
-        start(runPage);
-      }
-      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][3]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = true;
-        runPage = CHOOSE2_PAGE;
-        ch1_run = false;
-        start(runPage);
-      }
-    });
     if (ch1_run) {
       setTimeout(choose1, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){     // 第一个选择题响应
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+      runPage = BALANCE_PAGE;
+      ch1_run = false;
+      start(runPage);
+    }
+    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(parseInt(score_set[ch_index][0]));
+      choose_set[ch_index][0] = true;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = false;
+      runPage = CHOOSE2_PAGE;
+      ch1_run = false;
+      start(runPage);
+    }
+    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][1]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = true;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = false;
+      runPage = CHOOSE2_PAGE;
+      ch1_run = false;
+      start(runPage);
+    }
+    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][2]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = true; 
+      choose_set[ch_index][3] = false;
+      runPage = CHOOSE2_PAGE;
+      ch1_run = false;
+      start(runPage);
+    }
+    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][3]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = true;
+      runPage = CHOOSE2_PAGE;
+      ch1_run = false;
+      start(runPage);
+    }
+  });
+  // -------------第二个选择题页面--------------
   function choose2() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 1;
-    if (current%5 === 0)
-      context.clearRect(0,0,canvasW,canvasH);
     context.save();
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -699,63 +697,62 @@ $(document).ready(function() {
     }
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
-    canvas.unbind();
-    canvas.click(function(e){
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
-        runPage = CHOOSE1_PAGE;
-        ch2_run = false;
-        start(runPage);
-      }
-      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][0]);
-        choose_set[ch_index][0] = true;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = false;
-        runPage = CHOOSE3_PAGE;
-        ch2_run = false;
-        start(runPage);
-      }
-      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][1]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = true;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = false;
-        runPage = CHOOSE3_PAGE;
-        ch2_run = false;
-        start(runPage);
-      }
-      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][2]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = true;
-        choose_set[ch_index][3] = false;
-        runPage = CHOOSE3_PAGE;
-        ch2_run = false;
-        start(runPage);
-      }
-      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][3]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = true;
-        runPage = CHOOSE3_PAGE;
-        ch2_run = false;
-        start(runPage);
-      }
-    });
     if (ch2_run) {
       setTimeout(choose2, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){    // 第二个选择题响应
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+      runPage = CHOOSE1_PAGE;
+      ch2_run = false;
+      start(runPage);
+    }
+    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][0]);
+      choose_set[ch_index][0] = true;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = false;
+      runPage = CHOOSE3_PAGE;
+      ch2_run = false;
+      start(runPage);
+    }
+    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][1]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = true;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = false;
+      runPage = CHOOSE3_PAGE;
+      ch2_run = false;
+      start(runPage);
+    }
+    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][2]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = true;
+      choose_set[ch_index][3] = false;
+      runPage = CHOOSE3_PAGE;
+      ch2_run = false;
+      start(runPage);
+    }
+    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][3]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = true;
+      runPage = CHOOSE3_PAGE;
+      ch2_run = false;
+      start(runPage);
+    }
+  });
+  // --------------第三个选择题页面---------------
   function choose3() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 2;
-    if (current%5 === 0)
-      context.clearRect(0,0,canvasW,canvasH);
     context.save();
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -776,63 +773,62 @@ $(document).ready(function() {
     }
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
-    canvas.unbind();
-    canvas.click(function(e){
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
-        runPage = CHOOSE2_PAGE;
-        ch3_run = false;
-        start(runPage);
-      }
-      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[2][0]);
-        choose_set[2][0] = true;
-        choose_set[2][1] = false;
-        choose_set[2][2] = false;
-        choose_set[2][3] = false;
-        runPage = CHOOSE4_PAGE;
-        ch3_run = false;
-        start(runPage);
-      }
-      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[2][1]);
-        choose_set[2][0] = false;
-        choose_set[2][1] = true;
-        choose_set[2][2] = false;
-        choose_set[2][3] = false;
-        runPage = CHOOSE4_PAGE;
-        ch3_run = false;
-        start(runPage);
-      }
-      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[2][2]);
-        choose_set[2][0] = false;
-        choose_set[2][1] = false;
-        choose_set[2][2] = true;
-        choose_set[2][3] = false;
-        runPage = CHOOSE4_PAGE;
-        ch3_run = false;
-        start(runPage);
-      }
-      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[ch_index][3]);
-        choose_set[ch_index][0] = false;
-        choose_set[ch_index][1] = false;
-        choose_set[ch_index][2] = false;
-        choose_set[ch_index][3] = true;
-        runPage = CHOOSE4_PAGE;
-        ch3_run = false;
-        start(runPage);
-      }
-    });
     if (ch3_run) {
       setTimeout(choose3, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){      // 选择题3响应
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+      runPage = CHOOSE2_PAGE;
+      ch3_run = false;
+      start(runPage);
+    }
+    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[2][0]);
+      choose_set[2][0] = true;
+      choose_set[2][1] = false;
+      choose_set[2][2] = false;
+      choose_set[2][3] = false;
+      runPage = CHOOSE4_PAGE;
+      ch3_run = false;
+      start(runPage);
+    }
+    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[2][1]);
+      choose_set[2][0] = false;
+      choose_set[2][1] = true;
+      choose_set[2][2] = false;
+      choose_set[2][3] = false;
+      runPage = CHOOSE4_PAGE;
+      ch3_run = false;
+      start(runPage);
+    }
+    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[2][2]);
+      choose_set[2][0] = false;
+      choose_set[2][1] = false;
+      choose_set[2][2] = true;
+      choose_set[2][3] = false;
+      runPage = CHOOSE4_PAGE;
+      ch3_run = false;
+      start(runPage);
+    }
+    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[ch_index][3]);
+      choose_set[ch_index][0] = false;
+      choose_set[ch_index][1] = false;
+      choose_set[ch_index][2] = false;
+      choose_set[ch_index][3] = true;
+      runPage = CHOOSE4_PAGE;
+      ch3_run = false;
+      start(runPage);
+    }
+  });
+  // ---------------选择题4页面-----------------
   function choose4() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 3;
-    if (current%5 === 0)
-      context.clearRect(0,0,canvasW,canvasH);
     context.save();
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -853,63 +849,62 @@ $(document).ready(function() {
     }
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
-    canvas.unbind();
-    canvas.click(function(e){
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
-        runPage = CHOOSE3_PAGE;
-        ch4_run = false;
-        start(runPage);
-      }
-      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[3][0]);
-        choose_set[3][0] = true;
-        choose_set[3][1] = false;
-        choose_set[3][2] = false;
-        choose_set[3][3] = false;
-        runPage = CHOOSE5_PAGE;
-        ch4_run = false;
-        start(runPage);
-      }
-      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[3][1]);
-        choose_set[3][0] = false;
-        choose_set[3][1] = true;
-        choose_set[3][2] = false;
-        choose_set[3][3] = false;
-        runPage = CHOOSE5_PAGE;
-        ch4_run = false;
-        start(runPage);
-      }
-      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[3][2]);
-        choose_set[3][0] = false;
-        choose_set[3][1] = false;
-        choose_set[3][2] = true;
-        choose_set[3][3] = false;
-        runPage = CHOOSE5_PAGE;
-        ch4_run = false;
-        start(runPage);
-      }
-      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[3][3]);
-        choose_set[3][0] = false;
-        choose_set[3][1] = false;
-        choose_set[3][2] = false;
-        choose_set[3][3] = true;
-        runPage = CHOOSE5_PAGE;
-        ch4_run = false;
-        start(runPage);
-      }
-    });
     if (ch4_run) {
       setTimeout(choose4, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){      // 选择题4响应
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+      runPage = CHOOSE3_PAGE;
+      ch4_run = false;
+      start(runPage);
+    }
+    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[3][0]);
+      choose_set[3][0] = true;
+      choose_set[3][1] = false;
+      choose_set[3][2] = false;
+      choose_set[3][3] = false;
+      runPage = CHOOSE5_PAGE;
+      ch4_run = false;
+      start(runPage);
+    }
+    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[3][1]);
+      choose_set[3][0] = false;
+      choose_set[3][1] = true;
+      choose_set[3][2] = false;
+      choose_set[3][3] = false;
+      runPage = CHOOSE5_PAGE;
+      ch4_run = false;
+      start(runPage);
+    }
+    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[3][2]);
+      choose_set[3][0] = false;
+      choose_set[3][1] = false;
+      choose_set[3][2] = true;
+      choose_set[3][3] = false;
+      runPage = CHOOSE5_PAGE;
+      ch4_run = false;
+      start(runPage);
+    }
+    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[3][3]);
+      choose_set[3][0] = false;
+      choose_set[3][1] = false;
+      choose_set[3][2] = false;
+      choose_set[3][3] = true;
+      runPage = CHOOSE5_PAGE;
+      ch4_run = false;
+      start(runPage);
+    }
+  });
+  // ----------------选择题5---------------
   function choose5() {
+    context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 4;
-    if (current%5 === 0)
-      context.clearRect(0,0,canvasW,canvasH);
     context.save();
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -930,58 +925,58 @@ $(document).ready(function() {
     }
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.restore();
-    canvas.unbind();
-    canvas.click(function(e){
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
-        runPage = CHOOSE4_PAGE;
-        ch5_run = false;
-        start(runPage);
-      }
-      if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[4][0]);
-        choose_set[4][0] = true;
-        choose_set[4][1] = false;
-        choose_set[4][2] = false;
-        choose_set[4][3] = false;
-        runPage = RESULT_PAGE;
-        ch5_run = false;
-        start(runPage);
-      }
-      if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[4][1]);
-        choose_set[4][0] = false;
-        choose_set[4][1] = true;
-        choose_set[4][2] = false;
-        choose_set[4][3] = false;
-        runPage = RESULT_PAGE;
-        ch5_run = false;
-        start(runPage);
-      }
-      if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[4][2]);
-        choose_set[4][0] = false;
-        choose_set[4][1] = false;
-        choose_set[4][2] = true;
-        choose_set[4][3] = false;
-        runPage = RESULT_PAGE;
-        ch5_run = false;
-        start(runPage);
-      }
-      if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
-        $("#pscore"+ch_index).text(score_set[4][3]);
-        choose_set[4][0] = false;
-        choose_set[4][1] = false;
-        choose_set[4][2] = false;
-        choose_set[4][3] = true;
-        runPage = RESULT_PAGE;
-        ch5_run = false;
-        start(runPage);
-      }
-    });
     if (ch5_run) {
       setTimeout(choose5, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){      // 选择题5响应
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+      runPage = CHOOSE4_PAGE;
+      ch5_run = false;
+      start(runPage);
+    }
+    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[4][0]);
+      choose_set[4][0] = true;
+      choose_set[4][1] = false;
+      choose_set[4][2] = false;
+      choose_set[4][3] = false;
+      runPage = RESULT_PAGE;
+      ch5_run = false;
+      start(runPage);
+    }
+    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[4][1]);
+      choose_set[4][0] = false;
+      choose_set[4][1] = true;
+      choose_set[4][2] = false;
+      choose_set[4][3] = false;
+      runPage = RESULT_PAGE;
+      ch5_run = false;
+      start(runPage);
+    }
+    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[4][2]);
+      choose_set[4][0] = false;
+      choose_set[4][1] = false;
+      choose_set[4][2] = true;
+      choose_set[4][3] = false;
+      runPage = RESULT_PAGE;
+      ch5_run = false;
+      start(runPage);
+    }
+    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+      $("#pscore"+ch_index).text(score_set[4][3]);
+      choose_set[4][0] = false;
+      choose_set[4][1] = false;
+      choose_set[4][2] = false;
+      choose_set[4][3] = true;
+      runPage = RESULT_PAGE;
+      ch5_run = false;
+      start(runPage);
+    }
+  });
+  // -----------结果页面-----------
   var p_rst_text = {
     w : (1-0.075-0.15/2)/20*canvasW,
     x : 0.15/2*canvasW,
@@ -1024,24 +1019,25 @@ $(document).ready(function() {
     context.restore();
     context.drawImage(rst_b.get(0), p_rst_btn.x, p_rst_btn.y, p_rst_btn.w, p_rst_btn.h);
     context.restore();
-    canvas.unbind();
-    canvas.click(function(e){
-      share_show = 0;  // 点屏消失
-      if (p_rst_btn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
-        runPage += 1;
-        rst_run = false;
-        start(runPage);
-      }
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
-        runPage -= 1;
-        rst_run = false;
-        start(runPage);
-      }
-    });
     if (rst_run) {
       setTimeout(testrst, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){    // 9——结果页面响应
+    share_show = 0;  // 点屏消失
+    if (p_rst_btn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
+      runPage += 1;
+      rst_run = false;
+      start(runPage);
+    }
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
+      runPage -= 1;
+      rst_run = false;
+      start(runPage);
+    }
+  });
+  
+  // -----------分享页面-----------
   var p_sha_t1 = {
     w : (1-0.075-0.15/2)/18*canvasW,
     x : 0.15/2*canvasW,
@@ -1108,25 +1104,24 @@ $(document).ready(function() {
       context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*291/548);
       share_show = share_show===0? 0:share_show-1;
     }
-    canvas.unbind();
-    canvas.click(function(e){
-      share_show = 0;  // 点屏消失
-      if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
-        share_show = 33;
-      }
-      if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
-        share_show = 33;
-      }
-      if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
-        runPage -= 1;
-        share_run = false;
-        start(runPage);
-      }
-    });
     if (share_run) {
       setTimeout(sharepage, 33);
     }
   };
+  canvas.get(0).addEventListener("touchstart",function(e){     // 分享页面
+    share_show = 0;  // 点屏消失
+    if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+      share_show = 33;
+    }
+    if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+      share_show = 33;
+    }
+    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+      runPage -= 1;
+      share_run = false;
+      start(runPage);
+    }
+  });
   init();
   start(runPage);
 });
