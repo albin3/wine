@@ -396,6 +396,7 @@ $(document).ready(function() {
   var wel_bt_h1 = 0;
   var wel_bt_h2 = 262;
   var wel_bt_h3 = canvasH*0.7;
+  var wel_bt_hr = 40;
   var p_wels = {
     x  :  function(c) {
             if (c<wel_b4+wel_last+wel_bt_delay)
@@ -409,10 +410,13 @@ $(document).ready(function() {
             else {
               wel_bt_v = wel_bt_v + wel_bt_a;
               wel_bt_y = wel_bt_y + wel_bt_v;
-              if (wel_bt_y >= canvasH*0.8) {
-                wel_bt_v = 0 - wel_bt_v*4/5;
+              if (wel_bt_y >= canvasH*0.85) {
+                // wel_bt_v = 0 - wel_bt_v*4/10;
+                wel_bt_hr -= wel_bt_hr>0 ? 15 : 0;
+                wel_bt_v = 0 - wel_bt_hr;
+                wel_bt_v = wel_bt_hr<0 ? 0 : wel_bt_v;
               }
-              if (wel_bt_y >= canvasH*0.85 && Math.abs(wel_bt_v)<=wel_bt_a*4/5) {
+              if (wel_bt_y >= canvasH*0.85 && Math.abs(wel_bt_v)<=wel_bt_a*4/10) {
                 wel_bt_y = 0.85*canvasH;
                 wel_bt_v = 0;
               }
@@ -456,6 +460,14 @@ $(document).ready(function() {
     context.drawImage(wel_t.get(0), -p_welt.w/2, -p_welt.h/2, p_welt.w, p_welt.h);
     context.restore();
     context.drawImage(wel_1.get(0), p_wel1.x(current), p_wel1.y(current), p_wel1.w(current), p_wel1.w(current));
+/*  高斯模糊--太卡
+    if (p_wel1.w(current)>0&&p_wel1.w(current)>0) {
+      var imageData = context.getImageData(p_wel1.x(3000), p_wel1.y(3000), p_wel1.w(3000), p_wel1.w(3000));
+      Gaussian_blur(imageData.data, p_wel1.w(3000), p_wel1.w(3000), 20, 1);
+      context.putImageData(imageData, 0,0);
+    }
+    */
+
     context.drawImage(wel_2.get(0), p_wel2.x(current), p_wel2.y(current), p_wel2.w(current), p_wel2.w(current));
     context.drawImage(wel_3.get(0), p_wel3.x(current), p_wel3.y(current), p_wel3.w(current), p_wel3.w(current));
     context.drawImage(wel_4.get(0), p_wel4.x(current), p_wel4.y(current), p_wel4.w(current), p_wel4.w(current));
@@ -537,7 +549,7 @@ $(document).ready(function() {
     if (!touchbtn.touched) {                     // 画开始按钮
       context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     } else {
-      // context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
+      context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     }
     if (canvasW/10-arraw_width/2+Arraw.shift*touchbtn.touched > passThisPage) {
       bal_run = false;    // 终止页面
@@ -557,7 +569,7 @@ $(document).ready(function() {
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 重力平衡点击响应 $3
     if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
-      touchbtn.touched = 1;
+      touchbtn.touched = 1-touchbtn.touched;
       Arraw.shift = 0;
       Arraw.vx    = 0;
       console.log(touchbtn.touched);
