@@ -48,6 +48,7 @@ $(document).ready(function() {
 
   $("img").hide();
   $("p").hide();
+  var loading = $("#loading");
   var imgbg   = $("#bg");
   var lgcup   = $("#lgcup");
   var smcup   = $("#smcup");
@@ -446,6 +447,7 @@ $(document).ready(function() {
                return false;
            }
   };
+  var count = 0;
   function welcome() {       // 第一张页面，欢迎页面。
     context.save();
     current += 1;
@@ -459,6 +461,16 @@ $(document).ready(function() {
     context.transform(Math.cos(tmp),-Math.sin(tmp),Math.sin(tmp),Math.cos(tmp),p_welt.x+p_welt.w/2,p_welt.y+p_welt.h/2);
     context.drawImage(wel_t.get(0), -p_welt.w/2, -p_welt.h/2, p_welt.w, p_welt.h);
     context.restore();
+
+    if (current%5 === 0) {
+      count += 1;
+    }
+    context.save();
+    var a = Math.PI*count*30/180;
+    context.transform(Math.cos(a),-Math.sin(a),Math.sin(a),Math.cos(a), 150, 150);
+    context.drawImage(loading.get(0), -50, -50, 100, 100);
+    context.restore();
+    
     context.drawImage(wel_1.get(0), p_wel1.x(current), p_wel1.y(current), p_wel1.w(current), p_wel1.w(current));
 /*  高斯模糊--太卡
     if (p_wel1.w(current)>0&&p_wel1.w(current)>0) {
