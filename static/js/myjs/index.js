@@ -232,25 +232,10 @@ $(document).ready(function() {
   };
   function draw_background() {
     context.save();
-    context.fillStyle = "rgb(27,146,226)";
-    context.fillRect(0,0,canvasW, canvasH);
-    context.restore();
-    context.save();
-    var smlt_x = 30;      // 小杯子
-    var smlt_y = canvasH*0.736;
-    var smheight  = canvasH*0.95-smlt_y;
-    var smwidth   = smcup.width()*smheight/smcup.height();
-    context.drawImage(smcup.get(0), smlt_x, smlt_y, smwidth, smheight);
-    var lglt_x = 100;      // 大杯子
-    var lglt_y = 200;
-    var lgheight  = canvasH*0.95-lglt_y;
-    var lgwidth   = lgcup.width()*lgheight/lgcup.height();
-    context.transform(1,-Math.sin(30*Math.PI/180),Math.sin(30*Math.PI/180),1,lglt_x,lglt_y);
-    context.drawImage(lgcup.get(0), 0, 0, lgwidth, lgheight);
     context.restore();
   }
   // ---------------欢迎页面-------------- #1
-  var last_num = 160;
+  var last_num = 180;
   var p_wel_clear = {
     w : function(current) {
       return canvasW;
@@ -338,6 +323,16 @@ $(document).ready(function() {
     if (current > last_num) {   // 出口
       wel_run = false;
     }
+    if (current === Math.floor(last_num*3/6)) {
+      for (var i=0; i<5; i++) {
+        ch_i[i].get(0);
+        ch_1[i].get(0);
+        ch_2[i].get(0);
+        ch_3[i].get(0);
+        ch_4[i].get(0);
+        ch_bg[i].get(0);
+      }
+    }
   };
   // ---------------载入页面-------------- #2
   var p_load1 = {
@@ -379,7 +374,7 @@ $(document).ready(function() {
     var drawColor = "rgb(200,200,200)";
     var lineH = canvasH/2;
     var arraw_height = canvasH/25*2;
-    var arraw_width  = arraw_height*test.width()/test.height();
+    var arraw_width  = arraw_height;
     draw_background();                          // 背景
     context.strokeStyle = drawColor;            // 水平线
     context.beginPath();
@@ -511,7 +506,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = false;
       runPage += 1;
-      ch1_run = false;
+      setTimeout(function(){ch1_run = false;}, 1000);
     }
     if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][1]);
@@ -520,7 +515,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = false;
       runPage += 1;
-      ch1_run = false;
+      setTimeout(function(){ch1_run = false;}, 1000);
     }
     if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][2]);
@@ -529,7 +524,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = true; 
       choose_set[ch_index][3] = false;
       runPage += 1;
-      ch1_run = false;
+      setTimeout(function(){ch1_run = false;}, 1000);
     }
     if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][3]);
@@ -538,7 +533,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = true;
       runPage += 1;
-      ch1_run = false;
+      setTimeout(function(){ch1_run = false;}, 1000);
     }
   });
   // -------------第二个选择题页面------------- #5
@@ -584,7 +579,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = false;
       runPage += 1;
-      ch2_run = false;
+      setTimeout(function(){ch2_run = false;}, 1000);
     }
     if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][1]);
@@ -593,7 +588,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = false;
       runPage += 1;
-      ch2_run = false;
+      setTimeout(function(){ch2_run = false;}, 1000);
     }
     if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][2]);
@@ -602,7 +597,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = true;
       choose_set[ch_index][3] = false;
       runPage += 1;
-      ch2_run = false;
+      setTimeout(function(){ch2_run = false;}, 1000);
     }
     if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][3]);
@@ -611,7 +606,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = true;
       runPage += 1;
-      ch2_run = false;
+      setTimeout(function(){ch2_run = false;}, 1000);
     }
   });
   // --------------第三个选择题页面------------- #6
@@ -657,7 +652,7 @@ $(document).ready(function() {
       choose_set[2][2] = false;
       choose_set[2][3] = false;
       runPage += 1;
-      ch3_run = false;
+      setTimeout(function(){ch3_run = false;}, 1000);
     }
     if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[2][1]);
@@ -666,7 +661,7 @@ $(document).ready(function() {
       choose_set[2][2] = false;
       choose_set[2][3] = false;
       runPage += 1;
-      ch3_run = false;
+      setTimeout(function(){ch3_run = false;}, 1000);
     }
     if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[2][2]);
@@ -675,7 +670,7 @@ $(document).ready(function() {
       choose_set[2][2] = true;
       choose_set[2][3] = false;
       runPage += 1;
-      ch3_run = false;
+      setTimeout(function(){ch3_run = false;}, 1000);
     }
     if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][3]);
@@ -684,7 +679,7 @@ $(document).ready(function() {
       choose_set[ch_index][2] = false;
       choose_set[ch_index][3] = true;
       runPage += 1;
-      ch3_run = false;
+      setTimeout(function(){ch3_run = false;}, 1000);
     }
   });
   // ---------------选择题4页面-------------- #7
@@ -730,7 +725,7 @@ $(document).ready(function() {
       choose_set[3][2] = false;
       choose_set[3][3] = false;
       runPage += 1;
-      ch4_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
     if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][1]);
@@ -739,7 +734,7 @@ $(document).ready(function() {
       choose_set[3][2] = false;
       choose_set[3][3] = false;
       runPage += 1;
-      ch4_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
     if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][2]);
@@ -748,7 +743,7 @@ $(document).ready(function() {
       choose_set[3][2] = true;
       choose_set[3][3] = false;
       runPage += 1;
-      ch4_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
     if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][3]);
@@ -757,7 +752,7 @@ $(document).ready(function() {
       choose_set[3][2] = false;
       choose_set[3][3] = true;
       runPage += 1;
-      ch4_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
   });
   // ----------------选择题5------------- #8
@@ -803,7 +798,7 @@ $(document).ready(function() {
       choose_set[4][2] = false;
       choose_set[4][3] = false;
       runPage += 1;
-      ch5_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
     if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][1]);
@@ -812,7 +807,7 @@ $(document).ready(function() {
       choose_set[4][2] = false;
       choose_set[4][3] = false;
       runPage += 1;
-      ch5_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
     if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][2]);
@@ -821,7 +816,7 @@ $(document).ready(function() {
       choose_set[4][2] = true;
       choose_set[4][3] = false;
       runPage += 1;
-      ch5_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
     if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][3]);
@@ -830,7 +825,7 @@ $(document).ready(function() {
       choose_set[4][2] = false;
       choose_set[4][3] = true;
       runPage += 1;
-      ch5_run = false;
+      setTimeout(function(){ch4_run = false;}, 1000);
     }
   });
   // -----------结果页面----------- #9
