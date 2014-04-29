@@ -48,30 +48,6 @@ $(document).ready(function() {
 
   $("img").hide();
   $("p").hide();
-
-  // 声明一个IMAGE类用于存储图像对象[本图像, 默认图像]
-  var IMAGE = function(jq_img, default_img) {
-    this.get = function(num) {
-      if (jq_img.attr("src") === "") {
-        jq_img.attr("src", jq_img.attr("load"));
-        console.log(jq_img.attr("src"));
-        console.log(jq_img.attr("load"));
-        return default_img.get(0);
-      } else if (!jq_img.complete) {
-        return default_img.get(0);
-      } else {
-        return jq_img.get(0);
-      }
-    }
-  };
-
-  var wel_bg_black   = new IMAGE($("#wel_bg_black"),$("#wel_bg_black"));
-  var wel_bg_dim     = [new IMAGE($("#wel_bg_dim1"),$("#wel_bg_dim1")), new IMAGE($("#wel_bg_dim2"),$("#wel_bg_dim2")), new IMAGE($("#wel_bg_dim3"),$("#wel_bg_dim3"))];
-  var wel_bg_clear   = [new IMAGE($("#wel_bg_clear1"),$("#wel_bg_clear1")), new IMAGE($("#wel_bg_clear2"),$("#wel_bg_clear2")), new IMAGE($("#wel_bg_clear3"),$("#wel_bg_clear3"))];
-  var wel_title1     = new IMAGE($("#wel_title1"),$("#wel_title1"));
-  var wel_title2     = new IMAGE($("#wel_title2"),$("#wel_title2"));
-  var wel_index      = 0;
-
   var imgbg   = $("#bg");
   var lgcup   = $("#lgcup");
   var smcup   = $("#smcup");
@@ -85,6 +61,15 @@ $(document).ready(function() {
   var loadbg  = $("#loadbg");
   var load1   = $("#load1");
   // var wel_1   = $("#wel_1");
+  var wel_1   = {
+    get: function(num) {if ($("#wel_1").attr("src") === ""){ $("#wel_1").attr("src", "static/img/touch.png");} return $("#wel_1").get(0); }
+    };
+  var wel_2   = $("#wel_2");
+  var wel_3   = $("#wel_3");
+  var wel_4   = $("#wel_4");
+  var wel_q   = $("#wel_q");
+  var wel_t   = $("#wel_t");
+  var wel_s   = $("#wel_s");
   var ch_i    = [$("#chi_1"), $("#chi_2"), $("#chi_3"), $("#chi_4"), $("#chi_5")];
   var ch_1    = [$("#ch1_1"), $("#ch1_2"), $("#ch1_3"), $("#ch1_4"), $("#ch1_5")];
   var ch_2    = [$("#ch2_1"), $("#ch2_2"), $("#ch2_3"), $("#ch2_4"), $("#ch2_5")];
@@ -142,10 +127,10 @@ $(document).ready(function() {
   function start(runPage) {
     switch (runPage) {
       case 0: runPage+=1; return;
-      case 1: if (true)         // #1 欢迎页面
+      case 1: if (wel_first_load)         // #1 欢迎页面
                 current = 0;
-              // wel_index = Math.floor(Math.random()*3);
-              wel_index = 0;
+              else 
+                current = 3000;
               if (!wel_run) {
                 wel_run = true;
                 console.log("start welcome!");
@@ -253,25 +238,241 @@ $(document).ready(function() {
     context.restore();
   }
   // ---------------欢迎页面-------------- #1
-  var p_wel_clear = {
-    w : function(current) {
-      return canvasW;
-    },
-    h : function(current) {
-      return canvasW*1016/640;
-    },
-    x : function(current) {
-      return 0;
-    },
-    y : function(current) {
-      return 0;
+  var wel_ts    = 10;
+  var wel_tl    = 10;
+  var wel_tskip = 0.1;// 单次旋转角度
+  var wel_w    = canvasH/5; // 显示尺寸
+  var wel_last = 23;  // 抖字控制
+  var wel_scale= 3;   // 放大倍数
+  var wel_b1 = 5+90;  // 开始画照片
+  var wel_b2 = 35+90;
+  var wel_b3 = 65+90;
+  var wel_b4 = 95+90;
+  var wel_ch_q = 20;  // 问号移动速度
+  var p_wels = {
+    s  : 95
+  };
+  var p_welt = {
+    x  : canvasW/5,
+    y  : canvasH/12,
+    w  : canvasW*3/5,
+    h  : (canvasW*3/5)*128/368,
+    o  : function(c) {
+      if (c<=wel_ts)
+        return 0;
+      else if (c>wel_ts && c<=wel_ts+wel_tl/4)
+        return wel_tskip*(c-wel_ts)*Math.PI/180;
+      else if (c>=wel_ts+wel_tl/4 && c<=wel_ts+wel_tl*3/4)
+        return wel_tskip*((wel_tl/2-c-wel_ts)*Math.PI/180);
+      else if (c>=wel_ts+wel_tl*3/4 && c<=wel_ts+wel_tl)
+        return wel_tskip*((c-wel_ts-wel_tl)*Math.PI/180);
+      else 
+        return 0;
     }
   }
+  var p_wel1 = {
+    w  :  function(c) {
+            if (c<=wel_b1) 
+              return 0;
+            else if (c>wel_b1&&c<wel_b1+wel_last) {
+              return wel_w*((c-wel_b1)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b1&&c<wel_b1+wel_last)
+              return canvasW/2 - wel_w*((c-wel_b1)*(1-wel_scale)/wel_last + wel_scale);
+            else
+              return canvasW/2 - wel_w;
+          },
+    y  :  function(c) {
+            if (c>wel_b1&&c<wel_b1+wel_last)
+              return canvasH*4/7 - wel_w*((c-wel_b1)*(1-wel_scale)/wel_last + wel_scale);
+            else 
+              return canvasH*4/7-wel_w;
+          }
+  };
+  var p_wel2 = {
+    w  :  function(c) {
+            if (c<=wel_b2) 
+              return 0;
+            else if (c>wel_b2&&c<wel_b2+wel_last) {
+              return wel_w*((c-wel_b2)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b2&&c<wel_b2+wel_last)
+              return canvasW/2;
+            else
+              return canvasW/2;
+          },
+    y  :  function(c) {
+            if (c>wel_b2&&c<wel_b2+wel_last)
+              return canvasH*4/7 - wel_w*((c-wel_b2)*(1-wel_scale)/wel_last + wel_scale);
+            else 
+              return canvasH*4/7-wel_w;
+          }
+  };
+  var p_wel3 = {
+    w  :  function(c) {
+            if (c<=wel_b3) 
+              return 0;
+            else if (c>wel_b3&&c<wel_b3+wel_last) {
+              return wel_w*((c-wel_b3)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b3&&c<wel_b3+wel_last)
+              return canvasW/2 - wel_w*((c-wel_b3)*(1-wel_scale)/wel_last + wel_scale);
+            else
+              return canvasW/2 - wel_w;
+          },
+    y  :  function(c) {
+            if (c>wel_b3&&c<wel_b3+wel_last)
+              return canvasH*4/7;
+            else 
+              return canvasH*4/7;
+          }
+  };
+  var p_wel4 = {
+    w  :  function(c) {
+            if (c<=wel_b4)
+              return 0;
+            else if (c>wel_b4&&c<wel_b4+wel_last) {
+              return wel_w*((c-wel_b4)*(1-wel_scale)/wel_last + wel_scale);
+            } else {
+              return 1*wel_w;
+            }
+          },
+    x  :  function(c) {
+            if (c>wel_b4&&c<wel_b4+wel_last)
+              return canvasW/2;
+            else
+              return canvasW/2;
+          },
+    y  :  function(c) {
+            if (c>wel_b3&&c<wel_b3+wel_last)
+              return canvasH*4/7;
+            else 
+              return canvasH*4/7;
+          }
+  };
+  var p_welq = {
+    w  :  function(c) {
+            if (c<wel_b4+wel_last)
+              return 0;
+            else
+              return wel_w;
+          },
+    x  :  function(c) {
+            if (c<wel_b4+wel_last)
+              return -10;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===0)
+              return canvasW/2-wel_w;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===1)
+              return canvasW/2;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===2)
+              return canvasW/2;
+            else (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===3)
+              return canvasW/2-wel_w;
+          },
+    y  :  function(c) {
+            if (c<wel_b4+wel_last)
+              return -10;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===0)
+              return canvasH*4/7-wel_w;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===1)
+              return canvasH*4/7-wel_w;
+            else if (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===2)
+              return canvasH*4/7;
+            else (Math.floor((c-wel_b4-wel_last)/wel_ch_q)%4===3)
+              return canvasH*4/7;
+          }
+  };
+  var wel_bt_a = 3;
+  var wel_bt_v = 0;
+  var wel_bt_y = 0;
+  var wel_bt_delay = 30;
+  var wel_bt_h1 = 0;
+  var wel_bt_h2 = 262;
+  var wel_bt_h3 = canvasH*0.7;
+  var wel_bt_hr = 40;
+  var p_wels = {
+    x  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else 
+              return canvasW/3
+          },
+    y  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else {
+              wel_bt_v = wel_bt_v + wel_bt_a;
+              wel_bt_y = wel_bt_y + wel_bt_v;
+              if (wel_bt_y >= canvasH*0.85) {
+                // wel_bt_v = 0 - wel_bt_v*4/10;
+                wel_bt_hr -= wel_bt_hr>0 ? 15 : 0;
+                wel_bt_v = 0 - wel_bt_hr;
+                wel_bt_v = wel_bt_hr<0 ? 0 : wel_bt_v;
+              }
+              if (wel_bt_y >= canvasH*0.85 && Math.abs(wel_bt_v)<=wel_bt_a*4/10) {
+                wel_bt_y = 0.85*canvasH;
+                wel_bt_v = 0;
+              }
+              return wel_bt_y;
+            }
+          },
+    w  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else
+              return canvasW/3;
+          },
+    h  :  function(c) {
+            if (c<wel_b4+wel_last+wel_bt_delay)
+              return 0;
+            else
+              return canvasW/3*72/240
+          },
+    clicked: function(x, y, c) {
+             var _x = this.x(c);
+             var _y = this.y(c);
+             var _w = this.w(c);
+             var _h = this.h(c);
+             if (_x<x&&x<_x+_w && _y<y&&y<_y+_h)
+               return true;
+             else 
+               return false;
+           }
+  };
   function welcome() {       // 第一张页面，欢迎页面。
+    context.save();
     current += 1;
     context.clearRect(0, 0, canvasW, canvasH);
-    context.drawImage(wel_bg_clear[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
-    context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.save();
+    var tmp = 0;
+    if (current<70)
+      tmp = p_welt.o((current-10)%10+10);
+    else 
+      tmp = p_welt.o(current);
+    context.transform(Math.cos(tmp),-Math.sin(tmp),Math.sin(tmp),Math.cos(tmp),p_welt.x+p_welt.w/2,p_welt.y+p_welt.h/2);
+    context.drawImage(wel_t.get(0), -p_welt.w/2, -p_welt.h/2, p_welt.w, p_welt.h);
+    context.restore();
+    context.fillRect(p_wel1.x(current), p_wel1.y(current), p_wel1.w(current), p_wel1.w(current));
+    context.drawImage(wel_1.get(0), p_wel1.x(current), p_wel1.y(current), p_wel1.w(current), p_wel1.w(current));
+
+    context.drawImage(wel_2.get(0), p_wel2.x(current), p_wel2.y(current), p_wel2.w(current), p_wel2.w(current));
+    context.drawImage(wel_3.get(0), p_wel3.x(current), p_wel3.y(current), p_wel3.w(current), p_wel3.w(current));
+    context.drawImage(wel_4.get(0), p_wel4.x(current), p_wel4.y(current), p_wel4.w(current), p_wel4.w(current));
+    context.drawImage(wel_q.get(0), p_welq.x(current), p_welq.y(current), p_welq.w(current), p_welq.w(current));
+    context.drawImage(wel_s.get(0), p_wels.x(current), p_wels.y(current), p_wels.w(current), p_wels.h(current));
+    // draw_background();
     if (wel_run) {
       setTimeout(welcome, 33);
     } else {
@@ -281,6 +482,7 @@ $(document).ready(function() {
       runPage = 3;
       start(runPage);
     }
+    context.restore();
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 欢迎页面点击响应   $1
     if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run && current >= click_delay) {
