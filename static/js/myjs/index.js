@@ -54,8 +54,6 @@ $(document).ready(function() {
     this.get = function(num) {
       if (jq_img.attr("src") === "") {
         jq_img.attr("src", jq_img.attr("load"));
-        console.log(jq_img.attr("src"));
-        console.log(jq_img.attr("load"));
         return default_img.get(0);
       } else if (!jq_img.complete) {
         return default_img.get(0);
@@ -72,35 +70,33 @@ $(document).ready(function() {
   var wel_title2     = new IMAGE($("#wel_title2"),$("#wel_title2"));
   var wel_index      = 0;
 
-  var loading = $("#loading");
-  var imgbg   = $("#bg");
-  var lgcup   = $("#lgcup");
-  var smcup   = $("#smcup");
-  var test    = $("#test");
-  var back    = $("#back");
-  var back_w  = $("#back_w");
-  var touch   = {
-    get: function(num) {if ($("#touch").attr("src") === ""){ $("#touch").attr("src", "static/img/touch.png"); } return $("#touch").get(0); }
-  };
-  var touched = $("#touched");
-  var loadbg  = $("#loadbg");
-  var load1   = $("#load1");
+  var loading = new IMAGE($("#loading"), $("#loading"));
+  var imgbg   = new IMAGE($("#bg")     , $("#bg"));
+  var lgcup   = new IMAGE($("#lgcup")  , $("#lgcup"));
+  var smcup   = new IMAGE($("#smcup")  , $("#smcup"));
+  var test    = new IMAGE($("#test")   , $("#test"));
+  var back    = new IMAGE($("#back")   , $("#back"));
+  var back_w  = new IMAGE($("#back_w") , $("#back_w"));
+  var touch   = new IMAGE($("#touch")  , $("#touch"));
+  var touched = new IMAGE($("#touched"), $("#touched"));
+  var loadbg  = new IMAGE($("#loadbg") , $("#touched"));
+  var load1   = new IMAGE($("#load1")  , $("load1"));
   // var wel_1   = $("#wel_1");
-  var ch_i    = [$("#chi_1"), $("#chi_2"), $("#chi_3"), $("#chi_4"), $("#chi_5")];
-  var ch_1    = [$("#ch1_1"), $("#ch1_2"), $("#ch1_3"), $("#ch1_4"), $("#ch1_5")];
-  var ch_2    = [$("#ch2_1"), $("#ch2_2"), $("#ch2_3"), $("#ch2_4"), $("#ch2_5")];
-  var ch_3    = [$("#ch3_1"), $("#ch3_2"), $("#ch3_3"), $("#ch3_4"), $("#ch3_5")];
-  var ch_4    = [$("#ch4_1"), $("#ch4_2"), $("#ch4_3"), $("#ch4_4"), $("#ch4_5")];
-  var ch_bg   = [$("#chbg_1"), $("#chbg_2"), $("#chbg_3"), $("#chbg_4"), $("#chbg_5")];
-  var ch_shadow = $("#sha_gbg");
+  var ch_i    = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
+  var ch_1    = [new IMAGE($("#ch1_1"), $("#ch1_1")), new IMAGE($("#ch1_2"), $("#ch1_2")), new IMAGE($("#ch1_3"), $("#ch1_3")), new IMAGE($("#ch1_4"), $("#ch1_4")), new IMAGE($("#ch1_5"), $("#ch1_5"))];
+  var ch_2    = [new IMAGE($("#ch2_1"), $("#ch2_1")), new IMAGE($("#ch2_2"), $("#ch2_2")), new IMAGE($("#ch2_3"), $("#ch2_3")), new IMAGE($("#ch2_4"), $("#ch2_4")), new IMAGE($("#ch2_5"), $("#ch2_5"))];
+  var ch_3    = [new IMAGE($("#ch3_1"), $("#ch3_1")), new IMAGE($("#ch3_2"), $("#ch3_2")), new IMAGE($("#ch3_3"), $("#ch3_3")), new IMAGE($("#ch3_4"), $("#ch3_4")), new IMAGE($("#ch3_5"), $("#ch3_5"))];
+  var ch_4    = [new IMAGE($("#ch4_1"), $("#ch4_1")), new IMAGE($("#ch4_2"), $("#ch4_2")), new IMAGE($("#ch4_3"), $("#ch4_3")), new IMAGE($("#ch4_4"), $("#ch4_4")), new IMAGE($("#ch4_5"), $("#ch4_5"))];
+  var ch_bg   = [new IMAGE($("#chbg_1"),$("#chbg_1")),new IMAGE($("#chbg_2"),$("#chbg_2")),new IMAGE($("#chbg_3"),$("#chbg_3")),new IMAGE($("#chbg_4"),$("#chbg_4")),new IMAGE($("#chbg_5"),$("#chbg_5"))];
+  var ch_shadow = new IMAGE($("#sha_gbg"), $("#sha_gbg"));
   var ch_index= 0;
-  var sha_i   = $("#sha_i");
-  var sha_btn1= $("#sha_b1");
-  var sha_btn2= $("#sha_b2");
-  var sha_gbg = $("#sha_gbg");
-  var sha_g   = $("#sha_g");
-  var rst_b   = $("#rst_b");
-  var rst_i   = [$("#rst1"), $("#rst2"), $("#rst3"), $("#rst4")];
+  var sha_i   = new IMAGE($("#sha_i")  , $("#sha_i"))  ;
+  var sha_btn1= new IMAGE($("#sha_b1") , $("#sha_b1")) ;
+  var sha_btn2= new IMAGE($("#sha_b2") , $("#sha_b2")) ;
+  var sha_gbg = new IMAGE($("#sha_gbg"), $("#sha_gbg"));
+  var sha_g   = new IMAGE($("#sha_g")  , $("#sha_g"))  ;
+  var rst_b   = new IMAGE($("#rst_b")  , $("#rst_b"))  ;
+  var rst_i   = [new IMAGE($("#rst1"),$("#rst1")), new IMAGE($("#rst2"),$("#rst2")), new IMAGE($("#rst3"),$("#rst3")), new IMAGE($("#rst4"),$("#rst4"))];
   var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
   var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
   var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
@@ -145,8 +141,8 @@ $(document).ready(function() {
       case 0: runPage+=1; return;
       case 1: if (true)         // #1 欢迎页面
                 current = 0;
-              // wel_index = Math.floor(Math.random()*3);
-              wel_index = 0;
+              wel_index = Math.floor(Math.random()*3);
+              // wel_index = 0;
               if (!wel_run) {
                 wel_run = true;
                 console.log("start welcome!");
@@ -254,6 +250,7 @@ $(document).ready(function() {
     context.restore();
   }
   // ---------------欢迎页面-------------- #1
+  var last_num = 160;
   var p_wel_clear = {
     w : function(current) {
       return canvasW;
@@ -267,12 +264,68 @@ $(document).ready(function() {
     y : function(current) {
       return 0;
     }
-  }
+  };
+  var p_wel_title1 = {
+    w : function(current) {
+      return this.h(current)*152/300;
+    }, 
+    h : function(current) {
+      return canvasH*196/730;
+    }, 
+    x : function(current) {
+      return canvasW/2-this.w(current)/2;
+    },
+    y : function(current) {
+      return canvasH*92/730;
+    }
+  };
+  var p_wel_title2 = {
+    w : function(current) {
+      var w_rate = current<last_num ? current/last_num : 1;
+      return this.w_base()*w_rate;
+    },
+    h : function(current) {
+      return canvasH*196/730;
+    },
+    x : function(current) {
+      return canvasW/2+this.w_base()/2-this.w(current);
+    },
+    y : function(current) {
+      return canvasH*333/730;
+    },
+    w_base : function(current) {
+      return this.h(current)*523/286;
+    },
+    cut_x : function(current) {
+      var w_rate = current<last_num ? current/last_num : 1;
+      return 523*(1-w_rate);
+    },
+    cut_y : function(current) {
+      return 0;
+    },
+    cut_w : function(current) {
+      var w_rate = current<last_num ? current/last_num : 1;
+      return 523*w_rate;
+    },
+    cut_h : function(current) {
+      return 286;
+    }
+  };
   function welcome() {       // 第一张页面，欢迎页面。
     current += 1;
+    wel_bg_black.get(0);
     context.clearRect(0, 0, canvasW, canvasH);
     context.drawImage(wel_bg_clear[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.save();
+    context.globalAlpha = last_num>current ? 1-current/last_num : 0;
     context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.restore();
+    context.drawImage(wel_bg_black.get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.save();
+    context.globalAlpha = last_num>current ? current/last_num : 1;
+    context.drawImage(wel_title1.get(0), p_wel_title1.x(), p_wel_title1.y(), p_wel_title1.w(), p_wel_title1.h());
+    context.drawImage(wel_title2.get(0), p_wel_title2.cut_x(current), p_wel_title2.cut_y(), p_wel_title2.cut_w(current), p_wel_title2.cut_h(), p_wel_title2.x(current), p_wel_title2.y(), p_wel_title2.w(current), p_wel_title2.h());
+    context.restore();
     if (wel_run) {
       setTimeout(welcome, 33);
     } else {
@@ -282,13 +335,10 @@ $(document).ready(function() {
       runPage = 3;
       start(runPage);
     }
-  };
-  canvas.get(0).addEventListener("touchstart",function(e){     // 欢迎页面点击响应   $1
-    if (p_wels.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top, current) && wel_run && current >= click_delay) {
+    if (current > last_num) {   // 出口
       wel_run = false;
-    } else {
     }
-  });
+  };
   // ---------------载入页面-------------- #2
   var p_load1 = {
     i   :  255
@@ -370,7 +420,6 @@ $(document).ready(function() {
       touchbtn.touched = 1-touchbtn.touched;
       Arraw.shift = 0;
       Arraw.vx    = 0;
-      console.log(touchbtn.touched);
     }
     if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
       bal_run = false;
