@@ -72,6 +72,7 @@ $(document).ready(function() {
   var wel_title2     = new IMAGE($("#wel_title2"),$("#wel_title2"));
   var wel_index      = 0;
 
+  var loading = $("#loading");
   var imgbg   = $("#bg");
   var lgcup   = $("#lgcup");
   var smcup   = $("#smcup");
