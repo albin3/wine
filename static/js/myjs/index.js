@@ -70,17 +70,21 @@ $(document).ready(function() {
   var wel_title2     = new IMAGE($("#wel_title2"),$("#wel_title2"));
   var wel_index      = 0;
 
-  var loading = new IMAGE($("#loading"), $("#loading"));
-  var imgbg   = new IMAGE($("#bg")     , $("#bg"));
-  var lgcup   = new IMAGE($("#lgcup")  , $("#lgcup"));
-  var smcup   = new IMAGE($("#smcup")  , $("#smcup"));
-  var test    = new IMAGE($("#test")   , $("#test"));
-  var back    = new IMAGE($("#back")   , $("#back"));
-  var back_w  = new IMAGE($("#back_w") , $("#back_w"));
-  var touch   = new IMAGE($("#touch")  , $("#touch"));
-  var touched = new IMAGE($("#touched"), $("#touched"));
-  var loadbg  = new IMAGE($("#loadbg") , $("#touched"));
-  var load1   = new IMAGE($("#load1")  , $("load1"));
+  var loading   = new IMAGE($("#loading"), $("#loading"));
+  var imgbg     = new IMAGE($("#bg")     , $("#bg"));
+  var lgcup     = new IMAGE($("#lgcup")  , $("#lgcup"));
+  var smcup     = new IMAGE($("#smcup")  , $("#smcup"));
+  var test      = new IMAGE($("#test")   , $("#test"));
+  var back      = new IMAGE($("#back")   , $("#back"));
+  var back_w    = new IMAGE($("#back_w") , $("#back_w"));
+  var bal_t1    = new IMAGE($("#bal_t1") , $("#bal_t1"));
+  var bal_t2    = new IMAGE($("#bal_t2") , $("#bal_t2"));
+  var bal_t3    = new IMAGE($("#bal_t3") , $("#bal_t3"));
+  var bal_arrow = new IMAGE($("#arrow")  , $("#arrow"));
+  var touch     = new IMAGE($("#touch")  , $("#touch"));
+  var touched   = new IMAGE($("#touched"), $("#touched"));
+  var loadbg    = new IMAGE($("#loadbg") , $("#loadbg"));
+  var load1     = new IMAGE($("#load1")  , $("load1"));
   // var wel_1   = $("#wel_1");
   var ch_i    = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
   var ch_1    = [new IMAGE($("#ch1_1"), $("#ch1_1")), new IMAGE($("#ch1_2"), $("#ch1_2")), new IMAGE($("#ch1_3"), $("#ch1_3")), new IMAGE($("#ch1_4"), $("#ch1_4")), new IMAGE($("#ch1_5"), $("#ch1_5"))];
@@ -88,7 +92,9 @@ $(document).ready(function() {
   var ch_3    = [new IMAGE($("#ch3_1"), $("#ch3_1")), new IMAGE($("#ch3_2"), $("#ch3_2")), new IMAGE($("#ch3_3"), $("#ch3_3")), new IMAGE($("#ch3_4"), $("#ch3_4")), new IMAGE($("#ch3_5"), $("#ch3_5"))];
   var ch_4    = [new IMAGE($("#ch4_1"), $("#ch4_1")), new IMAGE($("#ch4_2"), $("#ch4_2")), new IMAGE($("#ch4_3"), $("#ch4_3")), new IMAGE($("#ch4_4"), $("#ch4_4")), new IMAGE($("#ch4_5"), $("#ch4_5"))];
   var ch_bg   = [new IMAGE($("#chbg_1"),$("#chbg_1")),new IMAGE($("#chbg_2"),$("#chbg_2")),new IMAGE($("#chbg_3"),$("#chbg_3")),new IMAGE($("#chbg_4"),$("#chbg_4")),new IMAGE($("#chbg_5"),$("#chbg_5"))];
-  var ch_shadow = new IMAGE($("#sha_gbg"), $("#sha_gbg"));
+  var ch_title   = [new IMAGE($("#cht_1"),$("#cht_1")),new IMAGE($("#cht_2"),$("#cht_2")),new IMAGE($("#cht_3"),$("#cht_3")),new IMAGE($("#cht_4"),$("#cht_4")),new IMAGE($("#cht_5"),$("#cht_5"))];
+  var ch_shadow = new IMAGE($("#ch_shadow"), $("#ch_shadow"));
+  var ch_bg     = new IMAGE($("#ch_bg"), $("#ch_bg"));
   var ch_index= 0;
   var sha_i   = new IMAGE($("#sha_i")  , $("#sha_i"))  ;
   var sha_btn1= new IMAGE($("#sha_b1") , $("#sha_b1")) ;
@@ -97,6 +103,7 @@ $(document).ready(function() {
   var sha_g   = new IMAGE($("#sha_g")  , $("#sha_g"))  ;
   var rst_b   = new IMAGE($("#rst_b")  , $("#rst_b"))  ;
   var rst_i   = [new IMAGE($("#rst1"),$("#rst1")), new IMAGE($("#rst2"),$("#rst2")), new IMAGE($("#rst3"),$("#rst3")), new IMAGE($("#rst4"),$("#rst4"))];
+  var rst_t   = [new IMAGE($("#rst_t1"),$("#rst_t1")), new IMAGE($("#rst_t2"),$("#rst_t2")), new IMAGE($("#rst_t3"),$("#rst_t3")), new IMAGE($("#rst_t4"),$("#rst_t4"))];
   var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
   var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
   var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
@@ -330,7 +337,6 @@ $(document).ready(function() {
         ch_2[i].get(0);
         ch_3[i].get(0);
         ch_4[i].get(0);
-        ch_bg[i].get(0);
       }
     }
   };
@@ -342,6 +348,48 @@ $(document).ready(function() {
     setTimeout(loadingpage, 33);
   };
   // --------------重力感应页面---------- #3
+  var p_bal_t1 = {
+    x  : function(){
+           return canvasW/5;
+         },
+    y  : function(){
+           return canvasH/5;
+         },
+    w  : function(){
+           return canvasW*3/5;
+         },
+    h  : function(){
+           return this.w()*36/367;
+         }
+  }
+  var p_bal_t2 = {
+    x  : function(){
+           return canvasW/5;
+         },
+    y  : function(){
+           return canvasH/4+30;
+         },
+    w  : function(){
+           return canvasW*3/5;
+         },
+    h  : function(){
+           return this.w()*30/367;
+         }
+  }
+  var p_bal_t3 = {
+    x  : function(){
+           return canvasW/5;
+         },
+    y  : function(){
+           return canvasH*4/5.5;
+         },
+    w  : function(){
+           return canvasW*3/5;
+         },
+    h  : function(){
+           return this.w()*30/398;
+         }
+  }
   var backbtn = {
     x : canvasH*20/1008,
     y : canvasH*20/1008,
@@ -357,7 +405,27 @@ $(document).ready(function() {
     touched : 0,
     clicked : clicked
   };
-  var passThisPage = 0.7*canvasW;
+  var passThisPage = 0.9*canvasW;
+  var p_bal_arrow = {
+    h : 58,
+    w : 84,
+    x : canvasW/2-84/2,
+    y : canvasH/2-58/2
+  };
+  var p_dim = {
+    getDim : function(current) {
+      var base = 0.3;
+      var num  = 180;
+      var c    = current%num;
+      if (c<=num/4){
+        return c*base/(num/4);
+      } else if(c>num/4&&c<=num*2/4){
+        return this.getDim(num*2/4-c);
+      } else {
+        return 0;
+      }
+    }
+  }
   function balance() {
     if (current === 0) {
       touchbtn.touched = 0;
@@ -369,8 +437,18 @@ $(document).ready(function() {
     if (current===0) {
       Arraw = new CArraw(Orient.alpha, Orient.beta, Orient.gamma);
     }
-    current += 0.01;
-    context.clearRect(0, 0, canvasW, canvasH);
+    current += 1;
+    context.clearRect(0, 0, canvasW, canvasH);  // 清屏
+    context.fillStyle = "rgb(9,144,236)";       // 背景色
+    context.fillRect(0, 0, canvasW, canvasH);
+    context.save();
+    context.globalAlpha = 0.2;
+    context.drawImage(wel_bg_clear[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.restore();
+    context.save();
+    context.globalAlpha = p_dim.getDim(current);
+    context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.restore();
     var drawColor = "rgb(200,200,200)";
     var lineH = canvasH/2;
     var arraw_height = canvasH/25*2;
@@ -382,26 +460,35 @@ $(document).ready(function() {
     context.lineTo(canvasW,lineH);
     context.closePath();
     context.stroke();
-    context.drawImage(test.get(0), canvasW/10-arraw_width/2+Arraw.shift*touchbtn.touched, lineH-arraw_height/2+Hshift()*touchbtn.touched, arraw_width, arraw_height);         // 画箭头
+    context.beginPath();                        // 终点线
+    context.moveTo(passThisPage,lineH-10);
+    context.lineTo(passThisPage,lineH+10);
+    context.closePath();
+    context.stroke();
+    // context.drawImage(test.get(0), canvasW/10-arraw_width/2+Arraw.shift*touchbtn.touched, lineH-arraw_height/2+Hshift()*touchbtn.touched, arraw_width, arraw_height);         // 画箭头
     context.fillStyle = drawColor;              // 画一个圆
     context.beginPath();
-    context.arc(canvasW/10, lineH, canvasH/50, 0, Math.PI*2, false);
+    context.arc(canvasW/10+Arraw.shift*touchbtn.touched, lineH+Hshift()*touchbtn.touched, canvasH/50, 0, Math.PI*2, false);
     context.closePath();
     context.fill();
     context.drawImage(back_w.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
+    context.drawImage(bal_t1.get(0), p_bal_t1.x(), p_bal_t1.y(), p_bal_t1.w(), p_bal_t1.h());
+    context.drawImage(bal_t2.get(0), p_bal_t2.x(), p_bal_t2.y(), p_bal_t2.w(), p_bal_t2.h());
     if (!touchbtn.touched) {                     // 画开始按钮
       context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
+      context.drawImage(bal_arrow.get(0), p_bal_arrow.x, p_bal_arrow.y, p_bal_arrow.w, p_bal_arrow.h);
+      context.drawImage(bal_t3.get(0), p_bal_t3.x(), p_bal_t3.y(), p_bal_t3.w(), p_bal_t3.h());
     } else {
-      context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
+      // context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     }
-    if (canvasW/10-arraw_width/2+Arraw.shift*touchbtn.touched > passThisPage) {
+    if (canvasW/10+Arraw.shift*touchbtn.touched > passThisPage) {
       bal_run = false;    // 终止页面
       runPage += 1;
     }
     if (bal_maxshift < Hshift()*touchbtn.touched) {
       bal_maxshift = Hshift()*touchbtn.touched;
     }
-    if (bal_run && current<end) {
+    if (bal_run) {
       setTimeout(balance, 33);
     } else {
       // 执行完了以后怎么办
@@ -411,8 +498,9 @@ $(document).ready(function() {
     context.restore();
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 重力平衡点击响应 $3
-    if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
-      touchbtn.touched = 1-touchbtn.touched;
+    if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100 && touchbtn.touched !== 1) {
+      Arraw.beta = Orient.beta;                                // 初始化角度
+      touchbtn.touched = 1;                                    // -touchbtn.touched;
       Arraw.shift = 0;
       Arraw.vx    = 0;
     }
@@ -432,9 +520,9 @@ $(document).ready(function() {
   var just_delay = 600;
   var p_ch1i = {
     h   :  canvasH*chp1h,
-    w   :  canvasH*chp1h*700/233,
+    w   :  canvasH*chp1h*900/388,
     y   :  0,
-    x   :  (canvasW-canvasH*chp1h*700/233)/2
+    x   :  (canvasW-canvasH*chp1h*900/388)/2
   }
   var p_ch11 = {
     h   :  0.25*canvasH,
@@ -464,12 +552,23 @@ $(document).ready(function() {
     x   :  0.5*canvasW+chpwhite/2*canvasH,
     clicked : clicked
   }
+  var p_ch_title = {
+    h   :  canvasW*74/640,
+    w   :  canvasW,
+    y   :  p_ch1i.y+p_ch1i.h-canvasW*74/640,
+    x   : 0
+  };
+  var str_color_ch = "rgb(244,247,249)";
   function choose1() {
     context.clearRect(0, 0, canvasW, canvasH);
     current += 1;
     ch_index = 0;
     context.save();
-    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.fillStyle = str_color_ch;
+    context.fillRect(0, 0, canvasW, canvasH);
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);   // 首图
+    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);// 页脚
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -495,6 +594,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 第一个选择题响应 $4
+  // canvas.on("touchstart",function(e){     // 第一个选择题响应 $4
     if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       runPage = WELCOME_PAGE;
       ch1_run = false;
@@ -542,7 +642,11 @@ $(document).ready(function() {
     current += 1;
     ch_index = 1;
     context.save();
+    context.fillStyle = str_color_ch;
+    context.fillRect(0, 0, canvasW, canvasH);
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -615,7 +719,12 @@ $(document).ready(function() {
     current += 1;
     ch_index = 2;
     context.save();
+    context.fillStyle = str_color_ch;
+    context.fillRect(0, 0, canvasW, canvasH);
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);
+
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -688,7 +797,12 @@ $(document).ready(function() {
     current += 1;
     ch_index = 3;
     context.save();
+    context.fillStyle = str_color_ch;
+    context.fillRect(0, 0, canvasW, canvasH);
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);
+
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -761,7 +875,11 @@ $(document).ready(function() {
     current += 1;
     ch_index = 4;
     context.save();
+    context.fillStyle = str_color_ch;
+    context.fillRect(0, 0, canvasW, canvasH);
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
@@ -798,7 +916,7 @@ $(document).ready(function() {
       choose_set[4][2] = false;
       choose_set[4][3] = false;
       runPage += 1;
-      setTimeout(function(){ch4_run = false;}, 1000);
+      setTimeout(function(){ch5_run = false;}, 1000);
     }
     if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][1]);
@@ -807,7 +925,7 @@ $(document).ready(function() {
       choose_set[4][2] = false;
       choose_set[4][3] = false;
       runPage += 1;
-      setTimeout(function(){ch4_run = false;}, 1000);
+      setTimeout(function(){ch5_run = false;}, 1000);
     }
     if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][2]);
@@ -816,7 +934,7 @@ $(document).ready(function() {
       choose_set[4][2] = true;
       choose_set[4][3] = false;
       runPage += 1;
-      setTimeout(function(){ch4_run = false;}, 1000);
+      setTimeout(function(){ch5_run = false;}, 1000);
     }
     if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][3]);
@@ -825,16 +943,10 @@ $(document).ready(function() {
       choose_set[4][2] = false;
       choose_set[4][3] = true;
       runPage += 1;
-      setTimeout(function(){ch4_run = false;}, 1000);
+      setTimeout(function(){ch5_run = false;}, 1000);
     }
   });
   // -----------结果页面----------- #9
-  var p_rst_text = {
-    w : (1-0.075-0.15/2)/20*canvasW,
-    x : 0.15/2*canvasW,
-    y : canvasH*0.50,
-    num : 19
-  }
   var p_rst_btn = {
     y : canvasH*0.9,
     h : canvasH*0.075,
@@ -842,10 +954,30 @@ $(document).ready(function() {
     x : canvasW/2-canvasH*0.075*240/72/2,
     clicked : clicked
   };
+  var p_rst_img = {
+    x : canvasW/2-canvasH*0.37*900/388/2,
+    y : 0,
+    h : canvasH*0.37,
+    w : canvasH*0.37*900/388
+  }
+  var p_rst_t = {
+    x : 0,
+    y : canvasH*0.37+50,
+    h : canvasW*106/634,
+    w : canvasW
+  }
+  var p_rst_text = {
+    w : (1-0.075-0.15/2)/20*canvasW,
+    x : 0.15/2*canvasW,
+    y : p_rst_t.y+p_rst_t.h+30,
+    num : 19
+  }
   function testrst() {
     current += 1;
     context.save();
     context.clearRect(0, 0, canvasW, canvasH);
+    context.drawImage(rst_i[rst_class].get(0), p_rst_img.x, p_rst_img.y, p_rst_img.w, p_rst_img.h);
+    context.drawImage(rst_t[rst_class].get(0), p_rst_t.x, p_rst_t.y, p_rst_t.w, p_rst_t.h);
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.save();
     context.font = p_sha_text.w+"px 黑体";
@@ -889,16 +1021,16 @@ $(document).ready(function() {
   });
   
   // -----------分享页面----------- #10
-  var p_sha_t1 = {
-    w : (1-0.075-0.15/2)/18*canvasW,
-    x : 0.15/2*canvasW,
-    y : 0.43*canvasH+(1-0.75-0.75)/18*canvasW
-  };
   var p_sha_text = {
     w : (1-0.075-0.15/2)/20*canvasW,
     x : 0.15/2*canvasW,
-    y : p_sha_t1.y+p_sha_t1.w*2+20,
+    y : canvasH*0.36,
     num : 19
+  };
+  var p_sha_t1 = {
+    w : (1-0.075-0.15/2)/20*canvasW,
+    x : 0.15/2*canvasW,
+    y : 0.8*canvasH+(1-0.75-0.75)/20*canvasW
   };
   var p_sha_pic = {
     y : canvasH*50/1008,
@@ -907,14 +1039,14 @@ $(document).ready(function() {
     w : canvasH*268/1008/268*401
   };
   var p_sha_btn1 = {
-    y : canvasH*0.9,
+    y : canvasH*0.85,
     h : canvasH*0.075,
     w : canvasH*0.075*248/72,
     x : canvasW/2-canvasH*0.075*248/72-20,
     clicked : clicked
   };
   var p_sha_btn2 = {
-    y : canvasH*0.9,
+    y : canvasH*0.85,
     h : canvasH*0.075,
     w : canvasH*0.075*248/72,
     x : canvasW/2+20,
@@ -929,8 +1061,8 @@ $(document).ready(function() {
     var text = $("#psharei").text();
     context.fillStyle = "rgb(91,91,91)";
     context.font = "italic "+p_sha_t1.w+"px 黑体";
-    context.fillText(text.slice(0,16), p_sha_t1.x+p_sha_t1.w, p_sha_t1.y);
-    context.fillText(text.slice(16), p_sha_t1.x, p_sha_t1.y+p_sha_t1.w*1.5);
+    context.fillText(text.slice(0,18), p_sha_t1.x+p_sha_t1.w, p_sha_t1.y);
+    context.fillText(text.slice(18), p_sha_t1.x, p_sha_t1.y+p_sha_t1.w*1.5);
     context.restore();
     context.save();
     context.font = p_sha_text.w+"px 黑体";
@@ -946,13 +1078,14 @@ $(document).ready(function() {
         context.fillText(text.slice(j*p_sha_text.num, (j+1)*p_sha_text.num), p_sha_text.x+p_sha_text.w, p_sha_text.y+p_sha_text.w*1.5*k);
         k++;
       }
+      k+=0.5;
     }
     context.restore();
     context.drawImage(sha_btn1.get(0), p_sha_btn1.x, p_sha_btn1.y, p_sha_btn1.w, p_sha_btn1.h);
     context.drawImage(sha_btn2.get(0), p_sha_btn2.x, p_sha_btn2.y, p_sha_btn2.w, p_sha_btn2.h);
     if (share_show>0) {
       context.drawImage(sha_gbg.get(0), 0, 0, canvasW, canvasH);
-      context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*291/548);
+      context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*296/479);
       share_show = share_show===0? 0:share_show-1;
     }
     if (share_run) {
@@ -964,10 +1097,10 @@ $(document).ready(function() {
   canvas.get(0).addEventListener("touchstart",function(e){     // 分享页面 $10
     share_show = 0;  // 点屏消失
     if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
-      share_show = 33;
+      share_show = 100;
     }
     if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
-      share_show = 33;
+      share_show = 100;
     }
     if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
       runPage -= 1;
