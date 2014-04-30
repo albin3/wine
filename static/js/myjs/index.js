@@ -24,14 +24,24 @@ $(document).ready(function() {
     }, false);
   } else {
   }
+  function isAndroid() {
+   var sUserAgent = navigator.userAgent.toLowerCase();
+   var isAndroid = sUserAgent.match(/android/i) == "android";
+   if (isAndroid) 
+     return 1;
+   else 
+     return 0;
+  }
   if (window.DeviceMotionEvent) {  
     window.addEventListener('devicemotion',function(eventData){
-      Motion.ax = eventData.acceleration.x>0?0:eventData.acceleration.x;
-      Motion.ay = eventData.acceleration.y;
-      Motion.az = eventData.acceleration.z;
+      // Motion.ax = eventData.acceleration.x>0?0:eventData.acceleration.x;
+      // Motion.ay = eventData.acceleration.y;
+      // Motion.az = eventData.acceleration.z;
       // Arraw.vx  = Arraw.vx + Motion.ax;
-      Arraw.vx  = 5;
-      if (Arraw.vx > 5)  Arraw.vx = 5;
+      Arraw.vx  = 2.7*(1+4*isAndroid());
+      if (canvasW > 1000) {
+        Arraw.vx = canvasW/100;
+      }
       // Arraw.shift = Arraw.shift - Arraw.vx;
       Arraw.shift = Arraw.shift + Arraw.vx;
       if (Arraw.shift<0) {
@@ -80,21 +90,27 @@ $(document).ready(function() {
   var bal_t1    = new IMAGE($("#bal_t1") , $("#bal_t1"));
   var bal_t2    = new IMAGE($("#bal_t2") , $("#bal_t2"));
   var bal_t3    = new IMAGE($("#bal_t3") , $("#bal_t3"));
+  var bal_rst   = new IMAGE($("#bal_rst"), $("#bal_rst"));
   var bal_arrow = new IMAGE($("#arrow")  , $("#arrow"));
   var touch     = new IMAGE($("#touch")  , $("#touch"));
   var touched   = new IMAGE($("#touched"), $("#touched"));
   var loadbg    = new IMAGE($("#loadbg") , $("#loadbg"));
   var load1     = new IMAGE($("#load1")  , $("load1"));
   // var wel_1   = $("#wel_1");
-  var ch_i    = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
-  var ch_1    = [new IMAGE($("#ch1_1"), $("#ch1_1")), new IMAGE($("#ch1_2"), $("#ch1_2")), new IMAGE($("#ch1_3"), $("#ch1_3")), new IMAGE($("#ch1_4"), $("#ch1_4")), new IMAGE($("#ch1_5"), $("#ch1_5"))];
-  var ch_2    = [new IMAGE($("#ch2_1"), $("#ch2_1")), new IMAGE($("#ch2_2"), $("#ch2_2")), new IMAGE($("#ch2_3"), $("#ch2_3")), new IMAGE($("#ch2_4"), $("#ch2_4")), new IMAGE($("#ch2_5"), $("#ch2_5"))];
-  var ch_3    = [new IMAGE($("#ch3_1"), $("#ch3_1")), new IMAGE($("#ch3_2"), $("#ch3_2")), new IMAGE($("#ch3_3"), $("#ch3_3")), new IMAGE($("#ch3_4"), $("#ch3_4")), new IMAGE($("#ch3_5"), $("#ch3_5"))];
-  var ch_4    = [new IMAGE($("#ch4_1"), $("#ch4_1")), new IMAGE($("#ch4_2"), $("#ch4_2")), new IMAGE($("#ch4_3"), $("#ch4_3")), new IMAGE($("#ch4_4"), $("#ch4_4")), new IMAGE($("#ch4_5"), $("#ch4_5"))];
-  var ch_bg   = [new IMAGE($("#chbg_1"),$("#chbg_1")),new IMAGE($("#chbg_2"),$("#chbg_2")),new IMAGE($("#chbg_3"),$("#chbg_3")),new IMAGE($("#chbg_4"),$("#chbg_4")),new IMAGE($("#chbg_5"),$("#chbg_5"))];
-  var ch_title   = [new IMAGE($("#cht_1"),$("#cht_1")),new IMAGE($("#cht_2"),$("#cht_2")),new IMAGE($("#cht_3"),$("#cht_3")),new IMAGE($("#cht_4"),$("#cht_4")),new IMAGE($("#cht_5"),$("#cht_5"))];
-  var ch_shadow = new IMAGE($("#ch_shadow"), $("#ch_shadow"));
-  var ch_bg     = new IMAGE($("#ch_bg"), $("#ch_bg"));
+  var ch_i     = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
+  var chp_i    = [$("#chpi_1").text(), $("#chpi_2").text(), $("#chpi_3").text(), $("#chpi_4").text(), $("#chpi_5").text()];
+  var ch_1     = [new IMAGE($("#ch1_1"), $("#ch1_1")), new IMAGE($("#ch1_2"), $("#ch1_2")), new IMAGE($("#ch1_3"), $("#ch1_3")), new IMAGE($("#ch1_4"), $("#ch1_4")), new IMAGE($("#ch1_5"), $("#ch1_5"))];
+  var chp_1    = [$("#chp1_1").text(), $("#chp1_2").text(), $("#chp1_3").text(), $("#chp1_4").text(), $("#chp1_5").text()];
+  var ch_2     = [new IMAGE($("#ch2_1"), $("#ch2_1")), new IMAGE($("#ch2_2"), $("#ch2_2")), new IMAGE($("#ch2_3"), $("#ch2_3")), new IMAGE($("#ch2_4"), $("#ch2_4")), new IMAGE($("#ch2_5"), $("#ch2_5"))];
+  var chp_2    = [$("#chp2_1").text(), $("#chp2_2").text(), $("#chp2_3").text(), $("#chp2_4").text(), $("#chp2_5").text()];
+  var ch_3     = [new IMAGE($("#ch3_1"), $("#ch3_1")), new IMAGE($("#ch3_2"), $("#ch3_2")), new IMAGE($("#ch3_3"), $("#ch3_3")), new IMAGE($("#ch3_4"), $("#ch3_4")), new IMAGE($("#ch3_5"), $("#ch3_5"))];
+  var chp_3    = [$("#chp3_1").text(), $("#chp3_2").text(), $("#chp3_3").text(), $("#chp3_4").text(), $("#chp3_5").text()];
+  var ch_4     = [new IMAGE($("#ch4_1"), $("#ch4_1")), new IMAGE($("#ch4_2"), $("#ch4_2")), new IMAGE($("#ch4_3"), $("#ch4_3")), new IMAGE($("#ch4_4"), $("#ch4_4")), new IMAGE($("#ch4_5"), $("#ch4_5"))];
+  var chp_4    = [$("#chp4_1").text(), $("#chp4_2").text(), $("#chp4_3").text(), $("#chp4_4").text(), $("#chp4_5").text()];
+  var ch_bg    = [new IMAGE($("#chbg_1"),$("#chbg_1")),new IMAGE($("#chbg_2"),$("#chbg_2")),new IMAGE($("#chbg_3"),$("#chbg_3")),new IMAGE($("#chbg_4"),$("#chbg_4")),new IMAGE($("#chbg_5"),$("#chbg_5"))];
+  var ch_title   = new IMAGE($("#ch_title"), $("#ch_title"));
+  var ch_shadow  = new IMAGE($("#ch_shadow"), $("#ch_shadow"));
+  var ch_bg      = new IMAGE($("#ch_bg"), $("#ch_bg"));
   var ch_index= 0;
   var sha_i   = new IMAGE($("#sha_i")  , $("#sha_i"))  ;
   var sha_btn1= new IMAGE($("#sha_b1") , $("#sha_b1")) ;
@@ -108,9 +124,9 @@ $(document).ready(function() {
   var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
   var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
   var context = canvas.get(0).getContext("2d");
-  fun(canvas);
 
   // 画布尺寸
+  fun(canvas);
   var canvasW = canvas.width(); var canvasH = canvas.height();
 
   var clicked = function (x, y) {
@@ -130,6 +146,8 @@ $(document).ready(function() {
   var wel_first_load = true;
   var share_show     = 0;
   var bal_maxshift   = 0;
+  var bal_finish     = 0;
+  var bal_f_shift    = 0;
   var rst_score = 0;
   var rst_class = 0;
   var WELCOME_PAGE = 1;
@@ -146,7 +164,7 @@ $(document).ready(function() {
   function start(runPage) {
     switch (runPage) {
       case 0: runPage+=1; return;
-      case 1: if (true)         // #1 欢迎页面
+      case 1: if (true)                   // #1 欢迎页面
                 current = 0;
               wel_index = Math.floor(Math.random()*3);
               // wel_index = 0;
@@ -162,6 +180,7 @@ $(document).ready(function() {
       case 8: current = 0;                // #3 平衡页面
               end     = 300;
               bal_maxshift = 0;
+              bal_finish   = 0;
               if (!bal_run) {
                 bal_run = true;
                 console.log("start balance!");
@@ -220,6 +239,10 @@ $(document).ready(function() {
                   rst_class = 2;
                 } else {
                   rst_class = 3;
+                }
+                if (bal_maxshift>50) {
+                  rst_class -= 1;
+                  rst_class = rst_class<0 ? 0 : rst_class;
                 }
                 rst_run = true;
                 testrst(); 
@@ -303,10 +326,27 @@ $(document).ready(function() {
       return 286;
     }
   };
+  var p_fade = {
+    num   : function(current) {
+              return 40;
+            },
+    scale : function(current) {
+              return 1;
+            }
+  }
   function welcome() {       // 第一张页面，欢迎页面。
     current += 1;
+    current += 4*isAndroid();
     wel_bg_black.get(0);
     context.clearRect(0, 0, canvasW, canvasH);
+    context.save();     // 淡出效果
+    if (current>last_num) {
+      if ((1-(current-last_num)/p_fade.num())*p_fade.scale() > 0) {
+        context.globalAlpha = (1-(current-last_num)/p_fade.num())*p_fade.scale();
+      } else {
+        context.globalAlpha = 0;
+      }
+    }
     context.drawImage(wel_bg_clear[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.save();
     context.globalAlpha = last_num>current ? 1-current/last_num : 0;
@@ -318,6 +358,7 @@ $(document).ready(function() {
     context.drawImage(wel_title1.get(0), p_wel_title1.x(), p_wel_title1.y(), p_wel_title1.w(), p_wel_title1.h());
     context.drawImage(wel_title2.get(0), p_wel_title2.cut_x(current), p_wel_title2.cut_y(), p_wel_title2.cut_w(current), p_wel_title2.cut_h(), p_wel_title2.x(current), p_wel_title2.y(), p_wel_title2.w(current), p_wel_title2.h());
     context.restore();
+    context.restore();
     if (wel_run) {
       setTimeout(welcome, 33);
     } else {
@@ -327,7 +368,7 @@ $(document).ready(function() {
       runPage = 3;
       start(runPage);
     }
-    if (current > last_num) {   // 出口
+    if (current > last_num + p_fade.num()) {   // 出口
       wel_run = false;
     }
     if (current === Math.floor(last_num*3/6)) {
@@ -345,6 +386,8 @@ $(document).ready(function() {
     i   :  255
   };
   function loadingpage() {
+    context.clearRect(0,0,canvasW, canvasH);
+    context.drawImage(rst_i[0].get(0),0,0);
     setTimeout(loadingpage, 33);
   };
   // --------------重力感应页面---------- #3
@@ -393,8 +436,8 @@ $(document).ready(function() {
   var backbtn = {
     x : canvasH*20/1008,
     y : canvasH*20/1008,
-    w : canvasH*100/1008,
-    h : canvasH*100/1008,
+    w : canvasH*88/1008,
+    h : canvasH*88/1008,
     clicked : clicked
   };
   var touchbtn = {
@@ -425,12 +468,22 @@ $(document).ready(function() {
         return 0;
       }
     }
-  }
+  };
+  var p_bal_rst = {
+    h  : 0.075*canvasH,
+    w  : 0.075*canvasH*240/72,
+    x  : canvasW/2-0.075*canvasH*240/72/2,
+    y  : canvasH*0.8,
+    clicked: clicked
+  };
   function balance() {
     if (current === 0) {
       touchbtn.touched = 0;
     }
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     var Hshift = function() {
       return -10*(Arraw.beta-Orient.beta);
     };
@@ -449,7 +502,7 @@ $(document).ready(function() {
     context.globalAlpha = p_dim.getDim(current);
     context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.restore();
-    var drawColor = "rgb(200,200,200)";
+    var drawColor = "rgb(255,255,255)";
     var lineH = canvasH/2;
     var arraw_height = canvasH/25*2;
     var arraw_width  = arraw_height;
@@ -460,17 +513,29 @@ $(document).ready(function() {
     context.lineTo(canvasW,lineH);
     context.closePath();
     context.stroke();
+    context.beginPath();                        // 起始线
+    context.moveTo(0.1*canvasW-canvasH/50,lineH-10);
+    context.lineTo(0.1*canvasW-canvasH/50,lineH+10);
+    context.closePath();
+    context.stroke();
     context.beginPath();                        // 终点线
-    context.moveTo(passThisPage,lineH-10);
-    context.lineTo(passThisPage,lineH+10);
+    context.moveTo(passThisPage+canvasH/50,lineH-10);
+    context.lineTo(passThisPage+canvasH/50,lineH+10);
     context.closePath();
     context.stroke();
     // context.drawImage(test.get(0), canvasW/10-arraw_width/2+Arraw.shift*touchbtn.touched, lineH-arraw_height/2+Hshift()*touchbtn.touched, arraw_width, arraw_height);         // 画箭头
     context.fillStyle = drawColor;              // 画一个圆
-    context.beginPath();
-    context.arc(canvasW/10+Arraw.shift*touchbtn.touched, lineH+Hshift()*touchbtn.touched, canvasH/50, 0, Math.PI*2, false);
-    context.closePath();
-    context.fill();
+    if (bal_finish === 0) {
+      context.beginPath();
+      context.arc(canvasW/10+Arraw.shift*touchbtn.touched, lineH+Hshift()*touchbtn.touched, canvasH/50, 0, Math.PI*2, false);
+      context.closePath();
+      context.fill();
+    } else {
+      context.beginPath();
+      context.arc(passThisPage, lineH+bal_f_shift, canvasH/50, 0, Math.PI*2, false);
+      context.closePath();
+      context.fill();
+    }
     context.drawImage(back_w.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(bal_t1.get(0), p_bal_t1.x(), p_bal_t1.y(), p_bal_t1.w(), p_bal_t1.h());
     context.drawImage(bal_t2.get(0), p_bal_t2.x(), p_bal_t2.y(), p_bal_t2.w(), p_bal_t2.h());
@@ -481,12 +546,15 @@ $(document).ready(function() {
     } else {
       // context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     }
-    if (canvasW/10+Arraw.shift*touchbtn.touched > passThisPage) {
-      bal_run = false;    // 终止页面
-      runPage += 1;
+    if (bal_finish!==1 && canvasW/10+Arraw.shift*touchbtn.touched > passThisPage) {
+      bal_finish  = 1;
+      bal_f_shift = Hshift()*touchbtn.touched;
     }
-    if (bal_maxshift < Hshift()*touchbtn.touched) {
+    if (bal_maxshift < Hshift()*touchbtn.touched) {     // 记录最大偏移
       bal_maxshift = Hshift()*touchbtn.touched;
+    }
+    if (bal_finish !== 0) {
+      context.drawImage(bal_rst.get(0), p_bal_rst.x, p_bal_rst.y, p_bal_rst.w, p_bal_rst.h);
     }
     if (bal_run) {
       setTimeout(balance, 33);
@@ -498,23 +566,27 @@ $(document).ready(function() {
     context.restore();
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 重力平衡点击响应 $3
-    if (touchbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100 && touchbtn.touched !== 1) {
+    if (touchbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && current >= click_delay/100 && touchbtn.touched !== 1) {
       Arraw.beta = Orient.beta;                                // 初始化角度
       touchbtn.touched = 1;                                    // -touchbtn.touched;
       Arraw.shift = 0;
       Arraw.vx    = 0;
     }
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
       bal_run = false;
       touchbtn.touched = 0;
       runPage -= 1;
+    }
+    if (p_bal_rst.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && bal_finish) {
+      bal_run = false;
+      runPage += 1;
     }
   });
   // ---------------选择题一页面-------------- #4
   var chpicrate = 263/273;
   var chpwhite  = 0.02;
   var chp1h     = 0.37;   // 第一张图片的高
-  var score_set = [[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4],[1,2,3,4]]
+  var score_set = [[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1]]
   var choose_set = [[true,true,true,true],[true,true,true,true],[true,true,true,true],[true,true,true,true],[true,true,true,true]];
   var just_clicked = false;
   var just_delay = 600;
@@ -524,11 +596,31 @@ $(document).ready(function() {
     y   :  0,
     x   :  (canvasW-canvasH*chp1h*900/388)/2
   }
+  var text_x = function(str) {
+    var len = str.length;
+    return this.x+(this.w-len*this.tw(str))/2
+  };
+  var text_y = function(str) {
+    var len = str.length;
+    return this.y+this.h-this.tw(str)*1.3;
+  };
+  var text_w = function(str) {
+    var len = str.length;
+    return 30/267*this.w;
+  };
+  var text_h = function(str) {
+    var len = str.length;
+    return 30/267*this.w;
+  };
   var p_ch11 = {
     h   :  0.25*canvasH,
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH,
     x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH,
+    tx  : text_x,
+    ty  : text_y,
+    tw  : text_w,
+    th  : text_h,
     clicked : clicked
   }
   var p_ch12 = {
@@ -536,6 +628,10 @@ $(document).ready(function() {
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH,
     x   :  0.5*canvasW+chpwhite/2*canvasH,
+    tx  : text_x,
+    ty  : text_y,
+    tw  : text_w,
+    th  : text_h,
     clicked : clicked
   }
   var p_ch13 = {
@@ -543,6 +639,10 @@ $(document).ready(function() {
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH+0.25*canvasH+chpwhite*canvasH,
     x   :  0.5*canvasW-chpwhite/2*canvasH-0.25*canvasH,
+    tx  : text_x,
+    ty  : text_y,
+    tw  : text_w,
+    th  : text_h,
     clicked : clicked
   }
   var p_ch14 = {
@@ -550,13 +650,34 @@ $(document).ready(function() {
     w   :  0.25*canvasH,
     y   :  (chp1h+chpwhite)*canvasH+0.25*canvasH+chpwhite*canvasH,
     x   :  0.5*canvasW+chpwhite/2*canvasH,
+    tx  : text_x,
+    ty  : text_y,
+    tw  : text_w,
+    th  : text_h,
     clicked : clicked
   }
+  var title_x = function(str) {
+    var len  = str.length;
+    return this.x + (this.w-this.tw(str)*len)/2;
+  };
+  var title_y = function(str) {
+    return this.y+this.th(str)*1.25;
+  };
+  var title_w = function(str) {
+    return this.th(str);
+  };
+  var title_h = function(str) {
+    return this.h*0.55;
+  };
   var p_ch_title = {
     h   :  canvasW*74/640,
     w   :  canvasW,
     y   :  p_ch1i.y+p_ch1i.h-canvasW*74/640,
-    x   : 0
+    x   :  0,
+    tx  : title_x,
+    ty  : title_y,
+    tw  : title_w,
+    th  : title_h
   };
   var str_color_ch = "rgb(244,247,249)";
   function choose1() {
@@ -564,24 +685,39 @@ $(document).ready(function() {
     current += 1;
     ch_index = 0;
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     context.fillStyle = str_color_ch;
     context.fillRect(0, 0, canvasW, canvasH);
-    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);   // 首图
-    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
-    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);// 页脚
+    // 标题图
+    context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
+    // 标题文字
+    context.drawImage(ch_title.get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.font      = "bold " + p_ch_title.tw(chp_i[ch_index]) + "px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText(chp_i[ch_index], p_ch_title.tx(chp_i[ch_index]), p_ch_title.ty(chp_i[ch_index]));
+    context.drawImage(ch_bg.get(0), (1-0.2)*canvasW, canvasH-0.2*canvasW, 0.2*canvasW, 0.2*canvasW);   // 页脚
+    // 选项
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    context.fillStyle = "rgb(113,123,133)";
+    context.font = "" + p_ch11.tw(chp_1[ch_index]) + "px serif";
+    context.fillText(chp_1[ch_index], p_ch11.tx(chp_1[ch_index]), p_ch11.ty(chp_1[ch_index]));
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     }
     context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    context.fillText(chp_2[ch_index], p_ch12.tx(chp_2[ch_index]), p_ch12.ty(chp_2[ch_index]));
     if (!choose_set[ch_index][1]) {
       context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
     }
     context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    context.fillText(chp_3[ch_index], p_ch13.tx(chp_3[ch_index]), p_ch13.ty(chp_3[ch_index]));
     if (!choose_set[ch_index][2]) {
       context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
     }
     context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.fillText(chp_4[ch_index], p_ch14.tx(chp_4[ch_index]), p_ch14.ty(chp_4[ch_index]));
     if (!choose_set[ch_index][3]) {
       context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
     }
@@ -594,12 +730,11 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 第一个选择题响应 $4
-  // canvas.on("touchstart",function(e){     // 第一个选择题响应 $4
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       runPage = WELCOME_PAGE;
       ch1_run = false;
     }
-    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+    if (p_ch11.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(parseInt(score_set[ch_index][0]));
       choose_set[ch_index][0] = true;
       choose_set[ch_index][1] = false;
@@ -608,7 +743,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch1_run = false;}, 1000);
     }
-    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+    if (p_ch12.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][1]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = true;
@@ -617,7 +752,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch1_run = false;}, 1000);
     }
-    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+    if (p_ch13.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][2]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = false;
@@ -626,7 +761,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch1_run = false;}, 1000);
     }
-    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
+    if (p_ch14.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][3]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = false;
@@ -642,24 +777,39 @@ $(document).ready(function() {
     current += 1;
     ch_index = 1;
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     context.fillStyle = str_color_ch;
     context.fillRect(0, 0, canvasW, canvasH);
+    // 标题图
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
-    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
-    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);
+    // 标题文字
+    context.drawImage(ch_title.get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.font      = "bold " + p_ch_title.tw(chp_i[ch_index]) + "px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText(chp_i[ch_index], p_ch_title.tx(chp_i[ch_index]), p_ch_title.ty(chp_i[ch_index]));
+    context.drawImage(ch_bg.get(0), (1-0.2)*canvasW, canvasH-0.2*canvasW, 0.2*canvasW, 0.2*canvasW);   // 页脚
+    // 选项
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    context.fillStyle = "rgb(113,123,133)";
+    context.font = "" + p_ch11.tw(chp_1[ch_index]) + "px serif";
+    context.fillText(chp_1[ch_index], p_ch11.tx(chp_1[ch_index]), p_ch11.ty(chp_1[ch_index]));
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     }
     context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    context.fillText(chp_2[ch_index], p_ch12.tx(chp_2[ch_index]), p_ch12.ty(chp_2[ch_index]));
     if (!choose_set[ch_index][1]) {
       context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
     }
     context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    context.fillText(chp_3[ch_index], p_ch13.tx(chp_3[ch_index]), p_ch13.ty(chp_3[ch_index]));
     if (!choose_set[ch_index][2]) {
       context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
     }
     context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.fillText(chp_4[ch_index], p_ch14.tx(chp_4[ch_index]), p_ch14.ty(chp_4[ch_index]));
     if (!choose_set[ch_index][3]) {
       context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
     }
@@ -672,11 +822,11 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){    // 第二个选择题响应 $5
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       runPage -= 1;
       ch2_run = false;
     }
-    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+    if (p_ch11.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][0]);
       choose_set[ch_index][0] = true;
       choose_set[ch_index][1] = false;
@@ -685,7 +835,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch2_run = false;}, 1000);
     }
-    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+    if (p_ch12.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][1]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = true;
@@ -694,7 +844,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch2_run = false;}, 1000);
     }
-    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+    if (p_ch13.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][2]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = false;
@@ -703,7 +853,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch2_run = false;}, 1000);
     }
-    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
+    if (p_ch14.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][3]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = false;
@@ -719,25 +869,40 @@ $(document).ready(function() {
     current += 1;
     ch_index = 2;
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     context.fillStyle = str_color_ch;
     context.fillRect(0, 0, canvasW, canvasH);
+    // 标题图
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
-    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
-    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);
+    // 标题文字
+    context.drawImage(ch_title.get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.font      = "bold " + p_ch_title.tw(chp_i[ch_index]) + "px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText(chp_i[ch_index], p_ch_title.tx(chp_i[ch_index]), p_ch_title.ty(chp_i[ch_index]));
+    context.drawImage(ch_bg.get(0), (1-0.2)*canvasW, canvasH-0.2*canvasW, 0.2*canvasW, 0.2*canvasW);   // 页脚
 
+    // 选项
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    context.fillStyle = "rgb(113,123,133)";
+    context.font = "" + p_ch11.tw(chp_1[ch_index]) + "px serif";
+    context.fillText(chp_1[ch_index], p_ch11.tx(chp_1[ch_index]), p_ch11.ty(chp_1[ch_index]));
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     }
     context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    context.fillText(chp_2[ch_index], p_ch12.tx(chp_2[ch_index]), p_ch12.ty(chp_2[ch_index]));
     if (!choose_set[ch_index][1]) {
       context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
     }
     context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    context.fillText(chp_3[ch_index], p_ch13.tx(chp_3[ch_index]), p_ch13.ty(chp_3[ch_index]));
     if (!choose_set[ch_index][2]) {
       context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
     }
     context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.fillText(chp_4[ch_index], p_ch14.tx(chp_4[ch_index]), p_ch14.ty(chp_4[ch_index]));
     if (!choose_set[ch_index][3]) {
       context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
     }
@@ -750,11 +915,11 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){      // 选择题3响应 $6
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       runPage -= 1;
       ch3_run = false;
     }
-    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+    if (p_ch11.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[2][0]);
       choose_set[2][0] = true;
       choose_set[2][1] = false;
@@ -763,7 +928,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch3_run = false;}, 1000);
     }
-    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+    if (p_ch12.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[2][1]);
       choose_set[2][0] = false;
       choose_set[2][1] = true;
@@ -772,7 +937,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch3_run = false;}, 1000);
     }
-    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+    if (p_ch13.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[2][2]);
       choose_set[2][0] = false;
       choose_set[2][1] = false;
@@ -781,7 +946,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch3_run = false;}, 1000);
     }
-    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
+    if (p_ch14.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[ch_index][3]);
       choose_set[ch_index][0] = false;
       choose_set[ch_index][1] = false;
@@ -797,25 +962,40 @@ $(document).ready(function() {
     current += 1;
     ch_index = 3;
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     context.fillStyle = str_color_ch;
     context.fillRect(0, 0, canvasW, canvasH);
+    // 标题图
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
-    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
-    context.drawImage(ch_bg.get(0), canvasW-92, canvasH-92);
+    // 标题文字
+    context.drawImage(ch_title.get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.font      = "bold " + p_ch_title.tw(chp_i[ch_index]) + "px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText(chp_i[ch_index], p_ch_title.tx(chp_i[ch_index]), p_ch_title.ty(chp_i[ch_index]));
+    context.drawImage(ch_bg.get(0), (1-0.2)*canvasW, canvasH-0.2*canvasW, 0.2*canvasW, 0.2*canvasW);   // 页脚
 
+    // 选项
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    context.fillStyle = "rgb(113,123,133)";
+    context.font = "" + p_ch11.tw(chp_1[ch_index]) + "px serif";
+    context.fillText(chp_1[ch_index], p_ch11.tx(chp_1[ch_index]), p_ch11.ty(chp_1[ch_index]));
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     }
     context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    context.fillText(chp_2[ch_index], p_ch12.tx(chp_2[ch_index]), p_ch12.ty(chp_2[ch_index]));
     if (!choose_set[ch_index][1]) {
       context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
     }
     context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    context.fillText(chp_3[ch_index], p_ch13.tx(chp_3[ch_index]), p_ch13.ty(chp_3[ch_index]));
     if (!choose_set[ch_index][2]) {
       context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
     }
     context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.fillText(chp_4[ch_index], p_ch14.tx(chp_4[ch_index]), p_ch14.ty(chp_4[ch_index]));
     if (!choose_set[ch_index][3]) {
       context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
     }
@@ -828,11 +1008,11 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){      // 选择题4响应 $7
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       runPage -= 1;
       ch4_run = false;
     }
-    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+    if (p_ch11.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][0]);
       choose_set[3][0] = true;
       choose_set[3][1] = false;
@@ -841,7 +1021,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch4_run = false;}, 1000);
     }
-    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+    if (p_ch12.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][1]);
       choose_set[3][0] = false;
       choose_set[3][1] = true;
@@ -850,7 +1030,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch4_run = false;}, 1000);
     }
-    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+    if (p_ch13.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][2]);
       choose_set[3][0] = false;
       choose_set[3][1] = false;
@@ -859,7 +1039,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch4_run = false;}, 1000);
     }
-    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
+    if (p_ch14.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[3][3]);
       choose_set[3][0] = false;
       choose_set[3][1] = false;
@@ -875,24 +1055,39 @@ $(document).ready(function() {
     current += 1;
     ch_index = 4;
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     context.fillStyle = str_color_ch;
     context.fillRect(0, 0, canvasW, canvasH);
+    // 标题图
     context.drawImage(ch_i[ch_index].get(0), p_ch1i.x, p_ch1i.y, p_ch1i.w, p_ch1i.h);
-    context.drawImage(ch_title[ch_index].get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    // 标题文字
+    context.drawImage(ch_title.get(0), p_ch_title.x, p_ch_title.y, p_ch_title.w, p_ch_title.h);
+    context.font      = "bold " + p_ch_title.tw(chp_i[ch_index]) + "px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText(chp_i[ch_index], p_ch_title.tx(chp_i[ch_index]), p_ch_title.ty(chp_i[ch_index]));
 
+    // 选项
     context.drawImage(ch_1[ch_index].get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
+    context.fillStyle = "rgb(113,123,133)";
+    context.font = "" + p_ch11.tw(chp_1[ch_index]) + "px serif";
+    context.fillText(chp_1[ch_index], p_ch11.tx(chp_1[ch_index]), p_ch11.ty(chp_1[ch_index]));
     if (!choose_set[ch_index][0]) {
       context.drawImage(ch_shadow.get(0), p_ch11.x, p_ch11.y, p_ch11.w, p_ch11.h);
     }
     context.drawImage(ch_2[ch_index].get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
+    context.fillText(chp_2[ch_index], p_ch12.tx(chp_2[ch_index]), p_ch12.ty(chp_2[ch_index]));
     if (!choose_set[ch_index][1]) {
       context.drawImage(ch_shadow.get(0), p_ch12.x, p_ch12.y, p_ch12.w, p_ch12.h);
     }
     context.drawImage(ch_3[ch_index].get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
+    context.fillText(chp_3[ch_index], p_ch13.tx(chp_3[ch_index]), p_ch13.ty(chp_3[ch_index]));
     if (!choose_set[ch_index][2]) {
       context.drawImage(ch_shadow.get(0), p_ch13.x, p_ch13.y, p_ch13.w, p_ch13.h);
     }
     context.drawImage(ch_4[ch_index].get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
+    context.fillText(chp_4[ch_index], p_ch14.tx(chp_4[ch_index]), p_ch14.ty(chp_4[ch_index]));
     if (!choose_set[ch_index][3]) {
       context.drawImage(ch_shadow.get(0), p_ch14.x, p_ch14.y, p_ch14.w, p_ch14.h);
     }
@@ -905,11 +1100,11 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){      // 选择题5响应 $8
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       runPage -= 1;
       ch5_run = false;
     }
-    if (p_ch11.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+    if (p_ch11.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][0]);
       choose_set[4][0] = true;
       choose_set[4][1] = false;
@@ -918,7 +1113,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch5_run = false;}, 1000);
     }
-    if (p_ch12.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+    if (p_ch12.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][1]);
       choose_set[4][0] = false;
       choose_set[4][1] = true;
@@ -927,7 +1122,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch5_run = false;}, 1000);
     }
-    if (p_ch13.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+    if (p_ch13.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][2]);
       choose_set[4][0] = false;
       choose_set[4][1] = false;
@@ -936,7 +1131,7 @@ $(document).ready(function() {
       runPage += 1;
       setTimeout(function(){ch5_run = false;}, 1000);
     }
-    if (p_ch14.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
+    if (p_ch14.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       $("#pscore"+ch_index).text(score_set[4][3]);
       choose_set[4][0] = false;
       choose_set[4][1] = false;
@@ -975,6 +1170,9 @@ $(document).ready(function() {
   function testrst() {
     current += 1;
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     context.clearRect(0, 0, canvasW, canvasH);
     context.drawImage(rst_i[rst_class].get(0), p_rst_img.x, p_rst_img.y, p_rst_img.w, p_rst_img.h);
     context.drawImage(rst_t[rst_class].get(0), p_rst_t.x, p_rst_t.y, p_rst_t.w, p_rst_t.h);
@@ -1010,11 +1208,11 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){    // 9——结果页面响应 $9
-    if (p_rst_btn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
+    if (p_rst_btn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && rst_run && current >= click_delay) {
       runPage += 1;
       rst_run = false;
     }
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && rst_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && rst_run && current >= click_delay) {
       runPage -= 1;
       rst_run = false;
     }
@@ -1058,6 +1256,9 @@ $(document).ready(function() {
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
     context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
     var text = $("#psharei").text();
     context.fillStyle = "rgb(91,91,91)";
     context.font = "italic "+p_sha_t1.w+"px 黑体";
@@ -1096,13 +1297,13 @@ $(document).ready(function() {
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 分享页面 $10
     share_show = 0;  // 点屏消失
-    if (p_sha_btn1.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+    if (p_sha_btn1.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
       share_show = 100;
     }
-    if (p_sha_btn2.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+    if (p_sha_btn2.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
       share_show = 100;
     }
-    if (backbtn.clicked(e.pageX-canvas.offset().left, e.pageY-canvas.offset().top) && share_run && current >= click_delay) {
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
       runPage -= 1;
       share_run = false;
     }
