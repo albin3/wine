@@ -490,7 +490,7 @@ $(document).ready(function() {
     if (current===0) {
       Arraw = new CArraw(Orient.alpha, Orient.beta, Orient.gamma);
     }
-    current += 1;
+    current += 1+4*isAndroid();
     context.clearRect(0, 0, canvasW, canvasH);  // 清屏
     context.fillStyle = "rgb(9,144,236)";       // 背景色
     context.fillRect(0, 0, canvasW, canvasH);
@@ -682,7 +682,7 @@ $(document).ready(function() {
   var str_color_ch = "rgb(244,247,249)";
   function choose1() {
     context.clearRect(0, 0, canvasW, canvasH);
-    current += 1;
+    current += 1+4*isAndroid();
     ch_index = 0;
     context.save();
     if (current < p_fade.num()) {
@@ -774,7 +774,7 @@ $(document).ready(function() {
   // -------------第二个选择题页面------------- #5
   function choose2() {
     context.clearRect(0, 0, canvasW, canvasH);
-    current += 1;
+    current += 1+4*isAndroid();
     ch_index = 1;
     context.save();
     if (current < p_fade.num()) {
@@ -866,7 +866,7 @@ $(document).ready(function() {
   // --------------第三个选择题页面------------- #6
   function choose3() {
     context.clearRect(0, 0, canvasW, canvasH);
-    current += 1;
+    current += 1+4*isAndroid();
     ch_index = 2;
     context.save();
     if (current < p_fade.num()) {
@@ -959,7 +959,7 @@ $(document).ready(function() {
   // ---------------选择题4页面-------------- #7
   function choose4() {
     context.clearRect(0, 0, canvasW, canvasH);
-    current += 1;
+    current += 1+4*isAndroid();
     ch_index = 3;
     context.save();
     if (current < p_fade.num()) {
@@ -1052,7 +1052,7 @@ $(document).ready(function() {
   // ----------------选择题5------------- #8
   function choose5() {
     context.clearRect(0, 0, canvasW, canvasH);
-    current += 1;
+    current += 1+4*isAndroid();
     ch_index = 4;
     context.save();
     if (current < p_fade.num()) {
@@ -1168,7 +1168,7 @@ $(document).ready(function() {
     num : 19
   }
   function testrst() {
-    current += 1;
+    current += 1+4*isAndroid();
     context.save();
     if (current < p_fade.num()) {
       context.globalAlpha = current/p_fade.num();
@@ -1251,7 +1251,7 @@ $(document).ready(function() {
     clicked : clicked
   };
   function sharepage() {
-    current += 1;
+    current += 1+4*isAndroid();
     context.clearRect(0, 0, canvasW, canvasH);
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
