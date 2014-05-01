@@ -372,7 +372,7 @@ $(document).ready(function() {
       wel_run = false;
     }
     if (current === Math.floor(last_num*3/6)) {
-      for (var i=0; i<1; i++) {
+      for (var i=0; i<5; i++) {
         ch_i[i].get(0);
         ch_1[i].get(0);
         ch_2[i].get(0);
