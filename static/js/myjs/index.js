@@ -57,6 +57,9 @@ $(document).ready(function() {
   var canvas  = $("#canvas1");
 
   $("img").hide();
+  $("img").load(function(){
+    $(this).attr("loaded","yes");
+  })
   $("p").hide();
 
   // 声明一个IMAGE类用于存储图像对象[本图像, 默认图像]
@@ -72,7 +75,10 @@ $(document).ready(function() {
       }
     };
     this.complete = function(){
-      return jq_img.complete;
+      if(jq_img.attr("loaded")){
+        return true;
+      };
+      return false;
     };
     this.load = function() {
       if (jq_img.attr("src") === "") {
@@ -142,7 +148,7 @@ $(document).ready(function() {
   };
   // welcome
   LoadImg[1]  = function(){
-    return [wel_bg_black[wel_index], wel_bg_dim[wel_index], wel_bg_clear[wel_index], wel_title1, wel_title2];
+    return [wel_bg_black, wel_bg_dim[wel_index], wel_bg_clear[wel_index], wel_title1, wel_title2];
   };
   // loadingpage
   LoadImg[2]  = function() {
@@ -150,23 +156,23 @@ $(document).ready(function() {
   };
   // choose1
   LoadImg[3]  = function() {
-    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
   };
   // choose2
   LoadImg[4]  = function() {
-    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
   };
   // choose3
   LoadImg[5]  = function() {
-    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
   };
   // choose4
   LoadImg[6]  = function() {
-    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
   };
   // choose5
   LoadImg[7]  = function() {
-    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
   };
   // balance
   LoadImg[8]  = function() {
@@ -430,38 +436,27 @@ $(document).ready(function() {
     if (current > last_num + p_fade.num()) {   // 出口
       wel_run = false;
     }
-<<<<<<< HEAD
-=======
-    if (current === Math.floor(last_num*3/6)) {
-      for (var i=0; i<5; i++) {
-        ch_i[i].get(0);
-        ch_1[i].get(0);
-        ch_2[i].get(0);
-        ch_3[i].get(0);
-        ch_4[i].get(0);
-      }
-    }
->>>>>>> 5a1aba93d5481bfca4ffc017e39c8c461053d907
   };
   // ---------------载入页面-------------- #2
   var p_load1 = {
     i   :  255
   };
   function checkLoadComplete(runPage) {
-    var imgs = LoadImg[runPage];
+    var imgs = LoadImg[runPage]();
     for (var i=0; i<imgs.length; i++) {
       imgs[i].load();
     }
     for (var i=0; i<imgs.length; i++) {
-      if (!imgs[i].complete)
+      if (!imgs[i].complete())
         return false;
     }
     load_complete[runPage] = true;
     return true;
   };
-  function loadingpage(runPage) {
+  function loadingpage() {
     checkLoadComplete(runPage);
     context.clearRect(0,0,canvasW, canvasH);
+    context.fillRect(0,0,100,100);
     if (load_complete[runPage]) {
       start(runPage);
     } else {
