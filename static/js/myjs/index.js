@@ -70,7 +70,15 @@ $(document).ready(function() {
       } else {
         return jq_img.get(0);
       }
-    }
+    };
+    this.complete = function(){
+      return jq_img.complete;
+    };
+    this.load = function() {
+      if (jq_img.attr("src") === "") {
+        jq_img.attr("src", jq_img.attr("load"));
+      }
+    };
   };
 
   var wel_bg_black   = new IMAGE($("#wel_bg_black"),$("#wel_bg_black"));
@@ -108,9 +116,9 @@ $(document).ready(function() {
   var ch_4     = [new IMAGE($("#ch4_1"), $("#ch4_1")), new IMAGE($("#ch4_2"), $("#ch4_2")), new IMAGE($("#ch4_3"), $("#ch4_3")), new IMAGE($("#ch4_4"), $("#ch4_4")), new IMAGE($("#ch4_5"), $("#ch4_5"))];
   var chp_4    = [$("#chp4_1").text(), $("#chp4_2").text(), $("#chp4_3").text(), $("#chp4_4").text(), $("#chp4_5").text()];
   var ch_bg    = [new IMAGE($("#chbg_1"),$("#chbg_1")),new IMAGE($("#chbg_2"),$("#chbg_2")),new IMAGE($("#chbg_3"),$("#chbg_3")),new IMAGE($("#chbg_4"),$("#chbg_4")),new IMAGE($("#chbg_5"),$("#chbg_5"))];
-  var ch_title   = new IMAGE($("#ch_title"), $("#ch_title"));
-  var ch_shadow  = new IMAGE($("#ch_shadow"), $("#ch_shadow"));
-  var ch_bg      = new IMAGE($("#ch_bg"), $("#ch_bg"));
+  var ch_title  = new IMAGE($("#ch_title"), $("#ch_title"));
+  var ch_shadow = new IMAGE($("#ch_shadow"), $("#ch_shadow"));
+  var ch_bg     = new IMAGE($("#ch_bg"), $("#ch_bg"));
   var ch_index= 0;
   var sha_i   = new IMAGE($("#sha_i")  , $("#sha_i"))  ;
   var sha_btn1= new IMAGE($("#sha_b1") , $("#sha_b1")) ;
@@ -123,7 +131,55 @@ $(document).ready(function() {
   var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
   var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
   var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
+  var rst_score = 0;
+  var rst_class = 0;
+
   var context = canvas.get(0).getContext("2d");
+  var LoadImg = new Array(11);
+  // Empty page
+  LoadImg[0] = function(){
+    return [];
+  };
+  // welcome
+  LoadImg[1]  = function(){
+    return [wel_bg_black[wel_index], wel_bg_dim[wel_index], wel_bg_clear[wel_index], wel_title1, wel_title2];
+  };
+  // loadingpage
+  LoadImg[2]  = function() {
+    return [];
+  };
+  // choose1
+  LoadImg[3]  = function() {
+    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+  };
+  // choose2
+  LoadImg[4]  = function() {
+    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+  };
+  // choose3
+  LoadImg[5]  = function() {
+    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+  };
+  // choose4
+  LoadImg[6]  = function() {
+    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+  };
+  // choose5
+  LoadImg[7]  = function() {
+    return [ch_i[ch_index], ch_title, chp_i[ch_index], ch_bg, ch_1[ch_index], chp_1[ch_index], ch_2[ch_index], chp_2[ch_index], ch_3[ch_index], chp_3[ch_index], ch_4[ch_index], chp_4[ch_index], ch_shadow, back];
+  };
+  // balance
+  LoadImg[8]  = function() {
+    return [wel_bg_clear[wel_index], wel_bg_dim[wel_index], back_w, bal_t1, bal_t2, touch, bal_arrow, bal_t3, bal_rst];
+  };
+  // result
+  LoadImg[9]  = function() {
+    return [rst_i[rst_class], rst_t[rst_class], back, rst_b];
+  };
+  // share
+  LoadImg[10] = function() {
+    return [sha_i, sha_btn1, sha_btn2, sha_gbg, sha_g];
+  };
 
   // 画布尺寸
   fun(canvas);
@@ -142,14 +198,13 @@ $(document).ready(function() {
   };
   var current, end;
   var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false;
+  var load_complete = [false, false, false, false, false, false, false, false, false, false, false];
   var sha_random=[1, 5, 9];
   var wel_first_load = true;
   var share_show     = 0;
   var bal_maxshift   = 0;
   var bal_finish     = 0;
   var bal_f_shift    = 0;
-  var rst_score = 0;
-  var rst_class = 0;
   var WELCOME_PAGE = 1;
   var LOADING_PAGE = 2;
   var BALANCE_PAGE = 8;
@@ -162,12 +217,16 @@ $(document).ready(function() {
   var SHARE_PAGE   = 10;
   var click_delay  = 10;
   function start(runPage) {
+    if (!load_complete[runPage]) {
+      loadingpage(runPage);
+      return ;
+    }
     switch (runPage) {
       case 0: runPage+=1; return;
       case 1: if (true)                   // #1 欢迎页面
                 current = 0;
-              // wel_index = Math.floor(Math.random()*3);
-              wel_index = 2;
+              wel_index = Math.floor(Math.random()*3);
+              // wel_index = 2;
               if (!wel_run) {
                 wel_run = true;
                 console.log("start welcome!");
@@ -371,24 +430,31 @@ $(document).ready(function() {
     if (current > last_num + p_fade.num()) {   // 出口
       wel_run = false;
     }
-    if (current === Math.floor(last_num*3/6)) {
-      for (var i=0; i<1; i++) {
-        ch_i[i].get(0);
-        ch_1[i].get(0);
-        ch_2[i].get(0);
-        ch_3[i].get(0);
-        ch_4[i].get(0);
-      }
-    }
   };
   // ---------------载入页面-------------- #2
   var p_load1 = {
     i   :  255
   };
-  function loadingpage() {
+  function checkLoadComplete(runPage) {
+    var imgs = LoadImg[runPage];
+    for (var i=0; i<imgs.length; i++) {
+      imgs[i].load();
+    }
+    for (var i=0; i<imgs.length; i++) {
+      if (!imgs[i].complete)
+        return false;
+    }
+    load_complete[runPage] = true;
+    return true;
+  };
+  function loadingpage(runPage) {
+    checkLoadComplete(runPage);
     context.clearRect(0,0,canvasW, canvasH);
-    context.drawImage(rst_i[0].get(0),0,0);
-    setTimeout(loadingpage, 33);
+    if (load_complete[runPage]) {
+      start(runPage);
+    } else {
+      setTimeout(loadingpage, 33);
+    }
   };
   // --------------重力感应页面---------- #3
   var p_bal_t1 = {
