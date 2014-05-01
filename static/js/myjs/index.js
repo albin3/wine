@@ -430,6 +430,18 @@ $(document).ready(function() {
     if (current > last_num + p_fade.num()) {   // 出口
       wel_run = false;
     }
+<<<<<<< HEAD
+=======
+    if (current === Math.floor(last_num*3/6)) {
+      for (var i=0; i<5; i++) {
+        ch_i[i].get(0);
+        ch_1[i].get(0);
+        ch_2[i].get(0);
+        ch_3[i].get(0);
+        ch_4[i].get(0);
+      }
+    }
+>>>>>>> 5a1aba93d5481bfca4ffc017e39c8c461053d907
   };
   // ---------------载入页面-------------- #2
   var p_load1 = {
