@@ -2,3 +2,9 @@
 html, body { height: 100%; width: 100%; overflow-x: hidden;}
 body { font-size : 18px; }
 
+.blur {
+ -webkit-filter: blur(100px); /* Chrome, Opera */
+ -moz-filter: blur(10px);
+ -ms-filter: blur(10px);    
+ filter: blur(10px);
+} 

@@ -166,8 +166,8 @@ $(document).ready(function() {
       case 0: runPage+=1; return;
       case 1: if (true)                   // #1 欢迎页面
                 current = 0;
-              wel_index = Math.floor(Math.random()*3);
-              // wel_index = 0;
+              // wel_index = Math.floor(Math.random()*3);
+              wel_index = 2;
               if (!wel_run) {
                 wel_run = true;
                 console.log("start welcome!");
@@ -350,7 +350,7 @@ $(document).ready(function() {
     context.drawImage(wel_bg_clear[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.save();
     context.globalAlpha = last_num>current ? 1-current/last_num : 0;
-    context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    // context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.restore();
     context.drawImage(wel_bg_black.get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.save();
@@ -372,7 +372,7 @@ $(document).ready(function() {
       wel_run = false;
     }
     if (current === Math.floor(last_num*3/6)) {
-      for (var i=0; i<5; i++) {
+      for (var i=0; i<1; i++) {
         ch_i[i].get(0);
         ch_1[i].get(0);
         ch_2[i].get(0);
