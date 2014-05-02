@@ -93,24 +93,25 @@ $(document).ready(function() {
   var wel_title1     = new IMAGE($("#wel_title1"),$("#wel_title1"));
   var wel_title2     = new IMAGE($("#wel_title2"),$("#wel_title2"));
   var wel_index      = 0;
+  wel_index = Math.floor(Math.random()*3); // 随机
 
-  var loading   = new IMAGE($("#loading"), $("#loading"));
-  var imgbg     = new IMAGE($("#bg")     , $("#bg"));
-  var lgcup     = new IMAGE($("#lgcup")  , $("#lgcup"));
-  var smcup     = new IMAGE($("#smcup")  , $("#smcup"));
-  var test      = new IMAGE($("#test")   , $("#test"));
-  var back      = new IMAGE($("#back")   , $("#back"));
-  var back_w    = new IMAGE($("#back_w") , $("#back_w"));
-  var bal_t1    = new IMAGE($("#bal_t1") , $("#bal_t1"));
-  var bal_t2    = new IMAGE($("#bal_t2") , $("#bal_t2"));
-  var bal_t3    = new IMAGE($("#bal_t3") , $("#bal_t3"));
-  var bal_rst   = new IMAGE($("#bal_rst"), $("#bal_rst"));
-  var bal_arrow = new IMAGE($("#arrow")  , $("#arrow"));
-  var touch     = new IMAGE($("#touch")  , $("#touch"));
-  var touched   = new IMAGE($("#touched"), $("#touched"));
-  var loadbg    = new IMAGE($("#loadbg") , $("#loadbg"));
-  var load1     = new IMAGE($("#load1")  , $("load1"));
-  // var wel_1   = $("#wel_1");
+  var loading   = new IMAGE($("#loading")    , $("#loading"));
+  var imgbg     = new IMAGE($("#bg")         , $("#bg"));
+  var lgcup     = new IMAGE($("#lgcup")      , $("#lgcup"));
+  var smcup     = new IMAGE($("#smcup")      , $("#smcup"));
+  var test      = new IMAGE($("#test")       , $("#test"));
+  var back      = new IMAGE($("#back")       , $("#back"));
+  var back_w    = new IMAGE($("#back_w")     , $("#back_w"));
+  var bal_t1    = new IMAGE($("#bal_t1")     , $("#bal_t1"));
+  var bal_t2    = new IMAGE($("#bal_t2")     , $("#bal_t2"));
+  var bal_t3    = new IMAGE($("#bal_t3")     , $("#bal_t3"));
+  var bal_rst   = new IMAGE($("#bal_rst")    , $("#bal_rst"));
+  var bal_arrow = new IMAGE($("#arrow")      , $("#arrow"));
+  var touch     = new IMAGE($("#touch")      , $("#touch"));
+  var touched   = new IMAGE($("#touched")    , $("#touched"));
+  var load_title= new IMAGE($("#load_title") , $("#load_title"));
+  var load_logo = new IMAGE($("#load_logo")  , $("load_logo"));
+
   var ch_i     = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
   var chp_i    = [$("#chpi_1").text(), $("#chpi_2").text(), $("#chpi_3").text(), $("#chpi_4").text(), $("#chpi_5").text()];
   var ch_1     = [new IMAGE($("#ch1_1"), $("#ch1_1")), new IMAGE($("#ch1_2"), $("#ch1_2")), new IMAGE($("#ch1_3"), $("#ch1_3")), new IMAGE($("#ch1_4"), $("#ch1_4")), new IMAGE($("#ch1_5"), $("#ch1_5"))];
@@ -156,23 +157,23 @@ $(document).ready(function() {
   };
   // choose1
   LoadImg[3]  = function() {
-    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
+    return [ch_i[0], ch_title, ch_bg, ch_1[0], ch_2[0], ch_3[0], ch_4[0], ch_shadow, back];
   };
   // choose2
   LoadImg[4]  = function() {
-    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
+    return [ch_i[1], ch_title, ch_bg, ch_1[1], ch_2[1], ch_3[1], ch_4[1], ch_shadow, back];
   };
   // choose3
   LoadImg[5]  = function() {
-    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
+    return [ch_i[2], ch_title, ch_bg, ch_1[2], ch_2[2], ch_3[2], ch_4[2], ch_shadow, back];
   };
   // choose4
   LoadImg[6]  = function() {
-    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
+    return [ch_i[3], ch_title, ch_bg, ch_1[3], ch_2[3], ch_3[3], ch_4[3], ch_shadow, back];
   };
   // choose5
   LoadImg[7]  = function() {
-    return [ch_i[ch_index], ch_title, ch_bg, ch_1[ch_index], ch_2[ch_index], ch_3[ch_index], ch_4[ch_index], ch_shadow, back];
+    return [ch_i[4], ch_title, ch_bg, ch_1[4], ch_2[4], ch_3[4], ch_4[4], ch_shadow, back];
   };
   // balance
   LoadImg[8]  = function() {
@@ -180,7 +181,7 @@ $(document).ready(function() {
   };
   // result
   LoadImg[9]  = function() {
-    return [rst_i[rst_class], rst_t[rst_class], back, rst_b];
+    return [rst_i[0], rst_i[1], rst_i[2], rst_i[3], rst_t[0], rst_t[1], rst_t[2], rst_t[3], rst_b];
   };
   // share
   LoadImg[10] = function() {
@@ -211,6 +212,7 @@ $(document).ready(function() {
   var bal_maxshift   = 0;
   var bal_finish     = 0;
   var bal_f_shift    = 0;
+  var INIT_PAGE    = 0;
   var WELCOME_PAGE = 1;
   var LOADING_PAGE = 2;
   var BALANCE_PAGE = 8;
@@ -222,6 +224,20 @@ $(document).ready(function() {
   var RESULT_PAGE  = 9;
   var SHARE_PAGE   = 10;
   var click_delay  = 10;
+  function getNextPage(page) {
+    switch (page) {
+      case INIT_PAGE    : return WELCOME_PAGE; break;
+      case WELCOME_PAGE : return CHOOSE1_PAGE; break;
+      case CHOOSE1_PAGE : return CHOOSE2_PAGE; break;
+      case CHOOSE2_PAGE : return CHOOSE3_PAGE; break;
+      case CHOOSE3_PAGE : return CHOOSE4_PAGE; break;
+      case CHOOSE4_PAGE : return CHOOSE5_PAGE; break;
+      case CHOOSE5_PAGE : return BALANCE_PAGE; break;
+      case BALANCE_PAGE : return RESULT_PAGE ; break;
+      case RESULT_PAGE  : return SHARE_PAGE  ; break;
+      case SHARE_PAGE   : return WELCOME_PAGE; break;
+    }
+  }
   function start(runPage) {
     if (!load_complete[runPage]) {
       loadingpage(runPage);
@@ -231,7 +247,6 @@ $(document).ready(function() {
       case 0: runPage+=1; return;
       case 1: if (true)                   // #1 欢迎页面
                 current = 0;
-              wel_index = Math.floor(Math.random()*3);
               // wel_index = 2;
               if (!wel_run) {
                 wel_run = true;
@@ -441,22 +456,35 @@ $(document).ready(function() {
   var p_load1 = {
     i   :  255
   };
+  var p_load_logo = {
+  };
+  var p_load_title = {
+    w: canvasW*476/640,
+    y: canvasH*504/1136,
+    x: (1-476/640)*canvasW/2,
+    h: canvasW*476/640*82/472
+  };
+  var load_current = 0;
   function checkLoadComplete(runPage) {
     var imgs = LoadImg[runPage]();
-    for (var i=0; i<imgs.length; i++) {
-      imgs[i].load();
-    }
-    for (var i=0; i<imgs.length; i++) {
+    for (var i=0; i<imgs.length; i++) {   // 有图片没加载完成
       if (!imgs[i].complete())
         return false;
+    }
+    var next_imgs = LoadImg[getNextPage(runPage)]();
+    console.log("next page");
+    console.log(getNextPage(runPage));
+    for (var i=0; i<next_imgs.length; i++) {   // 本页图片加载完成，加载下一页图片
+      next_imgs[i].load();
     }
     load_complete[runPage] = true;
     return true;
   };
   function loadingpage() {
+    load_current += 1;
     checkLoadComplete(runPage);
     context.clearRect(0,0,canvasW, canvasH);
-    context.fillRect(0,0,100,100);
+    context.drawImage(load_title.get(0), p_load_title.x, p_load_title.y, p_load_title.w, p_load_title.h);
     if (load_complete[runPage]) {
       start(runPage);
     } else {
@@ -1382,6 +1410,10 @@ $(document).ready(function() {
     }
   });
   init();
+  var imgs = LoadImg[WELCOME_PAGE](); // 开始下载欢迎页面的图
+  for (var i=0; i<imgs.length; i++) {
+    imgs[i].load();
+  }
   start(runPage);
 });
 $(window).resize(function(){
