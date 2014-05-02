@@ -134,7 +134,7 @@ $(document).ready(function() {
   var sha_g   = new IMAGE($("#sha_g")  , $("#sha_g"))  ;
   var rst_b   = new IMAGE($("#rst_b")  , $("#rst_b"))  ;
   var rst_i   = [new IMAGE($("#rst1"),$("#rst1")), new IMAGE($("#rst2"),$("#rst2")), new IMAGE($("#rst3"),$("#rst3")), new IMAGE($("#rst4"),$("#rst4"))];
-  var rst_t   = [new IMAGE($("#rst_t1"),$("#rst_t1")), new IMAGE($("#rst_t2"),$("#rst_t2")), new IMAGE($("#rst_t3"),$("#rst_t3")), new IMAGE($("#rst_t4"),$("#rst_t4"))];
+  var rst_t   = new IMAGE($("#rst_t"),$("#rst_t"));
   var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
   var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
   var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
@@ -181,7 +181,7 @@ $(document).ready(function() {
   };
   // result
   LoadImg[9]  = function() {
-    return [rst_i[0], rst_i[1], rst_i[2], rst_i[3], rst_t[0], rst_t[1], rst_t[2], rst_t[3], rst_b];
+    return [rst_i[0], rst_i[1], rst_i[2], rst_i[3], rst_t, rst_b];
   };
   // share
   LoadImg[10] = function() {
@@ -487,7 +487,7 @@ $(document).ready(function() {
          return canvasH*370/1136+this.h()/2;
        },
     av: function () {
-         return 2;
+         return 4;
        }
   };
   var p_load_title = {
@@ -499,6 +499,9 @@ $(document).ready(function() {
   var load_current = 0;
   function checkLoadComplete(runPage) {
     var imgs = LoadImg[runPage]();
+    for (var i=0; i<imgs.length; i++) {   // 有图片没加载完成
+      imgs[i].load();
+    }
     for (var i=0; i<imgs.length; i++) {   // 有图片没加载完成
       if (!imgs[i].complete())
         return false;
@@ -1294,7 +1297,16 @@ $(document).ready(function() {
     x : 0,
     y : canvasH*0.37+50,
     h : canvasW*106/634,
-    w : canvasW
+    w : canvasW,
+    tx : function() {
+      return canvasW*275/1600;
+    },
+    ty : function() {
+      return this.y+this.tw()*2.05;
+    },
+    tw : function() {
+      return this.h*2/7.15;
+    }
   }
   var p_rst_text = {
     w : (1-0.075-0.15/2)/20*canvasW,
@@ -1310,7 +1322,12 @@ $(document).ready(function() {
     }
     context.clearRect(0, 0, canvasW, canvasH);
     context.drawImage(rst_i[rst_class].get(0), p_rst_img.x, p_rst_img.y, p_rst_img.w, p_rst_img.h);
-    context.drawImage(rst_t[rst_class].get(0), p_rst_t.x, p_rst_t.y, p_rst_t.w, p_rst_t.h);
+    context.drawImage(rst_t.get(0), p_rst_t.x, p_rst_t.y, p_rst_t.w, p_rst_t.h);
+    context.save();
+    context.fillStyle = "rgb(255,255,255)";
+    context.font = "bold " + p_rst_t.tw() + "px serif";
+    context.fillText($("#prst1"+rst_class).text(), p_rst_t.tx(), p_rst_t.ty());
+    context.restore();
     context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h);
     context.save();
     context.font = p_sha_text.w+"px 黑体";
