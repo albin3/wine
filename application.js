@@ -45,7 +45,6 @@ exports.create_app = function(config) {
   app.use(express.session({ secret: app.SECRET_KEY }));
   app.use(app.STATIC_ROUTER, express.static(app.STATIC_DIR));
   app.use(twinkle);
-  app.use(express.favicon("static/img/favicon.ico"));
 
   // 发生异常时打印调用堆栈
   if (app.DEBUG) {
