@@ -110,7 +110,7 @@ $(document).ready(function() {
   var touch     = new IMAGE($("#touch")      , $("#touch"));
   var touched   = new IMAGE($("#touched")    , $("#touched"));
   var load_title= new IMAGE($("#load_title") , $("#load_title"));
-  var load_logo = new IMAGE($("#load_logo")  , $("load_logo"));
+  var load_logo = new IMAGE($("#load_logo")  , $("#load_logo"));
 
   var ch_i     = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
   var chp_i    = [$("#chpi_1").text(), $("#chpi_2").text(), $("#chpi_3").text(), $("#chpi_4").text(), $("#chpi_5").text()];
@@ -204,9 +204,7 @@ $(document).ready(function() {
     runPage = 1;
   };
   var current, end;
-  var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false;
-  var load_complete = [false, false, false, false, false, false, false, false, false, false, false];
-  var sha_random=[1, 5, 9];
+  var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false; var load_complete = [false, false, false, false, false, false, false, false, false, false, false]; var sha_random=[1, 5, 9];
   var wel_first_load = true;
   var share_show     = 0;
   var bal_maxshift   = 0;
@@ -236,6 +234,7 @@ $(document).ready(function() {
       case BALANCE_PAGE : return RESULT_PAGE ; break;
       case RESULT_PAGE  : return SHARE_PAGE  ; break;
       case SHARE_PAGE   : return WELCOME_PAGE; break;
+      case LOADING_PAGE : return CHOOSE1_PAGE; break;
     }
   }
   function start(runPage) {
@@ -254,7 +253,7 @@ $(document).ready(function() {
                 welcome();
               }
               break;
-      case 2: current = 0;                // #2 加载页面
+      case 2: ;                           // #2 加载页面
               loadingpage();
               break;
       case 8: current = 0;                // #3 平衡页面
@@ -457,6 +456,39 @@ $(document).ready(function() {
     i   :  255
   };
   var p_load_logo = {
+    x: function(){
+         return (canvasW-this.w())/2;
+       },
+    y: function(){
+         return canvasH*420/1136;
+       },
+    w: function(){
+         return canvasH*120/1136;
+       },
+    h: function(){
+         return canvasH*120/1136;
+       },
+    xScale: function(c) {
+         return Math.cos(c*this.av()*Math.PI/180);
+       },
+    ySkew : function(c) {
+         return 0;
+       },
+    xSkew : function(c) {
+         return 0;
+       },
+    yScale: function(c) {
+         return 1;
+       },
+    xTrans: function(c) {
+         return canvasW/2;
+       },
+    yTrans: function(c) {
+         return canvasH*370/1136+this.h()/2;
+       },
+    av: function () {
+         return 2;
+       }
   };
   var p_load_title = {
     w: canvasW*476/640,
@@ -472,8 +504,6 @@ $(document).ready(function() {
         return false;
     }
     var next_imgs = LoadImg[getNextPage(runPage)]();
-    console.log("next page");
-    console.log(getNextPage(runPage));
     for (var i=0; i<next_imgs.length; i++) {   // 本页图片加载完成，加载下一页图片
       next_imgs[i].load();
     }
@@ -484,6 +514,10 @@ $(document).ready(function() {
     load_current += 1;
     checkLoadComplete(runPage);
     context.clearRect(0,0,canvasW, canvasH);
+    context.save();
+    context.transform(p_load_logo.xScale(load_current), p_load_logo.ySkew(load_current), p_load_logo.xSkew(load_current), p_load_logo.yScale(load_current), p_load_logo.xTrans(load_current), p_load_logo.yTrans(load_current));
+    context.drawImage(load_logo.get(0), -p_load_logo.w()/2, -p_load_logo.h()/2, p_load_logo.w(), p_load_logo.h());
+    context.restore();
     context.drawImage(load_title.get(0), p_load_title.x, p_load_title.y, p_load_title.w, p_load_title.h);
     if (load_complete[runPage]) {
       start(runPage);
