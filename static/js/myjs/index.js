@@ -724,7 +724,7 @@ $(document).ready(function() {
   var chpicrate = 263/273;
   var chpwhite  = 0.02;
   var chp1h     = 0.37;   // 第一张图片的高
-  var score_set = [[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1]]
+  var score_set = [[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1],[4,3,2,1]]
   var choose_set = [[true,true,true,true],[true,true,true,true],[true,true,true,true],[true,true,true,true],[true,true,true,true]];
   var just_clicked = false;
   var just_delay = 600;
