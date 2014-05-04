@@ -344,7 +344,7 @@ $(document).ready(function() {
     context.restore();
   }
   // ---------------欢迎页面-------------- #1
-  var last_num = 180;
+  var last_num = 120;
   var p_wel_clear = {
     w : function(current) {
       return canvasW;
@@ -409,19 +409,28 @@ $(document).ready(function() {
     num   : function(current) {
               return 40;
             },
+    staynum : function(current) {
+              return 36;
+            },
     scale : function(current) {
               return 1;
             }
   }
+  var p_wel_bottom = {
+    w : (1-0.075-0.15/2)/25*canvasW,
+    x : 0.15/2*canvasW,
+    y : canvasH*0.95,
+    num : 19
+  };
   function welcome() {       // 第一张页面，欢迎页面。
     current += 1;
     current += 4*isAndroid();
     wel_bg_black.get(0);
     context.clearRect(0, 0, canvasW, canvasH);
-    context.save();     // 淡出效果
-    if (current>last_num) {
-      if ((1-(current-last_num)/p_fade.num())*p_fade.scale() > 0) {
-        context.globalAlpha = (1-(current-last_num)/p_fade.num())*p_fade.scale();
+    context.save();                    // 淡出效果
+    if (current>last_num+p_fade.staynum()) {
+      if ((1-(current-last_num-p_fade.staynum())/p_fade.num())*p_fade.scale() > 0) {
+        context.globalAlpha = (1-(current-last_num-p_fade.staynum())/p_fade.num())*p_fade.scale();
       } else {
         context.globalAlpha = 0;
       }
@@ -437,6 +446,9 @@ $(document).ready(function() {
     context.drawImage(wel_title1.get(0), p_wel_title1.x(), p_wel_title1.y(), p_wel_title1.w(), p_wel_title1.h());
     context.drawImage(wel_title2.get(0), p_wel_title2.cut_x(current), p_wel_title2.cut_y(), p_wel_title2.cut_w(current), p_wel_title2.cut_h(), p_wel_title2.x(current), p_wel_title2.y(), p_wel_title2.w(current), p_wel_title2.h());
     context.restore();
+    context.font      = "bold " + p_wel_bottom.w + "px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText("*本测试内容包含酒类信息，请确保您已年满十八周岁。", p_wel_bottom.x, p_wel_bottom.y);
     context.restore();
     if (wel_run) {
       setTimeout(welcome, 33);
@@ -447,7 +459,7 @@ $(document).ready(function() {
       runPage = 3;
       start(runPage);
     }
-    if (current > last_num + p_fade.num()) {   // 出口
+    if (current > last_num + p_fade.staynum() + p_fade.num()) {   // 出口
       wel_run = false;
     }
   };
@@ -460,7 +472,7 @@ $(document).ready(function() {
          return (canvasW-this.w())/2;
        },
     y: function(){
-         return canvasH*420/1136;
+         return (canvasH-this.h())/2;
        },
     w: function(){
          return canvasH*120/1136;
@@ -472,22 +484,22 @@ $(document).ready(function() {
          return Math.cos(c*this.av()*Math.PI/180);
        },
     ySkew : function(c) {
-         return Math.cos(c*this.av()*Math.PI/180);
-       },
-    xSkew : function(c) {
          return -Math.sin(c*this.av()*Math.PI/180);
        },
-    yScale: function(c) {
+    xSkew : function(c) {
          return Math.sin(c*this.av()*Math.PI/180);
+       },
+    yScale: function(c) {
+         return Math.cos(c*this.av()*Math.PI/180);
        },
     xTrans: function(c) {
          return canvasW/2;
        },
     yTrans: function(c) {
-         return canvasH*370/1136+this.h()/2;
+         return canvasH/2;
        },
     av: function () {
-         return 4;
+         return 30;
        }
   };
   var p_load_title = {
@@ -525,7 +537,7 @@ $(document).ready(function() {
     if (load_complete[runPage]) {
       start(runPage);
     } else {
-      setTimeout(loadingpage, 33);
+      setTimeout(loadingpage, 70);
     }
   };
   // --------------重力感应页面---------- #3
@@ -623,7 +635,7 @@ $(document).ready(function() {
       context.globalAlpha = current/p_fade.num();
     }
     var Hshift = function() {
-      return -10*(Arraw.beta-Orient.beta);
+      return -10*3*(Arraw.beta-Orient.beta);
     };
     if (current===0) {
       Arraw = new CArraw(Orient.alpha, Orient.beta, Orient.gamma);
