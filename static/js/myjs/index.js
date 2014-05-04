@@ -109,7 +109,7 @@ $(document).ready(function() {
   var bal_arrow = new IMAGE($("#arrow")      , $("#arrow"));
   var touch     = new IMAGE($("#touch")      , $("#touch"));
   var touched   = new IMAGE($("#touched")    , $("#touched"));
-  var load_title= new IMAGE($("#load_title") , $("#load_title"));
+  // var load_title= new IMAGE($("#load_title") , $("#load_title"));
   var load_logo = new IMAGE($("#load_logo")  , $("#load_logo"));
 
   var ch_i     = [new IMAGE($("#chi_1"), $("#chi_1")), new IMAGE($("#chi_2"), $("#chi_2")), new IMAGE($("#chi_3"), $("#chi_3")), new IMAGE($("#chi_4"), $("#chi_4")), new IMAGE($("#chi_5"), $("#chi_5"))];
@@ -429,7 +429,7 @@ $(document).ready(function() {
     context.drawImage(wel_bg_clear[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.save();
     context.globalAlpha = last_num>current ? 1-current/last_num : 0;
-    // context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
+    context.drawImage(wel_bg_dim[wel_index].get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.restore();
     context.drawImage(wel_bg_black.get(0), p_wel_clear.x(), p_wel_clear.y(), p_wel_clear.w(), p_wel_clear.h());
     context.save();
@@ -472,13 +472,13 @@ $(document).ready(function() {
          return Math.cos(c*this.av()*Math.PI/180);
        },
     ySkew : function(c) {
-         return 0;
+         return Math.cos(c*this.av()*Math.PI/180);
        },
     xSkew : function(c) {
-         return 0;
+         return -Math.sin(c*this.av()*Math.PI/180);
        },
     yScale: function(c) {
-         return 1;
+         return Math.sin(c*this.av()*Math.PI/180);
        },
     xTrans: function(c) {
          return canvasW/2;
@@ -521,7 +521,7 @@ $(document).ready(function() {
     context.transform(p_load_logo.xScale(load_current), p_load_logo.ySkew(load_current), p_load_logo.xSkew(load_current), p_load_logo.yScale(load_current), p_load_logo.xTrans(load_current), p_load_logo.yTrans(load_current));
     context.drawImage(load_logo.get(0), -p_load_logo.w()/2, -p_load_logo.h()/2, p_load_logo.w(), p_load_logo.h());
     context.restore();
-    context.drawImage(load_title.get(0), p_load_title.x, p_load_title.y, p_load_title.w, p_load_title.h);
+    // context.drawImage(load_title.get(0), p_load_title.x, p_load_title.y, p_load_title.w, p_load_title.h);
     if (load_complete[runPage]) {
       start(runPage);
     } else {
