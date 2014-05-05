@@ -177,7 +177,7 @@ $(document).ready(function() {
   };
   // balance
   LoadImg[8]  = function() {
-    return [wel_bg_clear[wel_index], wel_bg_dim[wel_index], back_w, bal_t1, bal_t2, touch, bal_arrow, bal_t3, bal_rst];
+    return [wel_bg_clear[wel_index], wel_bg_dim[wel_index], back_w, bal_t1, bal_t2, touch, bal_arrow, bal_t3, touched];
   };
   // result
   LoadImg[9]  = function() {
@@ -635,7 +635,7 @@ $(document).ready(function() {
       context.globalAlpha = current/p_fade.num();
     }
     var Hshift = function() {
-      return -10*3*(Arraw.beta-Orient.beta);
+      return -10*1.5*(Arraw.beta-Orient.beta);
     };
     if (current===0) {
       Arraw = new CArraw(Orient.alpha, Orient.beta, Orient.gamma);
@@ -689,8 +689,7 @@ $(document).ready(function() {
     context.drawImage(back_w.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(bal_t1.get(0), p_bal_t1.x(), p_bal_t1.y(), p_bal_t1.w(), p_bal_t1.h());
     context.drawImage(bal_t2.get(0), p_bal_t2.x(), p_bal_t2.y(), p_bal_t2.w(), p_bal_t2.h());
-    if (!touchbtn.touched) {                     // 画开始按钮
-      context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
+    if (!touchbtn.touched) {                     // 画箭头
       context.drawImage(bal_arrow.get(0), p_bal_arrow.x, p_bal_arrow.y, p_bal_arrow.w, p_bal_arrow.h);
       context.drawImage(bal_t3.get(0), p_bal_t3.x(), p_bal_t3.y(), p_bal_t3.w(), p_bal_t3.h());
     } else {
@@ -704,7 +703,10 @@ $(document).ready(function() {
       bal_maxshift = Hshift()*touchbtn.touched;
     }
     if (bal_finish !== 0) {
-      context.drawImage(bal_rst.get(0), p_bal_rst.x, p_bal_rst.y, p_bal_rst.w, p_bal_rst.h);
+      // context.drawImage(bal_rst.get(0), p_bal_rst.x, p_bal_rst.y, p_bal_rst.w, p_bal_rst.h);
+      context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);  // 查看结果按钮
+    } else {
+      context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);    // 开始按钮不影藏
     }
     if (bal_run) {
       setTimeout(balance, 33);
@@ -727,7 +729,7 @@ $(document).ready(function() {
       touchbtn.touched = 0;
       runPage -= 1;
     }
-    if (p_bal_rst.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && bal_finish) {
+    if (touchbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && bal_finish) {
       bal_run = false;
       runPage += 1;
     }
