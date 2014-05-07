@@ -201,7 +201,7 @@ $(document).ready(function() {
   var runPage = 0;
   // 重置和启动
   function init() {
-    runPage = 10;
+    runPage = 1;
   };
   var current, end;
   var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false; var load_complete = [false, false, false, false, false, false, false, false, false, false, false]; var sha_random=[1, 5, 9];
