@@ -635,7 +635,7 @@ $(document).ready(function() {
       context.globalAlpha = current/p_fade.num();
     }
     var Hshift = function() {
-      return -10*1.5*(Arraw.beta-Orient.beta);
+      return -10*3*(Arraw.beta-Orient.beta);
     };
     if (current===0) {
       Arraw = new CArraw(Orient.alpha, Orient.beta, Orient.gamma);
