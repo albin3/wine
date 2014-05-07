@@ -128,11 +128,11 @@ $(document).ready(function() {
   var ch_bg     = new IMAGE($("#ch_bg"), $("#ch_bg"));
   var ch_index= 0;
   var sha_i   = new IMAGE($("#sha_i")  , $("#sha_i"))  ;
-  var sha_btn1= new IMAGE($("#sha_b1") , $("#sha_b1")) ;
-  var sha_btn2= new IMAGE($("#sha_b2") , $("#sha_b2")) ;
+  var sha_btn = new IMAGE($("#sha_b")  , $("#sha_b")) ;
   var sha_gbg = new IMAGE($("#sha_gbg"), $("#sha_gbg"));
   var sha_g   = new IMAGE($("#sha_g")  , $("#sha_g"))  ;
   var rst_b   = new IMAGE($("#rst_b")  , $("#rst_b"))  ;
+  var rst_g   = new IMAGE($("#rst_g")  , $("#rst_g"))  ;
   var rst_i   = [new IMAGE($("#rst1"),$("#rst1")), new IMAGE($("#rst2"),$("#rst2")), new IMAGE($("#rst3"),$("#rst3")), new IMAGE($("#rst4"),$("#rst4"))];
   var rst_t   = new IMAGE($("#rst_t"),$("#rst_t"));
   var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
@@ -181,11 +181,11 @@ $(document).ready(function() {
   };
   // result
   LoadImg[9]  = function() {
-    return [rst_i[0], rst_i[1], rst_i[2], rst_i[3], rst_t, rst_b];
+    return [rst_i[0], rst_i[1], rst_i[2], rst_i[3], rst_t, rst_b, rst_g];
   };
   // share
   LoadImg[10] = function() {
-    return [sha_i, sha_btn1, sha_btn2, sha_gbg, sha_g];
+    return [sha_i, sha_btn, sha_gbg, sha_g];
   };
 
   // 画布尺寸
@@ -201,7 +201,7 @@ $(document).ready(function() {
   var runPage = 0;
   // 重置和启动
   function init() {
-    runPage = 1;
+    runPage = 10;
   };
   var current, end;
   var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false; var load_complete = [false, false, false, false, false, false, false, false, false, false, false]; var sha_random=[1, 5, 9];
@@ -1280,12 +1280,23 @@ $(document).ready(function() {
     }
   });
   // -----------结果页面----------- #9
+  var rst_b_height = 0.12;
   var p_rst_btn = {
-    y : canvasH*0.9,
-    h : canvasH*0.075,
-    w : canvasH*0.075*240/72,
-    x : canvasW/2-canvasH*0.075*240/72/2,
+    y : canvasH*(1-rst_b_height-0.015),
+    h : canvasH*rst_b_height,
+    w : canvasH*146/99*rst_b_height,
+    x : canvasW/2-canvasH*rst_b_height*146/99/2,
     clicked : clicked
+  };
+  var p_rst_guide = {
+    h : p_rst_btn.h*34/99,
+    w : p_rst_btn.w*64/146,
+    x : function() {
+      return p_rst_btn.x-this.w;
+    },
+    y : function() {
+      return p_rst_btn.y+this.h;
+    }
   };
   var p_rst_img = {
     x : canvasW/2-canvasH*0.37*900/388/2,
@@ -1295,7 +1306,7 @@ $(document).ready(function() {
   }
   var p_rst_t = {
     x : 0,
-    y : canvasH*0.37+50,
+    y : canvasH*0.37+40,
     h : canvasW*106/634,
     w : canvasW,
     tx : function() {
@@ -1311,7 +1322,7 @@ $(document).ready(function() {
   var p_rst_text = {
     w : (1-0.075-0.15/2)/20*canvasW,
     x : 0.15/2*canvasW,
-    y : p_rst_t.y+p_rst_t.h+30,
+    y : p_rst_t.y+p_rst_t.h,
     num : 19
   }
   function testrst() {
@@ -1351,7 +1362,8 @@ $(document).ready(function() {
       k++;
     }
     context.restore();
-    context.drawImage(rst_b.get(0), p_rst_btn.x, p_rst_btn.y, p_rst_btn.w, p_rst_btn.h);
+    context.drawImage(rst_b.get(0), p_rst_btn.x+p_rst_guide.w/2, p_rst_btn.y, p_rst_btn.w, p_rst_btn.h);
+    context.drawImage(rst_g.get(0), p_rst_guide.x()+p_rst_guide.w/2, p_rst_guide.y(), p_rst_guide.w, p_rst_guide.h);
     context.restore();
     if (rst_run) {
       setTimeout(testrst, 33);
@@ -1388,19 +1400,24 @@ $(document).ready(function() {
     x : canvasW/2-canvasH*268/1008/268*401/2,
     w : canvasH*268/1008/268*401
   };
+  var p_sha_btn = {
+    w : canvasW,
+    h : canvasW*125/640,
+    y : canvasH-canvasW*125/640,
+    x : 0,
+    clicked : clicked
+  };
   var p_sha_btn1 = {
     y : canvasH*0.85,
     h : canvasH*0.075,
     w : canvasH*0.075*248/72,
-    x : canvasW/2-canvasH*0.075*248/72-20,
-    clicked : clicked
+    x : canvasW/2-canvasH*0.075*248/72-20
   };
   var p_sha_btn2 = {
     y : canvasH*0.85,
     h : canvasH*0.075,
     w : canvasH*0.075*248/72,
-    x : canvasW/2+20,
-    clicked : clicked
+    x : canvasW/2+20
   };
   function sharepage() {
     current += 1+4*isAndroid();
@@ -1434,8 +1451,12 @@ $(document).ready(function() {
       k+=0.5;
     }
     context.restore();
-    context.drawImage(sha_btn1.get(0), p_sha_btn1.x, p_sha_btn1.y, p_sha_btn1.w, p_sha_btn1.h);
-    context.drawImage(sha_btn2.get(0), p_sha_btn2.x, p_sha_btn2.y, p_sha_btn2.w, p_sha_btn2.h);
+    context.drawImage(sha_btn.get(0), p_sha_btn.x, p_sha_btn.y, p_sha_btn.w, p_sha_btn.h);
+    var text_h = p_sha_btn.h*0.225;
+    context.font = text_h+"px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText("分享到朋友圈", p_sha_btn.x+text_h*0.6, p_sha_btn.y+text_h*3);
+    context.fillText("发送给朋友", p_sha_btn.x+p_sha_btn.w-text_h*6.3, p_sha_btn.y+text_h*3);
     if (share_show>0) {
       context.drawImage(sha_gbg.get(0), 0, 0, canvasW, canvasH);
       context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*296/479);
@@ -1449,10 +1470,10 @@ $(document).ready(function() {
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 分享页面 $10
     share_show = 0;  // 点屏消失
-    if (p_sha_btn1.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
-      share_show = 100;
-    }
-    if (p_sha_btn2.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
+    if (p_sha_btn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
+      var x_val = e.changedTouches[0].pageX-canvas.offset().left;
+      if (x_val/p_sha_btn.w>=204/(204+230+206) && x_val/p_sha_btn.w<=(204+230)/(204+230+206))
+        return;
       share_show = 100;
     }
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
