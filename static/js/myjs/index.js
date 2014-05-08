@@ -32,6 +32,7 @@ $(document).ready(function() {
    else 
      return 0;
   }
+  var bal_pause      = 0;
   if (window.DeviceMotionEvent) {  
     window.addEventListener('devicemotion',function(eventData){
       // Motion.ax = eventData.acceleration.x>0?0:eventData.acceleration.x;
@@ -43,7 +44,7 @@ $(document).ready(function() {
         Arraw.vx = canvasW/100;
       }
       // Arraw.shift = Arraw.shift - Arraw.vx;
-      Arraw.shift = Arraw.shift + Arraw.vx;
+      Arraw.shift = Arraw.shift + Arraw.vx*bal_pause;
       if (Arraw.shift<0) {
         Arraw.shift = 0;
         Arraw.vx    = 0;
@@ -210,6 +211,7 @@ $(document).ready(function() {
   var bal_maxshift   = 0;
   var bal_finish     = 0;
   var bal_f_shift    = 0;
+  var bal_first_touch= false;
   var INIT_PAGE    = 0;
   var WELCOME_PAGE = 1;
   var LOADING_PAGE = 2;
@@ -258,6 +260,8 @@ $(document).ready(function() {
               break;
       case 8: current = 0;                // #3 平衡页面
               end     = 300;
+              bal_first_touch = false;
+              bal_pause       = 0;
               bal_maxshift = 0;
               bal_finish   = 0;
               if (!bal_run) {
@@ -627,6 +631,7 @@ $(document).ready(function() {
     clicked: clicked
   };
   function balance() {
+    console.log(bal_pause);
     if (current === 0) {
       touchbtn.touched = 0;
     }
@@ -677,7 +682,7 @@ $(document).ready(function() {
     context.fillStyle = drawColor;              // 画一个圆
     if (bal_finish === 0) {
       context.beginPath();
-      context.arc(canvasW/10+Arraw.shift*touchbtn.touched, lineH+Hshift()*touchbtn.touched, canvasH/50, 0, Math.PI*2, false);
+      context.arc(canvasW/10+Arraw.shift*touchbtn.touched, lineH+Hshift()*touchbtn.touched*bal_pause, canvasH/50, 0, Math.PI*2, false);
       context.closePath();
       context.fill();
     } else {
@@ -718,11 +723,15 @@ $(document).ready(function() {
     context.restore();
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 重力平衡点击响应 $3
-    if (touchbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && current >= click_delay/100 && touchbtn.touched !== 1) {
-      Arraw.beta = Orient.beta;                                // 初始化角度
-      touchbtn.touched = 1;                                    // -touchbtn.touched;
-      Arraw.shift = 0;
-      Arraw.vx    = 0;
+    if (touchbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
+      if (!bal_first_touch) {
+        Arraw.beta = Orient.beta;                                // 初始化角度
+        touchbtn.touched = 1;                                    // -touchbtn.touched;
+        Arraw.shift = 0;
+        Arraw.vx    = 0;
+        bal_first_touch = true;
+      }
+      bal_pause = 1;
     }
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
       bal_run = false;
@@ -733,6 +742,9 @@ $(document).ready(function() {
       bal_run = false;
       runPage += 1;
     }
+  });
+  canvas.get(0).addEventListener("touchend",function(e){     // 重力平衡点击响应 $3
+    bal_pause = 0;
   });
   // ---------------选择题一页面-------------- #4
   var chpicrate = 263/273;
