@@ -694,9 +694,9 @@ $(document).ready(function() {
     context.drawImage(back_w.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(bal_t1.get(0), p_bal_t1.x(), p_bal_t1.y(), p_bal_t1.w(), p_bal_t1.h());
     context.drawImage(bal_t2.get(0), p_bal_t2.x(), p_bal_t2.y(), p_bal_t2.w(), p_bal_t2.h());
+    context.drawImage(bal_t3.get(0), p_bal_t3.x(), p_bal_t3.y(), p_bal_t3.w(), p_bal_t3.h());
     if (!touchbtn.touched) {                     // 画箭头
       context.drawImage(bal_arrow.get(0), p_bal_arrow.x, p_bal_arrow.y, p_bal_arrow.w, p_bal_arrow.h);
-      context.drawImage(bal_t3.get(0), p_bal_t3.x(), p_bal_t3.y(), p_bal_t3.w(), p_bal_t3.h());
     } else {
       // context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);
     }
