@@ -314,18 +314,22 @@ $(document).ready(function() {
                 rst_score += parseInt($("#pscore3").text());
                 rst_score += parseInt($("#pscore4").text());
                 rst_score += parseInt($("#pscore5").text());
-                if (rst_score<8) {
+                var bal_score = 2;    // 平衡感测试计分
+                if (bal_maxshift>20) {
+                  bal_score -= 1;
+                }
+                if (bal_maxshift>40) {
+                  bal_score -= 1;
+                }
+                rst_score += bal_score;
+                if (rst_score<=10) {
                   rst_class = 0;
-                } else if (rst_score>=8&&rst_score<=10) {
+                } else if (rst_score>=11&&rst_score<=12) {
                   rst_class = 1;
-                } else if (rst_score>=11&&rst_score<=15) {
+                } else if (rst_score>=13&&rst_score<=14) {
                   rst_class = 2;
                 } else {
                   rst_class = 3;
-                }
-                if (bal_maxshift>50) {
-                  rst_class -= 1;
-                  rst_class = rst_class<0 ? 0 : rst_class;
                 }
                 rst_run = true;
                 testrst(); 
