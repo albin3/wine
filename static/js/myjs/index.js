@@ -309,11 +309,11 @@ $(document).ready(function() {
               current = 0;
               if (!rst_run) {
                 rst_score  = 0;
+                rst_score += parseInt($("#pscore0").text());
                 rst_score += parseInt($("#pscore1").text());
                 rst_score += parseInt($("#pscore2").text());
                 rst_score += parseInt($("#pscore3").text());
                 rst_score += parseInt($("#pscore4").text());
-                rst_score += parseInt($("#pscore5").text());
                 var bal_score = 2;    // 平衡感测试计分
                 if (bal_maxshift>20) {
                   bal_score -= 1;
