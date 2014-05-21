@@ -698,7 +698,6 @@ $(document).ready(function() {
     context.drawImage(back_w.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
     context.drawImage(bal_t1.get(0), p_bal_t1.x(), p_bal_t1.y(), p_bal_t1.w(), p_bal_t1.h());
     context.drawImage(bal_t2.get(0), p_bal_t2.x(), p_bal_t2.y(), p_bal_t2.w(), p_bal_t2.h());
-    context.drawImage(bal_t3.get(0), p_bal_t3.x(), p_bal_t3.y(), p_bal_t3.w(), p_bal_t3.h());
     if (!touchbtn.touched) {                     // 画箭头
       context.drawImage(bal_arrow.get(0), p_bal_arrow.x, p_bal_arrow.y, p_bal_arrow.w, p_bal_arrow.h);
     } else {
@@ -715,6 +714,7 @@ $(document).ready(function() {
       // context.drawImage(bal_rst.get(0), p_bal_rst.x, p_bal_rst.y, p_bal_rst.w, p_bal_rst.h);
       context.drawImage(touched.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);  // 查看结果按钮
     } else {
+      context.drawImage(bal_t3.get(0), p_bal_t3.x(), p_bal_t3.y(), p_bal_t3.w(), p_bal_t3.h());
       context.drawImage(touch.get(0), touchbtn.x, touchbtn.y, touchbtn.w, touchbtn.h);    // 开始按钮不影藏
     }
     if (bal_run) {
@@ -1393,7 +1393,7 @@ $(document).ready(function() {
     }
     context.restore();
     context.drawImage(rst_b.get(0), p_rst_btn.x+p_rst_guide.w/2, p_rst_btn.y, p_rst_btn.w, p_rst_btn.h);
-    context.drawImage(rst_g.get(0), p_rst_guide.x()+p_rst_guide.w/2, p_rst_guide.y(), p_rst_guide.w, p_rst_guide.h);
+    context.drawImage(rst_g.get(0), p_rst_guide.x()+p_rst_guide.w/2-10*(1-Math.sin(current*8*Math.PI/180)), p_rst_guide.y(), p_rst_guide.w, p_rst_guide.h);
     context.restore();
     if (rst_run) {
       setTimeout(testrst, 33);
@@ -1488,9 +1488,15 @@ $(document).ready(function() {
     context.fillText("分享到朋友圈", p_sha_btn.x+text_h*0.6, p_sha_btn.y+text_h*3);
     context.fillText("发送给朋友", p_sha_btn.x+p_sha_btn.w-text_h*6.3, p_sha_btn.y+text_h*3);
     if (share_show>0) {
+      context.save();
       context.drawImage(sha_gbg.get(0), 0, 0, canvasW, canvasH);
       context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*296/479);
+      context.font      = p_wel_bottom.w + "px serif";
+      context.textAlign = "center";
+      context.fillStyle = "rgb(100,100,100)";
+      context.fillText("Powered by louding.com", canvasW/2, p_sha_btn.y+text_h*3);
       share_show = share_show===0? 0:share_show-1;
+      context.restore();
     }
     if (share_run) {
       setTimeout(sharepage, 33);
