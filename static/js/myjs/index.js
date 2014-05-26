@@ -1,3 +1,4 @@
+// HTML5 Canvas 实现 
 var fun = function (canvas){
   var w_body  = $("body").width();
   var h_body  = $("body").height();
@@ -63,7 +64,7 @@ $(document).ready(function() {
   })
   $("p").hide();
 
-  // 声明一个IMAGE类用于存储图像对象[本图像, 默认图像]
+  // 声明一个IMAGE类用于存储图像对象参数（本图像, 默认图像）
   var IMAGE = function(jq_img, default_img) {
     this.get = function(num) {
       if (jq_img.attr("src") === "") {
@@ -139,6 +140,8 @@ $(document).ready(function() {
   var rst_t1  = [$("#prst11").text(), $("#prst12").text(), $("#prst13").text(), $("#prst14").text()];
   var rst_t2  = [$("#prst21").text(), $("#prst22").text(), $("#prst23").text(), $("#prst24").text()];
   var rst_t3  = [$("#prst31").text(), $("#prst32").text(), $("#prst33").text(), $("#prst34").text()];
+  var downld_icon   = new IMAGE($("#downld_icon"), $("#downld_icon"));
+  var downld_search = new IMAGE($("#downld_search"), $("#downld_search"));
   var rst_score = 0;
   var rst_class = 0;
 
@@ -147,7 +150,7 @@ $(document).ready(function() {
    *                   每个页面的图片元素列表
    * 实现在当前页面时，加载后一个页面的元素，因此存储每个页面的元素.
    */
-  var LoadImg = new Array(11);
+  var LoadImg = new Array(12);
   // Empty page
   LoadImg[0] = function(){
     return [];
@@ -190,7 +193,11 @@ $(document).ready(function() {
   };
   // share
   LoadImg[10] = function() {
-    return [sha_i, sha_btn, sha_gbg, sha_g];
+    return [sha_i, rst_g];
+  };
+  // download
+  LoadImg[11] = function() {
+    return [sha_btn, sha_gbg, sha_g, downld_icon, downld_search];
   };
 
   // 画布尺寸
@@ -206,16 +213,18 @@ $(document).ready(function() {
   var runPage = 0;
   // 重置和启动
   function init() {
-    runPage = 1;
+    runPage = 11;
   };
   var current, end;
-  var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=false; var load_complete = [false, false, false, false, false, false, false, false, false, false, false]; var sha_random=[1, 5, 9];
+  var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=downld_run=false; var load_complete = [false, false, false, false, false, false, false, false, false, false, false, false]; var sha_random=[1, 4, 7, 10];
   var wel_first_load = true;
   var share_show     = 0;
   var bal_maxshift   = 0;
   var bal_finish     = 0;
   var bal_f_shift    = 0;
   var bal_first_touch= false;
+
+  //  页面序号
   var INIT_PAGE    = 0;
   var WELCOME_PAGE = 1;
   var LOADING_PAGE = 2;
@@ -227,6 +236,8 @@ $(document).ready(function() {
   var CHOOSE5_PAGE = 7;
   var RESULT_PAGE  = 9;
   var SHARE_PAGE   = 10;
+  var DOWNLD_PAGE  = 11;
+
   var click_delay  = 10;
   function getNextPage(page) {
     switch (page) {
@@ -239,7 +250,8 @@ $(document).ready(function() {
       case CHOOSE5_PAGE : return BALANCE_PAGE; break;
       case BALANCE_PAGE : return RESULT_PAGE ; break;
       case RESULT_PAGE  : return SHARE_PAGE  ; break;
-      case SHARE_PAGE   : return WELCOME_PAGE; break;
+      case SHARE_PAGE   : return DOWNLD_PAGE ; break;
+      case DOWNLD_PAGE  : return WELCOME_PAGE; break;
       case LOADING_PAGE : return CHOOSE1_PAGE; break;
     }
   }
@@ -343,12 +355,19 @@ $(document).ready(function() {
               current = 0;
               if (!share_run) {
                 share_run = true;
-                sha_random[0] = Math.ceil(Math.random()*4);
-                sha_random[1] = Math.ceil(Math.random()*4+4);
-                sha_random[2] = Math.ceil(Math.random()*4+8);
+                sha_random[0] = Math.ceil(Math.random()*3);
+                sha_random[1] = Math.ceil(Math.random()*3+3);
+                sha_random[2] = Math.ceil(Math.random()*3+6);
+                sha_random[3] = Math.ceil(Math.random()*3+9);
                 sharepage(); 
               }
               break;
+      case 11:
+              current = 0;
+              if (!downld_run) {
+                downld_run = true;
+                downldpage();
+              }
     }
   };
   function draw_background() {
@@ -1423,56 +1442,33 @@ $(document).ready(function() {
     y : canvasH*0.36,
     num : 19
   };
-  var p_sha_t1 = {
-    w : (1-0.075-0.15/2)/20*canvasW,
-    x : 0.15/2*canvasW,
-    y : 0.8*canvasH+(1-0.75-0.75)/20*canvasW
-  };
   var p_sha_pic = {
     y : canvasH*50/1008,
     h : canvasH*268/1008,
     x : canvasW/2-canvasH*268/1008/268*401/2,
     w : canvasH*268/1008/268*401
   };
-  var p_sha_btn = {
-    w : canvasW,
-    h : canvasW*125/640,
-    y : canvasH-canvasW*125/640,
-    x : 0,
+  var p_sha_more = {
+    x : p_rst_guide.x()+p_rst_guide.w*1.6, 
+    y : p_rst_guide.y()+(p_rst_guide.h+p_sha_text.w+5)/2-(p_sha_text.w+5) -10,
+    w : 8*(p_sha_text.w+5),
+    h : p_sha_text.w+5 +20,
     clicked : clicked
-  };
-  var p_sha_btn1 = {
-    y : canvasH*0.85,
-    h : canvasH*0.075,
-    w : canvasH*0.075*248/72,
-    x : canvasW/2-canvasH*0.075*248/72-20
-  };
-  var p_sha_btn2 = {
-    y : canvasH*0.85,
-    h : canvasH*0.075,
-    w : canvasH*0.075*248/72,
-    x : canvasW/2+20
   };
   function sharepage() {
     current += 1+4*isAndroid();
     context.clearRect(0, 0, canvasW, canvasH);
-    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
-    context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
     context.save();
     if (current < p_fade.num()) {
       context.globalAlpha = current/p_fade.num();
     }
-    var text = $("#psharei").text();
-    context.fillStyle = "rgb(91,91,91)";
-    context.font = "italic "+p_sha_t1.w+"px 黑体";
-    context.fillText(text.slice(0,18), p_sha_t1.x+p_sha_t1.w, p_sha_t1.y);
-    context.fillText(text.slice(18), p_sha_t1.x, p_sha_t1.y+p_sha_t1.w*1.5);
-    context.restore();
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
+    context.drawImage(sha_i.get(0), p_sha_pic.x, p_sha_pic.y, p_sha_pic.w, p_sha_pic.h);
     context.save();
     context.font = p_sha_text.w+"px 黑体";
     context.fillStyle = "rgb(113,123,133)";
     var k = 1;
-    for (var i=0; i<3; i++) {
+    for (var i=0; i<4; i++) {
       text = $("#pshare"+sha_random[i]).text();
       context.beginPath();
       context.arc(p_sha_text.x+p_sha_text.w*0.33, p_sha_text.y+p_sha_text.w*1.5*(k-0.25), p_sha_text.w/4, 0, Math.PI*2, false);
@@ -1484,24 +1480,12 @@ $(document).ready(function() {
       }
       k+=0.5;
     }
+    context.drawImage(rst_g.get(0), p_rst_guide.x()+p_rst_guide.w/2-10*(1-Math.sin(current*8*Math.PI/180)), p_rst_guide.y(), p_rst_guide.w, p_rst_guide.h);
+    context.fillStyle = "rgb(102,155,194)";
+    context.font = p_sha_text.w + 5 + "px serif";
+    context.fillText("点击查看更多>>", p_rst_guide.x()+p_rst_guide.w*1.6, p_rst_guide.y()+(p_rst_guide.h+p_sha_text.w+5)/2);
     context.restore();
-    context.drawImage(sha_btn.get(0), p_sha_btn.x, p_sha_btn.y, p_sha_btn.w, p_sha_btn.h);
-    var text_h = p_sha_btn.h*0.225;
-    context.font = text_h+"px serif";
-    context.fillStyle = "rgb(255,255,255)";
-    context.fillText("分享到朋友圈", p_sha_btn.x+text_h*0.6, p_sha_btn.y+text_h*3);
-    context.fillText("发送给朋友", p_sha_btn.x+p_sha_btn.w-text_h*6.3, p_sha_btn.y+text_h*3);
-    if (share_show>0) {
-      context.save();
-      context.drawImage(sha_gbg.get(0), 0, 0, canvasW, canvasH);
-      context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*296/479);
-      context.font      = p_wel_bottom.w + "px serif";
-      context.textAlign = "center";
-      context.fillStyle = "rgb(100,100,100)";
-      context.fillText("Powered by louding.com", canvasW/2, p_sha_btn.y+text_h*3);
-      share_show = share_show===0? 0:share_show-1;
-      context.restore();
-    }
+    context.restore();
     if (share_run) {
       setTimeout(sharepage, 33);
     } else {
@@ -1509,18 +1493,131 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 分享页面 $10
-    share_show = 0;  // 点屏消失
-    if (p_sha_btn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
-      var x_val = e.changedTouches[0].pageX-canvas.offset().left;
-      if (x_val/p_sha_btn.w>=204/(204+230+206) && x_val/p_sha_btn.w<=(204+230)/(204+230+206))
-        return;
-      share_show = 100;
+    if (p_sha_more.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) { 
+      runPage += 1;
+      share_run = false;
     }
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && share_run && current >= click_delay) {
       runPage -= 1;
       share_run = false;
     }
   });
+  // -----------引导下载页面----------- #11
+  var p_guide_btn = {
+    w : canvasW,
+    h : canvasW*125/640,
+    y : canvasH-canvasW*125/640,
+    x : 0,
+    clicked : clicked
+  };
+  var p_down_t1 = {
+    w : (1-0.075-0.15/2)/18*canvasW,
+    x : 0.15/2*canvasW,
+    y : 0.8*canvasH+(1-0.75-0.75)/18*canvasW
+  };
+  var p_downld_icon = {
+    y : backbtn.y,
+    h : canvasH*0.39,
+    w : canvasH*0.39*265/380,
+    x : (canvasW-canvasH*0.39*265/380)/2
+  };
+  var p_downld_search = {
+    y : p_downld_icon.y+p_downld_icon.h+p_down_t1.w*4+0.08*canvasH,
+    x : 0.15*canvasW,
+    w : 0.70*canvasW,
+    h : 0.70*canvasW*60/480
+  };
+  function downldpage() {
+    current += 1+4*isAndroid();
+    context.clearRect(0, 0, canvasW, canvasH);
+    context.save();
+    if (current < p_fade.num()) {
+      context.globalAlpha = current/p_fade.num();
+    }
+    // app的图标
+    context.drawImage(downld_icon.get(0), p_downld_icon.x, p_downld_icon.y, p_downld_icon.w, p_downld_icon.h);
+    // 上面两行字
+    var text = $("#pdownld1").text();
+    context.fillStyle = "rgb(131,131,131)";
+    context.font = p_down_t1.w+"px 黑体";
+    context.fillText(text.slice(0,17), p_down_t1.x+p_down_t1.w, p_downld_icon.y+p_downld_icon.h+p_down_t1.w*1.0+0.03*canvasH);
+    context.fillText(text.slice(17, 17+25), p_down_t1.x+p_down_t1.w, p_downld_icon.y+p_downld_icon.h+p_down_t1.w*2.5+0.03*canvasH);
+    context.fillText(text.slice(17+25, 17+25+16), p_down_t1.x+p_down_t1.w, p_downld_icon.y+p_downld_icon.h+p_down_t1.w*4+0.03*canvasH);
+    // 下面两行字 (和上面两行字设置一样)
+    context.font = "italic "+p_down_t1.w+"px 黑体";
+    text = $("#pdownld2").text();
+    context.fillText(text.slice(0,13), p_down_t1.x+p_down_t1.w, p_down_t1.y);
+    context.fillText(text.slice(13), p_down_t1.x+p_down_t1.w, p_down_t1.y+p_down_t1.w*1.5);
+    // 画引导下载按钮
+    context.drawImage(downld_search.get(0), p_downld_search.x, p_downld_search.y, p_downld_search.w, p_downld_search.h);
+    context.fillStyle = "rgb(100,100,100)";
+    context.font = p_downld_search.h*2/3+"px 黑体";
+    context.fillText("搜索", p_downld_search.x+20, p_downld_search.y+(p_downld_search.h*5/3)/2-10);
+    context.fillStyle = "rgb(117,149,194)";
+    context.font = "bold " + p_downld_search.h*2/3+"px 黑体";
+    context.fillText("Wise Drinking", p_downld_search.x+20+p_downld_search.h*2/3*2 + 40, p_downld_search.y+(p_downld_search.h*5/3)/2-10);
+    /*
+    context.drawImage(downld_appbg.get(0), p_downld_appbg.x, p_downld_appbg.y, p_downld_appbg.w, p_downld_appbg.h);
+    context.drawImage(iphone_icon.get(0), p_downld_appbg.x+3/14*p_downld_appbg.h, p_downld_appbg.y+p_downld_appbg.h/7, p_downld_appbg.h*1/2, p_downld_appbg.h*1/2/36*44);
+    context.drawImage(android_icon.get(0), canvasW/2+3/14*p_downld_appbg.h, p_downld_appbg.y+p_downld_appbg.h/7, p_downld_appbg.h*4/7, p_downld_appbg.h*4/7/36*41);
+    context.fillStyle = "rgb(102,129,179)";
+    context.font = p_downld_appbg.h*2.5/6+"px 黑体";
+    context.fillText("iPhone下载", p_downld_appbg.x+3/14*p_downld_appbg.h + p_downld_appbg.h*(1/2+1/6), p_downld_appbg.y+p_downld_appbg.h/7 + (p_downld_appbg.h*1/2/36*44+p_downld_appbg.h*2/6)/2);
+    context.fillText("Android下载", canvasW/2+3/14*p_downld_appbg.h + p_downld_appbg.h*(4/7+1/6), p_downld_appbg.y+p_downld_appbg.h/7 + (p_downld_appbg.h*4/7/36*41+p_downld_appbg.h*2/6)/2);
+    */
+    // 分享按钮
+    context.drawImage(sha_btn.get(0), p_guide_btn.x, p_guide_btn.y, p_guide_btn.w, p_guide_btn.h);
+    var text_h = p_guide_btn.h*0.225;
+    context.font = text_h+"px serif";
+    context.fillStyle = "rgb(255,255,255)";
+    context.fillText("分享到朋友圈", p_guide_btn.x+text_h*0.6, p_guide_btn.y+text_h*3);
+    context.fillText("发送给朋友", p_guide_btn.x+p_guide_btn.w-text_h*6.3, p_guide_btn.y+text_h*3);
+    // 返回键
+    context.drawImage(back.get(0), backbtn.x, backbtn.y, backbtn.w, backbtn.h); // 画返回键
+    if (share_show>0) {             // 点击黑色背景效果
+      context.save();
+      context.drawImage(sha_gbg.get(0), 0, 0, canvasW, canvasH);
+      context.drawImage(sha_g.get(0), canvasW*0.1, 10, canvasW*0.8, canvasW*0.8*296/479);
+      context.font      = p_wel_bottom.w + "px serif";
+      context.textAlign = "center";
+      context.fillStyle = "rgb(100,100,100)";
+      context.fillText("Powered by louding.com", canvasW/2, p_guide_btn.y+text_h*3);
+      share_show = share_show===0? 0:share_show-1;
+      context.restore();
+    }
+    context.restore();
+    if (downld_run) {
+      setTimeout(downldpage, 33);
+    } else {
+      start(runPage);
+    }
+  }
+  canvas.get(0).addEventListener("touchstart",function(e){     // 引导下载页面 $11
+    share_show = 0;  // 点屏消失
+    if (p_guide_btn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && downld_run && current >= click_delay) {
+      var x_val = e.changedTouches[0].pageX-canvas.offset().left;
+      if (x_val/p_guide_btn.w>=204/(204+230+206) && x_val/p_guide_btn.w<=(204+230)/(204+230+206))
+        return;
+      share_show = 100;
+    }
+    /*    点击跳转
+    if (p_downld_appbg.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && downld_run && current >= click_delay) {
+      var x_val = e.changedTouches[0].pageX-canvas.offset().left;
+      if (x_val < p_downld_appbg.w/2) {
+        // window.location = "https://itunes.apple.com/cn/app/wise-drinking-bao-le-li-jia/id850272581?mt=8";
+        // 
+        window.location = "https://www.google.com.hk/search?q=id850272581&oq=id850272581";
+      } else {
+        window.location = "https://play.google.com/store/apps/details?id=com.pernodricard.wisedrinking";
+      }
+    }
+    */
+    if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && downld_run && current >= click_delay) {
+      runPage -= 1;
+      downld_run = false;
+    }
+  });
+  // 初始化，资源加载并运行
   init();
   var imgs = LoadImg[WELCOME_PAGE](); // 开始下载欢迎页面的图
   for (var i=0; i<imgs.length; i++) {
