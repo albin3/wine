@@ -143,6 +143,10 @@ $(document).ready(function() {
   var rst_class = 0;
 
   var context = canvas.get(0).getContext("2d");
+  /* 
+   *                   每个页面的图片元素列表
+   * 实现在当前页面时，加载后一个页面的元素，因此存储每个页面的元素.
+   */
   var LoadImg = new Array(11);
   // Empty page
   LoadImg[0] = function(){
