@@ -213,7 +213,7 @@ $(document).ready(function() {
   var runPage = 0;
   // 重置和启动
   function init() {
-    runPage = 11;
+    runPage = 1;
   };
   var current, end;
   var wel_run=bal_run=ch1_run=ch2_run=ch3_run=ch4_run=ch5_run=load_run=rst_run=share_run=downld_run=false; var load_complete = [false, false, false, false, false, false, false, false, false, false, false, false]; var sha_random=[1, 4, 7, 10];
@@ -1450,9 +1450,9 @@ $(document).ready(function() {
   };
   var p_sha_more = {
     x : p_rst_guide.x()+p_rst_guide.w*1.6, 
-    y : p_rst_guide.y()+(p_rst_guide.h+p_sha_text.w+5)/2-(p_sha_text.w+5) -10,
+    y : p_rst_guide.y()+(p_rst_guide.h+p_sha_text.w+5)/2-(p_sha_text.w+5) -50,
     w : 8*(p_sha_text.w+5),
-    h : p_sha_text.w+5 +20,
+    h : p_sha_text.w+5 +20+30,
     clicked : clicked
   };
   function sharepage() {
@@ -1480,10 +1480,10 @@ $(document).ready(function() {
       }
       k+=0.5;
     }
-    context.drawImage(rst_g.get(0), p_rst_guide.x()+p_rst_guide.w/2-10*(1-Math.sin(current*8*Math.PI/180)), p_rst_guide.y(), p_rst_guide.w, p_rst_guide.h);
+    context.drawImage(rst_g.get(0), (canvasW-7*(p_sha_text.w))/2-3*(p_sha_text.w+5)-10*(1-Math.sin(current*8*Math.PI/180)), p_rst_guide.y(), p_rst_guide.w, p_rst_guide.h);
     context.fillStyle = "rgb(102,155,194)";
     context.font = p_sha_text.w + 5 + "px serif";
-    context.fillText("点击查看更多>>", p_rst_guide.x()+p_rst_guide.w*1.6, p_rst_guide.y()+(p_rst_guide.h+p_sha_text.w+5)/2);
+    context.fillText("点击查看更多>>", (canvasW-7*(p_sha_text.w+5))/2, p_rst_guide.y()+(p_rst_guide.h+p_sha_text.w+5)/2);
     context.restore();
     context.restore();
     if (share_run) {
@@ -1522,7 +1522,7 @@ $(document).ready(function() {
     x : (canvasW-canvasH*0.39*265/380)/2
   };
   var p_downld_search = {
-    y : p_downld_icon.y+p_downld_icon.h+p_down_t1.w*4+0.08*canvasH,
+    y : p_downld_icon.y+p_downld_icon.h+p_down_t1.w*4+0.03*canvasH + 50,
     x : 0.15*canvasW,
     w : 0.70*canvasW,
     h : 0.70*canvasW*60/480
@@ -1550,21 +1550,12 @@ $(document).ready(function() {
     context.fillText(text.slice(13), p_down_t1.x+p_down_t1.w, p_down_t1.y+p_down_t1.w*1.5);
     // 画引导下载按钮
     context.drawImage(downld_search.get(0), p_downld_search.x, p_downld_search.y, p_downld_search.w, p_downld_search.h);
-    context.fillStyle = "rgb(100,100,100)";
-    context.font = p_downld_search.h*2/3+"px 黑体";
-    context.fillText("搜索", p_downld_search.x+20, p_downld_search.y+(p_downld_search.h*5/3)/2-10);
-    context.fillStyle = "rgb(117,149,194)";
-    context.font = "bold " + p_downld_search.h*2/3+"px 黑体";
-    context.fillText("Wise Drinking", p_downld_search.x+20+p_downld_search.h*2/3*2 + 40, p_downld_search.y+(p_downld_search.h*5/3)/2-10);
-    /*
-    context.drawImage(downld_appbg.get(0), p_downld_appbg.x, p_downld_appbg.y, p_downld_appbg.w, p_downld_appbg.h);
-    context.drawImage(iphone_icon.get(0), p_downld_appbg.x+3/14*p_downld_appbg.h, p_downld_appbg.y+p_downld_appbg.h/7, p_downld_appbg.h*1/2, p_downld_appbg.h*1/2/36*44);
-    context.drawImage(android_icon.get(0), canvasW/2+3/14*p_downld_appbg.h, p_downld_appbg.y+p_downld_appbg.h/7, p_downld_appbg.h*4/7, p_downld_appbg.h*4/7/36*41);
-    context.fillStyle = "rgb(102,129,179)";
-    context.font = p_downld_appbg.h*2.5/6+"px 黑体";
-    context.fillText("iPhone下载", p_downld_appbg.x+3/14*p_downld_appbg.h + p_downld_appbg.h*(1/2+1/6), p_downld_appbg.y+p_downld_appbg.h/7 + (p_downld_appbg.h*1/2/36*44+p_downld_appbg.h*2/6)/2);
-    context.fillText("Android下载", canvasW/2+3/14*p_downld_appbg.h + p_downld_appbg.h*(4/7+1/6), p_downld_appbg.y+p_downld_appbg.h/7 + (p_downld_appbg.h*4/7/36*41+p_downld_appbg.h*2/6)/2);
-    */
+    context.fillStyle = "rgb(183,183,183)";
+    context.font = p_downld_search.h*13/24+"px 黑体";
+    context.fillText("搜索", p_downld_search.x+40, p_downld_search.y+(p_downld_search.h*5/3)/2-15);
+    context.fillStyle = "rgb(118,150,207)";
+    context.font = "bold " + p_downld_search.h*7/12+"px 黑体";
+    context.fillText("Wise Drinking", p_downld_search.x+20+p_downld_search.h*2/3*2 + 30, p_downld_search.y+(p_downld_search.h*5/3)/2-15);
     // 分享按钮
     context.drawImage(sha_btn.get(0), p_guide_btn.x, p_guide_btn.y, p_guide_btn.w, p_guide_btn.h);
     var text_h = p_guide_btn.h*0.225;
@@ -1600,18 +1591,6 @@ $(document).ready(function() {
         return;
       share_show = 100;
     }
-    /*    点击跳转
-    if (p_downld_appbg.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && downld_run && current >= click_delay) {
-      var x_val = e.changedTouches[0].pageX-canvas.offset().left;
-      if (x_val < p_downld_appbg.w/2) {
-        // window.location = "https://itunes.apple.com/cn/app/wise-drinking-bao-le-li-jia/id850272581?mt=8";
-        // 
-        window.location = "https://www.google.com.hk/search?q=id850272581&oq=id850272581";
-      } else {
-        window.location = "https://play.google.com/store/apps/details?id=com.pernodricard.wisedrinking";
-      }
-    }
-    */
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && downld_run && current >= click_delay) {
       runPage -= 1;
       downld_run = false;
