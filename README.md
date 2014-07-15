@@ -11,7 +11,7 @@
 
 ##测试酒量问题
 ###根据问题点击选择符合自己的选项
-<img src="http://183.61.111.195:3003/static/markdown/%E9%97%AE%E9%A2%981.png" alt="Drawing" width="200px"){ width: 200px; }
+<img src="http://183.61.111.195:3003/static/markdown/%E9%97%AE%E9%A2%981.png" alt="Drawing" width="200px"/>
 
 ##平衡感测试游戏
 ###根据HTML5的重力和方向接口获取手机状态控制小球移动
