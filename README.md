@@ -26,7 +26,7 @@
 <img src="http://183.61.111.195:3003/static/markdown/%E5%B0%8F%E8%B4%B4%E5%A3%AB.jpg" alt="Drawing" width="200px"/>
 
 ##引导下载页
-###引导卸载APP，点击分享是出现黑色半透明弹出层，引导分享
+###引导下载APP，点击分享是出现黑色半透明遮罩层，引导分享
 <img src="http://183.61.111.195:3003/static/markdown/%E5%BC%95%E5%AF%BC%E4%B8%8B%E8%BD%BD.jpg" alt="Drawing" width="200px"/>
 
 访问地址: 
