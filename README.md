@@ -35,11 +35,11 @@
 [http://183.61.111.195:3003/mobile](http://183.61.111.195:3003/mobile)
 
 
-扫一扫:   
+微信扫一扫，马上玩:   
 ------
 	
 ![二维码](http://183.61.111.195:3003/static/img/barcode.png)
 
 <div class="footer">
-     &copy; 2014 Zeng Albin. binwei.zeng3@gmail.com
+     &copy; 2014 Albin Zeng. binwei.zeng3@gmail.com
 </div>
