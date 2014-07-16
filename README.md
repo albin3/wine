@@ -40,3 +40,6 @@
 	
 ![二维码](http://183.61.111.195:3003/static/img/barcode.png)
 
+<div class="footer">
+     &copy; 2014 Zeng Albin. binwei.zeng3@gmail.com
+</div>
