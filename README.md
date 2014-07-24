@@ -7,15 +7,15 @@
 
 ##首页
 ###首页图片渐入、文字由右到做渐出
-<img src="http://183.61.111.195:3003/static/markdown/%E9%A6%96%E9%A1%B51.jpg" alt="Drawing" width="200px"/>
+<img src="./static/markdown/%E9%A6%96%E9%A1%B51.jpg" alt="Drawing" width="200px"/>
 
 ##测试酒量问题
 ###根据问题点击选择符合自己的选项
-<img src="http://183.61.111.195:3003/static/markdown/%E9%97%AE%E9%A2%981.jpg" alt="Drawing" width="200px"/>
+<img src="./static/markdown/%E9%97%AE%E9%A2%981.jpg" alt="Drawing" width="200px"/>
 
 ##平衡感测试游戏
 ###根据HTML5的重力和方向接口获取手机状态控制小球移动
-<img src="http://183.61.111.195:3003/static/markdown/%E5%B9%B3%E8%A1%A1%E6%B5%8B%E8%AF%95.jpg" alt="Drawing" width="200px"/>
+<img src="./static/markdown/%E5%B9%B3%E8%A1%A1%E6%B5%8B%E8%AF%95.jpg" alt="Drawing" width="200px"/>
 
 ##测试结果
 ###根据预先设置好的计分方式计算测试结果
