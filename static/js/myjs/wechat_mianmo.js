@@ -2,11 +2,11 @@ var dataForWeixin={
 <!-- lang: js -->
    appId:"",
 <!-- lang: js -->
-   MsgImg:"http://183.61.111.195:3003/static/img/icon.png",
+   MsgImg:"http://183.61.111.195:3003/static/mianmo/mianmo.png",
 <!-- lang: js -->
-   TLImg:"http://183.61.111.195:3003/static/img/icon.png",
+   TLImg:"http://183.61.111.195:3003/static/mianmo/mianmo.png",
 <!-- lang: js -->
-   url:"http://louding.com/mianmo",
+   url:"http://183.61.111.195:3003/mianmo",
 <!-- lang: js -->
    title:"玩游戏，赢面膜！",
 <!-- lang: js -->

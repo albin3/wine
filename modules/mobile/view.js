@@ -10,6 +10,10 @@ exports.index = function(req, res) {
   });
 };
 
+exports.mianmo = function(req, res) {
+  res.render('mobile/mianmo');
+};
+
 exports.test = function(req, res) {
   res.render('mobile/test');
 };
