@@ -23,7 +23,6 @@ exports.index = function(callback) {
         if (err) {
           return callback({ret: 2});
         }
-        console.log("###"+times+"$$$$"+users);
         return callback({ret: 1, times: times+12030, users: users});
       });
     });
