@@ -34,15 +34,18 @@ $(document).ready(function() {
     for(var i=0; i<shapes.length; i++) {
       context.save();
       context.fillStyle = "rgb(200,200,200)";
-      context.globalCompositeOperation = "lighter";
+      // context.globalCompositeOperation = "lighter";
       var tmpShape = shapes[i];
       tmpShape.y = tmpShape.y+tmpShape.radius<0 ? 600+tmpShape.radius : tmpShape.y- tmpShape.vy;
       tmpShape.angle += Math.PI/180/100;
       // tmpShape.x = tmpShape.x+tmpShape.radius > 1000 ? tmpShape.radius : tmpShape.x+1;
+      /*
       context.beginPath();
       context.arc(tmpShape.x+tmpShape.mvlength*Math.cos(tmpShape.angle*(Math.PI*180)*tmpShape.vx), tmpShape.y, tmpShape.radius, 0, Math.PI*2, false);
       context.closePath();
       context.fill();
+      */
+      context.drawImage($("#img").get(0), tmpShape.x+tmpShape.mvlength*Math.cos(tmpShape.angle*(Math.PI*180)*tmpShape.vx), tmpShape.y);
       context.restore();
     }
     if (playAnimation) {

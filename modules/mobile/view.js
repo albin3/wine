@@ -29,3 +29,7 @@ exports.around = function(req, res) {
 exports.shake = function(req, res) {
   res.render('mobile/shake');
 };
+
+exports.youxi = function(req, res) {
+  res.render('mobile/youxi');
+};

@@ -8,4 +8,5 @@ exports.init = function(app) {
   app.get('/road', view.road);
   app.get('/around', view.around);
   app.get('/shake', view.shake);
+  app.get('/youxi', view.youxi);
 };

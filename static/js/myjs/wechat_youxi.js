@@ -6,11 +6,11 @@ var dataForWeixin={
 <!-- lang: js -->
    TLImg:"http://183.61.111.195:3003/static/mianmo/mianmo.png",
 <!-- lang: js -->
-   url:"http://183.61.111.195:3003/mianmo",
+   url:"http://183.61.111.195:3003/youxi",
 <!-- lang: js -->
-   title:"十一组团购面膜！！！",
+   title:"Games",
 <!-- lang: js -->
-   desc:"小清新面膜，原价98元，十一团购68元一盒，团满为止，先到先得！！！加微信1170508598",
+   desc:"this is a game.",
 <!-- lang: js -->
    fakeid:"",
 <!-- lang: js -->
