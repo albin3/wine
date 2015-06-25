@@ -2,6 +2,7 @@
 var fun = function (canvas){
   var w_body  = $("body").width();
   var h_body  = $("body").height();
+  var canvas = $("#canvas1");
   canvas.get(0).width  = parseInt(w_body);
   canvas.get(0).height = parseInt(h_body);
 };
@@ -381,7 +382,7 @@ $(document).ready(function() {
       return canvasW;
     },
     h : function(current) {
-      return canvasW*1016/640;
+      return canvasH;
     },
     x : function(current) {
       return 0;
@@ -750,6 +751,7 @@ $(document).ready(function() {
     context.restore();
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 重力平衡点击响应 $3
+    event.preventDefault();
     if (touchbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && bal_run && current >= click_delay/100) {
       if (!bal_first_touch) {
         Arraw.beta = Orient.beta;                                // 初始化角度
@@ -771,6 +773,7 @@ $(document).ready(function() {
     }
   });
   canvas.get(0).addEventListener("touchend",function(e){     // 重力平衡点击响应 $3
+    event.preventDefault();
     bal_pause = 0;
   });
   // ---------------选择题一页面-------------- #4
@@ -921,6 +924,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){     // 第一个选择题响应 $4
+    event.preventDefault();
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch1_run && current >= click_delay) {
       runPage = WELCOME_PAGE;
       ch1_run = false;
@@ -1013,6 +1017,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){    // 第二个选择题响应 $5
+    event.preventDefault();
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch2_run && current >= click_delay) {
       runPage -= 1;
       ch2_run = false;
@@ -1106,6 +1111,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){      // 选择题3响应 $6
+    event.preventDefault();
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch3_run && current >= click_delay) {
       runPage -= 1;
       ch3_run = false;
@@ -1199,6 +1205,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){      // 选择题4响应 $7
+    event.preventDefault();
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch4_run && current >= click_delay) {
       runPage -= 1;
       ch4_run = false;
@@ -1291,6 +1298,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){      // 选择题5响应 $8
+    event.preventDefault();
     if (backbtn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && ch5_run && current >= click_delay) {
       runPage -= 1;
       ch5_run = false;
@@ -1425,6 +1433,7 @@ $(document).ready(function() {
     }
   };
   canvas.get(0).addEventListener("touchstart",function(e){    // 9——结果页面响应 $9
+    event.preventDefault();
     if (p_rst_btn.clicked(e.changedTouches[0].pageX-canvas.offset().left, e.changedTouches[0].pageY-canvas.offset().top) && rst_run && current >= click_delay) {
       runPage += 1;
       rst_run = false;
@@ -1595,6 +1604,10 @@ $(document).ready(function() {
       runPage -= 1;
       downld_run = false;
     }
+  });
+
+  canvas.get(0).addEventListener("touchmove",function(e){
+    event.preventDefault();
   });
   // 初始化，资源加载并运行
   init();

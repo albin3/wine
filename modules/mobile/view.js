@@ -13,9 +13,7 @@ exports.index = function(req, res) {
 exports.mianmo = function(req, res) {
   res.render('mobile/mianmo');
 };
-
-exports.test = function(req, res) {
-  res.render('mobile/test');
+exports.test = function(req, res) { res.render('mobile/test');
 };
 
 exports.road = function(req, res) {
@@ -33,3 +31,16 @@ exports.shake = function(req, res) {
 exports.youxi = function(req, res) {
   res.render('mobile/youxi');
 };
+
+exports.life = function(req, res) {
+  res.render('mobile/life');
+}
+
+exports.life3 = function(req, res) {
+  res.render('mobile/life3');
+}
+
+exports.good = function(req, res) {
+  res.render('mobile/good');
+};
+
